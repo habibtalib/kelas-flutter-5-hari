@@ -472,3 +472,12 @@ Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelu
 ---
 
 > 🎤 **Nota penceramah/jurulatih:** [`nota-penceramah.md`](./nota-penceramah.md) — kumpulan nota persembahan (asalnya *speaker notes* dalam slaid) untuk Hari 1.
+
+## Nota Tambahan (fakta ringkas dari slaid)
+
+- **Operator tugasan gabungan:** `kiraan += 1;` **sama dengan** `kiraan = kiraan + 1;` — ia hanya cara ringkas menulis semula nilai ke pembolehubah yang sama. Begitu juga `-=`, `*=`, `/=`.
+- **Operator `??` (if-null):** pulangkan nilai di sebelah kiri jika ia **bukan** null; jika null, guna nilai lalai di sebelah kanan.
+  ```dart
+  // jika mata wang tiada dalam peta, guna 1.0 sebagai lalai
+  final kadar = kadarTukaran[currency] ?? 1.0;
+  ```

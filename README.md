@@ -1,34 +1,64 @@
-# Kelas Flutter 5 Hari — MyBiasiswa KPT 🎓
+# Kelas Flutter 5 Hari — MyPelajar LN 🎓
 
-Kursus latihan amali **Flutter** untuk pemula, dengan nota dalam **Bahasa Melayu** dan kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta akan membina **MyBiasiswa KPT** — sebuah aplikasi mobil untuk menyemak dan memohon **biasiswa Kementerian Pendidikan Tinggi (KPT)** — daripada kosong sehingga aplikasi lengkap yang menyambung ke API dan boleh dibina (`build`) sebagai fail APK Android.
+Bahan **Latihan Secara *Coaching* Aplikasi Mobil Bagi Sistem Pendidikan Tinggi Luar Negara Menggunakan Flutter Berteraskan Amalan Pengekodan Moden Dengan Bantuan *Artificial Intelligence* (AI)** — anjuran **Bahagian Pengurusan Maklumat (BPM), Kementerian Pendidikan Tinggi (KPT)**.
 
-> Inspirasi domain: [biasiswa.mohe.gov.my](https://biasiswa.mohe.gov.my/) & [mohe.gov.my](https://www.mohe.gov.my/) — permohonan biasiswa & penajaan KPT (MyBrainSc, MyBrain 2.0, BYDPA, HLP, SLAI, BKOKU, MIS, dll).
+Nota dalam **Bahasa Melayu**, kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta membina **MyPelajar LN** — aplikasi mobil pendamping bagi **pendaftaran pelajar Malaysia di luar negara** — daripada asas Dart sehingga aplikasi berfungsi yang menggabungkan UI, borang, navigasi dan API.
 
-## Projek: MyBiasiswa KPT
+> 📅 **Aturcara rasmi (20–24 Julai 2026):** lihat [`JADUAL.md`](./JADUAL.md) — 9 sesi, waktu sebenar, tempat. **Modul ini mengikut aturcara tersebut.**
+
+> Inspirasi domain: sistem sebenar KPT — [MyData@EducationMalaysia4U](https://dohe.mohe.gov.my/mydata/login) (pendaftaran pelajar luar negara), [e-TimurTengah](https://dohe.mohe.gov.my/timurtengah/), [eSisraf MQA](https://www2.mqa.gov.my/esisraf/kelayakan.cfm) (semakan pengiktirafan), dan 12 [Pejabat Education Malaysia](https://jpt.mohe.gov.my/index.php/en/contact-us/education-malaysia-offices) di luar negara. Diselia oleh **Bahagian Pengantarabangsaan Pendidikan Tinggi (BPPT), JPT**.
+
+## Projek: MyPelajar LN
 
 Aplikasi ini membolehkan pelajar:
 
-- **Semak Biasiswa** — senarai biasiswa KPT dengan carian & tapisan kategori
-- **Baca Butiran** — syarat kelayakan, elaun bulanan (RM), CGPA minimum, tarikh tutup
-- **Mohon** — borang permohonan dengan pengesahan (No. KP, emel, CGPA, institusi)
-- **Jejak Permohonan** — status: Draf → Dihantar → Dalam Semakan → Temuduga → Diluluskan/Ditolak
-- **Dashboard & Profil** — ringkasan permohonan mengikut status
+- **Terokai Destinasi** — senarai universiti luar negara dengan carian & tapisan wilayah
+- **Baca Butiran** — status pengiktirafan (rujuk MQA), anggaran yuran (RM), pejabat EM liputan, tarikh ambilan & tutup
+- **Daftar** — borang pendaftaran pelajar luar negara dengan pengesahan (No. KP, pasport, emel, telefon)
+- **Jejak Pendaftaran** — status: Draf → Dihantar → Disahkan → Aktif → Tamat
+- **Profil & Statistik** — ringkasan pendaftaran mengikut status
+
+> 📊 Konteks sebenar: **54,903** pelajar Malaysia di luar negara (2024) — 14,697 tajaan, 40,206 persendirian. *(Statistik Pendidikan Tinggi 2024, Bab 6)*
 
 ## Ringkasan Kursus
 
-Urutan kursus: **asas & UI** (Hari 1) → **navigasi & borang** (Hari 2) → **state & simpanan** (Hari 3) → **API & async** (Hari 4) → **login, dashboard & build** (Hari 5).
+Urutan mengikut aturcara rasmi: **Dart & widget asas** (Hari 1) → **layout & senarai** (Hari 2) → **navigasi, borang & `setState()`** (Hari 3) → **REST API & ralat** (Hari 4) → **projek mini & kod moden** (Hari 5).
 
-> **Rentak harian:** setiap hari dibahagikan kepada **teori (pagi)** dan **lab amali (petang)** — kira-kira separuh masa setiap satu. Soal jawab dialu-alukan bila-bila masa.
+> **Rentak harian:** Pendaftaran 8.30–9.00 · sesi pagi 9.00–1.00 · rehat 1.00–2.30 · sesi petang 2.30–5.00 · bersurai 5.00. (Hari 5 berbeza — lihat [`JADUAL.md`](./JADUAL.md).)
 
-| Hari | Fokus | Hasil |
-|------|-------|-------|
-| [**Hari 1**](./hari-1/) | Persediaan Flutter, Dart asas, widget teras (Scaffold/Column/Card), tema KPT, model `Scholarship`, `ListView.builder` | Aplikasi berjalan memaparkan senarai biasiswa |
-| [**Hari 2**](./hari-2/) | Navigasi (`Navigator`), skrin butiran, `Form` + `TextFormField` + validation, dropdown institusi | Skrin butiran + borang permohonan yang disahkan |
-| [**Hari 3**](./hari-3/) | State management (`provider`/`ChangeNotifier`), simpanan tempatan (`shared_preferences`), badge status, carian & tapisan | Permohonan disimpan & kekal + skrin "Permohonan Saya" |
-| [**Hari 4**](./hari-4/) | Async (`Future`/`await`), REST API (`http`), JSON, loading/error state, pull-to-refresh | Data biasiswa dari API (dengan *fallback* tempatan) |
-| [**Hari 5**](./hari-5/) | Navigasi bawah, login ringkas, dashboard, ikon/nama app, `flutter build apk` | Aplikasi lengkap + fail APK boleh dipasang |
+| Hari | Sesi | Fokus | Hasil |
+|------|------|-------|-------|
+| [**Hari 1**](./hari-1/) | SESI 1 | Operators, control flow, looping & function; widget asas **Text/Icon/Image**; **Container/Padding/Margin/SizedBox**; **StatelessWidget vs StatefulWidget** | Faham asas Dart + widget pertama |
+| [**Hari 2**](./hari-2/) | SESI 2–3 | **Row/Column/Expanded/Flexible**, **Stack/Positioned/Align/Center**, Scaffold/AppBar · 🤖 **Slot AI: mockup UI** · **BottomNavigationBar & Drawer**, **ListView/GridView**, **Card & ListTile**, **ThemeData** | Skrin senarai destinasi bergaya |
+| [**Hari 3**](./hari-3/) | SESI 4–5 | **Navigator push/pop**, **named routes**, passing data, **TextField/TextFormField** · **Input Controller**, **Button & GestureDetector** · 🤖 **Slot AI: form validation** · **`setState()` & lifecycle** | Navigasi + borang pendaftaran disahkan |
+| [**Hari 4**](./hari-4/) | SESI 6–7 | REST API, **HTTP methods & JSON**, pakej `http`, **async/Future/await**, fetch · 🤖 **Slot AI: JSON→Dart model** · submit data, **status code**, **try-catch/CircularProgressIndicator** | Data dari API + pengendalian ralat |
+| [**Hari 5**](./hari-5/) | SESI 8–9 | **Projek mini (hackathon)** — gabung UI+Form+Navigasi+API · 🤖 alatan AI untuk coding & debugging · **Clean Coding Principles**, **Refactoring** · demo & sijil | Aplikasi berfungsi + demo |
 
-> **Nota:** Setiap hari **membina di atas** hari sebelumnya (kumulatif). Kod akhir lengkap ada di [`projek/mybiasiswa_kpt/`](./projek/mybiasiswa_kpt/).
+> **Nota:** Setiap hari **membina di atas** hari sebelumnya (kumulatif). Aplikasi rujukan lengkap ada di [`projek/mypelajar_ln/`](./projek/mypelajar_ln/).
+
+## 🤖 Slot AI
+
+Kursus ini **berteraskan amalan pengekodan moden dengan bantuan AI**. "Slot AI" ialah **item aturcara rasmi**, bukan bonus:
+
+| Sesi | Slot AI |
+|------|---------|
+| SESI 2 (Hari 2) | Menjana layout mockup UI moden dengan prompt AI |
+| SESI 5 (Hari 3) | Menulis logik Form Validation dengan bantuan AI |
+| SESI 7 (Hari 4) | Menukarkan respon JSON kepada Dart Model Class |
+| SESI 8–9 (Hari 5) | Memaksimumkan alatan AI untuk coding & *debugging* |
+
+> Prinsip: **AI membantu, anda memandu.** Sentiasa semak kod yang dijana, jalankan `flutter analyze`, dan fahami sebelum terima. Lihat [`nota/08-prompt-claude-code.md`](./nota/08-prompt-claude-code.md).
+
+## Di Luar Sukatan (Nota Bonus)
+
+Topik berikut **tiada dalam aturcara rasmi** — dikekalkan sebagai rujukan lanjutan sahaja:
+
+| Topik | Nota |
+|-------|------|
+| `provider` / `ChangeNotifier`, `shared_preferences` | [`nota/05-state-management.md`](./nota/05-state-management.md) — sukatan rasmi guna **`setState()`** (SESI 5) |
+| Deployment / `flutter build apk` | [`nota/07-deployment.md`](./nota/07-deployment.md) — tiada sesi deployment dalam aturcara |
+
+> Aplikasi rujukan `projek/mypelajar_ln` menggunakan `provider` sebagai contoh **lanjutan**. Untuk kursus, ikut **`setState()`** seperti dalam Hari 3.
 
 ## Nota Konsep (Latar Belakang)
 
@@ -97,34 +127,41 @@ Deck slaid dijana melalui **prompt Claude** — lihat [`slides/PROMPT.md`](./sli
 
 ```
 kelas-flutter-5-hari/
+├── JADUAL.md                  # ⭐ Aturcara rasmi (9 sesi) — sumber kebenaran
 ├── README.md                  # Fail ini
 ├── CLAUDE.md                  # Panduan untuk Claude Code
 ├── nota/                      # Nota konsep (Bahasa Melayu)
 │   ├── 01-kenapa-flutter.md … 08-prompt-claude-code.md
-├── hari-1/                    # Modul harian (README + snippets/lab.md)
-│   └── snippets/lab.md
+├── hari-1/                    # Modul harian
+│   ├── README.md              #   nota kuliah (ikut SESI + waktu)
+│   ├── nota-penceramah.md     #   nota penceramah (dari slaid)
+│   └── snippets/              #   lab.md + contoh kod
 ├── hari-2/  …  hari-5/        # (struktur sama, kumulatif)
 ├── slides/
-│   ├── PROMPT.md              # Prompt reka bentuk slaid untuk Claude
-│   └── README.md
+│   ├── flutter-training.html  # Deck reveal.js (185 slaid)
+│   ├── _build/                # Bahagian modular + _SPEC.md
+│   ├── nota-penceramah.md     # Nota penceramah (pembuka & penutup)
+│   ├── PROMPT.md              # Prompt jana semula deck
+│   └── vendor/reveal/         # reveal.js tempatan
 └── projek/
     ├── README.md
-    ├── mybiasiswa_kpt/        # Aplikasi Flutter lengkap (hasil akhir)
-    └── mock-api/
-        └── scholarships.json  # Data untuk mock REST API (Hari 4)
+    ├── mypelajar_ln/          # ⭐ Aplikasi rujukan (MyPelajar LN)
+    ├── mock-api/
+    │   └── universities.json  # Data untuk mock REST API (Hari 4)
+    └── mybiasiswa_kpt/        # (arkib — versi kursus terdahulu)
 ```
 
 ## Cara Mula
 
-1. Pasang perisian di atas (langkah penuh dalam [Hari 1](./hari-1/)).
-2. Sahkan dengan `flutter doctor`.
+1. Baca [`JADUAL.md`](./JADUAL.md) — aturcara rasmi 9 sesi.
+2. Pasang perisian di atas; sahkan dengan `flutter doctor` (panduan penuh: [`nota/04-setup-windows.md`](./nota/04-setup-windows.md)).
 3. Baca [`nota/01-kenapa-flutter.md`](./nota/01-kenapa-flutter.md) & [`nota/02-dart-asas.md`](./nota/02-dart-asas.md).
 4. Ikut [Hari 1](./hari-1/) → [Hari 5](./hari-5/) mengikut urutan.
-5. Rujuk aplikasi lengkap di [`projek/mybiasiswa_kpt/`](./projek/mybiasiswa_kpt/) bila-bila anda tersangkut.
+5. Rujuk aplikasi lengkap di [`projek/mypelajar_ln/`](./projek/mypelajar_ln/) bila-bila anda tersangkut.
 
 ```bash
 # Menjalankan aplikasi rujukan yang lengkap
-cd projek/mybiasiswa_kpt
+cd projek/mypelajar_ln
 flutter pub get
 flutter run
 ```
