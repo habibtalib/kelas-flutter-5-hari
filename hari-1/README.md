@@ -1,6 +1,6 @@
 # Hari 1 — Persediaan, Widget & Skrin Senarai
 
-Panduan langkah demi langkah untuk hari pertama kursus **Flutter 5 Hari (gaya KPT/HRD Corp)**. Pada akhir hari ini (lebih kurang 6–7 jam), anda akan mempunyai aplikasi Flutter yang **benar-benar berjalan** pada emulator/telefon anda, memaparkan senarai skrol biasiswa Kementerian Pengajian Tinggi (KPT) — permulaan kepada projek kursus **"MyBiasiswa KPT"** yang akan kita bina berperingkat sepanjang 5 hari.
+Panduan langkah demi langkah untuk hari pertama kursus **Flutter 5 Hari (gaya KPT/HRD Corp)**. Pada akhir hari ini (lebih kurang 6–7 jam), anda akan mempunyai aplikasi Flutter yang **benar-benar berjalan** pada emulator/telefon anda, memaparkan senarai skrol biasiswa Kementerian Pendidikan Tinggi (KPT) — permulaan kepada projek kursus **"MyBiasiswa KPT"** yang akan kita bina berperingkat sepanjang 5 hari.
 
 > **Nota untuk pemula:** Anda tidak perlu tahu Flutter langsung. Setiap langkah diterangkan perlahan-lahan, dengan arahan (command) yang boleh disalin terus. Ikut satu demi satu, dan uji selalu dengan **Hot Reload**.
 
@@ -192,7 +192,7 @@ Fail konfigurasi utama projek — sepadan konsep dengan `package.json` (Node.js)
 
 ```yaml
 name: mybiasiswa_kpt
-description: "MyBiasiswa KPT — aplikasi semakan & permohonan biasiswa Kementerian Pengajian Tinggi."
+description: "MyBiasiswa KPT — aplikasi semakan & permohonan biasiswa Kementerian Pendidikan Tinggi."
 version: 1.0.0+1
 
 environment:
@@ -599,7 +599,7 @@ final List<Scholarship> sampleScholarships = [
     id: 'S001',
     code: 'MYBRAINSC',
     name: 'Biasiswa MyBrainSc',
-    provider: 'Kementerian Pengajian Tinggi',
+    provider: 'Kementerian Pendidikan Tinggi',
     category: ScholarshipCategory.praPerkhidmatan,
     studyLevel: StudyLevel.bachelor,
     fieldOfStudy: 'Sains Tulen (Fizik, Kimia, Biologi, Matematik)',
