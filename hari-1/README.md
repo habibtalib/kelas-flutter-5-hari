@@ -872,3 +872,16 @@ Hari 2 kita akan:
 - Mula bina rangka navigasi bawah (*bottom navigation*) untuk tab **Biasiswa / Permohonan Saya / Profil**.
 
 Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelum tamat kelas hari ini!
+
+---
+
+> 🎤 **Nota penceramah/jurulatih:** [`nota-penceramah.md`](./nota-penceramah.md) — kumpulan nota persembahan (asalnya *speaker notes* dalam slaid) untuk Hari 1.
+
+## Nota Tambahan (fakta ringkas dari slaid)
+
+Petua persediaan yang disebut dalam slaid — dikumpulkan di sini supaya nota lengkap:
+
+- **Emulator vs telefon sebenar:** untuk kelas, emulator lebih mudah dikawal; namun telefon sebenar selalunya **lebih pantas** pada komputer berspesifikasi rendah.
+- **`flutter run` kali pertama ambil beberapa minit** — Gradle sedang memuat turun dependency. Ini **normal**, bukan hang.
+- **`pubspec.yaml` sensitif inden:** guna **2 ruang (space)**, bukan tab.
+- Ralat **`flutter is not recognized`** biasanya bermakna PATH belum dimuat semula — buka **terminal baharu** dan cuba lagi.

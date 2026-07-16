@@ -18,6 +18,8 @@ Aplikasi ini membolehkan pelajar:
 
 Urutan kursus: **asas & UI** (Hari 1) → **navigasi & borang** (Hari 2) → **state & simpanan** (Hari 3) → **API & async** (Hari 4) → **login, dashboard & build** (Hari 5).
 
+> **Rentak harian:** setiap hari dibahagikan kepada **teori (pagi)** dan **lab amali (petang)** — kira-kira separuh masa setiap satu. Soal jawab dialu-alukan bila-bila masa.
+
 | Hari | Fokus | Hasil |
 |------|-------|-------|
 | [**Hari 1**](./hari-1/) | Persediaan Flutter, Dart asas, widget teras (Scaffold/Column/Card), tema KPT, model `Scholarship`, `ListView.builder` | Aplikasi berjalan memaparkan senarai biasiswa |
