@@ -1,6 +1,6 @@
 # Kelas Flutter 5 Hari — MyBiasiswa KPT 🎓
 
-Kursus latihan amali **Flutter** untuk pemula, dengan nota dalam **Bahasa Melayu** dan kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta akan membina **MyBiasiswa KPT** — sebuah aplikasi mobil untuk menyemak dan memohon **biasiswa Kementerian Pengajian Tinggi (KPT)** — daripada kosong sehingga aplikasi lengkap yang menyambung ke API dan boleh dibina (`build`) sebagai fail APK Android.
+Kursus latihan amali **Flutter** untuk pemula, dengan nota dalam **Bahasa Melayu** dan kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta akan membina **MyBiasiswa KPT** — sebuah aplikasi mobil untuk menyemak dan memohon **biasiswa Kementerian Pendidikan Tinggi (KPT)** — daripada kosong sehingga aplikasi lengkap yang menyambung ke API dan boleh dibina (`build`) sebagai fail APK Android.
 
 > Inspirasi domain: [biasiswa.mohe.gov.my](https://biasiswa.mohe.gov.my/) & [mohe.gov.my](https://www.mohe.gov.my/) — permohonan biasiswa & penajaan KPT (MyBrainSc, MyBrain 2.0, BYDPA, HLP, SLAI, BKOKU, MIS, dll).
 
