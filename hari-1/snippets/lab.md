@@ -1,129 +1,131 @@
-# Lab Hari 1 — Widget & Senarai Biasiswa
+# Lab Hari 1 — Aliran Kawalan Dart & Widget Asas
 
-Lab ini mengiringi [`README.md`](../README.md) Hari 1. Ikut latihan **secara berurutan** — setiap latihan bina di atas latihan sebelumnya. Rujuk projek akhir sebenar di `projek/mybiasiswa_kpt/lib/` untuk **banding** jawapan anda selepas cuba sendiri dahulu.
+Lab ini mengiringi [`README.md`](../README.md) Hari 1. Ikut latihan **secara berurutan** — setiap latihan bina di atas latihan sebelumnya. Rujuk projek akhir sebenar di `projek/mypelajar_ln/lib/` untuk **banding** jawapan anda selepas cuba sendiri dahulu.
 
-> **Peraturan lab:** Cuba tulis kod **sendiri** dahulu berdasarkan penerangan dalam README sebelum tengok fail rujukan. Belajar Flutter paling berkesan dengan **taip kod sendiri**, bukan salin-tampal.
+> **Peraturan lab:** Cuba tulis kod **sendiri** dahulu berdasarkan penerangan dalam README sebelum tengok fail rujukan. Belajar Flutter/Dart paling berkesan dengan **taip kod sendiri**, bukan salin-tampal.
 
 ---
 
 ## Senarai Semak Persediaan (Setup Checklist)
 
-Sebelum mula Latihan 0, pastikan semua berikut sudah **✓**:
+Sebelum mula Latihan 0, pastikan semua berikut sudah **✓** (rujuk [`nota/04-setup-windows.md`](../../nota/04-setup-windows.md) jika belum):
 
 - [ ] `flutter --version` berjaya dijalankan dalam terminal
+- [ ] `dart --version` berjaya dijalankan dalam terminal
 - [ ] `flutter doctor` — tiada tanda `[✗]` kritikal (Android toolchain & VS Code sekurangnya `[✓]`)
 - [ ] VS Code dipasang dengan sambungan **Flutter** (dan **Dart** — dipasang automatik sekali)
 - [ ] Emulator Android boleh dimulakan **ATAU** telefon sebenar disambung dengan USB debugging aktif
 - [ ] `flutter devices` menyenaraikan sekurang-kurangnya satu peranti
+- [ ] Projek `mypelajar_ln` (dicipta semasa Persediaan) berjaya `flutter run`
 
-Jika ada yang belum ✓, rujuk semula **Bahagian 1 — Persediaan** dalam `README.md` sebelum teruskan.
-
----
-
-## Latihan 0 — Orientasi Projek
-
-**Objektif:** Kenal pasti struktur projek sebenar sebelum mula menulis kod sendiri.
-
-1. Buka folder `projek/mybiasiswa_kpt/` dalam VS Code (tab baharu, atau `code projek/mybiasiswa_kpt`).
-2. Buka `pubspec.yaml` — cari baris `name:` dan `dependencies:`. Berapa banyak *package* luaran disenaraikan? (Petunjuk: `provider`, `shared_preferences`, `http`, `intl`.)
-3. Buka `lib/main.dart` — cari fungsi `main()`. Apakah widget pertama yang dihantar ke `runApp()`?
-4. Senaraikan **semua** fail dalam folder `lib/screens/` — berapa banyak skrin ada dalam aplikasi **akhir** (selepas 5 hari)?
-5. Bandingkan dengan apa yang akan kita bina **hari ini sahaja** — hanya `main.dart`, `theme.dart`, satu model, satu widget kad, dan satu skrin senarai.
-
-> **Soalan renungan:** Kenapa projek akhir jauh lebih besar daripada apa yang kita bina hari ini? (Jawapan: kita bina **berperingkat** — setiap hari tambah satu lapisan ciri baharu di atas asas yang kukuh.)
+Jika ada yang belum ✓, rujuk semula **Bahagian "Persediaan"** dalam `README.md` sebelum teruskan.
 
 ---
 
-## Latihan 1 — Cipta Projek & Larikan Aplikasi Lalai
+## Latihan 0 — Orientasi (DartPad & Projek)
 
-**Objektif:** Pastikan persekitaran anda benar-benar berfungsi hujung ke hujung.
+**Objektif:** Kenal pasti alatan yang akan digunakan sepanjang hari, sebelum menulis kod sendiri.
 
-1. Dalam terminal, navigasi ke folder kerja anda (bukan di dalam repo kursus — buat folder projek berasingan, cth. `~/flutter-projects/`).
-2. Cipta projek baharu:
+1. Buka [dartpad.dev](https://dartpad.dev) dalam pelayar — ini alat yang akan kita guna untuk **separuh pagi** (bahagian Dart tulen, sebelum masuk widget).
+2. Dalam DartPad, tampal kod ringkas berikut dan tekan **Run**:
 
-   ```bash
-   flutter create mybiasiswa_kpt
-   cd mybiasiswa_kpt
+   ```dart
+   void main() {
+     print('DartPad sedia digunakan!');
+   }
    ```
 
-3. Jalankan aplikasi:
+3. Buka folder projek `projek/mypelajar_ln/` (projek **rujukan penuh**, hasil akhir 5 hari) dalam VS Code — jangan edit fail ini, ia untuk **rujukan/banding** sahaja.
+4. Buka `projek/mypelajar_ln/lib/models/overseas_university.dart` — cari `enum StudyLevel` dan `enum RecognitionStatus`. Kita akan tulis versi **sama konsep** fail ini sendiri hari ini (bukan salin terus).
+5. Buka `projek/mypelajar_ln/lib/data/sample_universities.dart` — kira berapa banyak universiti tersenarai. (Jawapan: 8.)
 
-   ```bash
-   flutter run
-   ```
+> **Soalan renungan:** Kenapa kita mula dengan Dart **tanpa** Flutter dahulu pagi ini, sebelum sentuh widget? (Jawapan: Flutter **dibina di atas** Dart — setiap widget cuma `class` Dart. Kalau asas Dart lemah, kod Flutter jadi sukar difahami.)
 
-4. Tunggu sehingga aplikasi lalai (contoh kaunter "You have pushed the button this many times") muncul pada emulator/telefon anda.
-5. **Uji Hot Reload:** Buka `lib/main.dart`, cari teks `'You have pushed the button this many times:'`, tukar kepada teks lain, simpan (`Ctrl+S`), dan perhatikan skrin berubah tanpa aplikasi *restart*.
-
-✅ **Semakan:** Aplikasi berjalan tanpa ralat merah pada skrin, dan Hot Reload berfungsi.
+✅ **Semakan:** DartPad berjaya jalankan kod ringkas, dan anda sudah kenal pasti lokasi `overseas_university.dart` & `sample_universities.dart` dalam projek rujukan.
 
 ---
 
-## Latihan 2 — Tema Jenama KPT
+## Latihan 1 — Operators & Control Flow (`if`/`else`, `switch`)
 
-**Objektif:** Gantikan tema Material lalai dengan tema navy + gold KPT.
+**Objektif:** Tulis dan jalankan kod Dart tulen menggunakan operator dan aliran kawalan bersyarat.
 
-1. Cipta fail `lib/theme.dart`.
-2. Tulis kelas `KptTheme` dengan:
-   - `static const Color navy = Color(0xFF1A2B5C);`
-   - `static const Color gold = Color(0xFFD4A017);`
-   - `static const Color bgLight = Color(0xFFF5F6FA);`
-   - Getter `static ThemeData get light` yang memulangkan `ThemeData` dengan `useMaterial3: true`, `colorScheme` dijana daripada `ColorScheme.fromSeed(seedColor: navy, primary: navy, secondary: gold)`, dan `appBarTheme` berwarna navy.
-3. Dalam `main.dart`, ganti `MyApp` supaya `MaterialApp` guna `theme: KptTheme.light` dan `debugShowCheckedModeBanner: false`.
-4. Kekalkan `Scaffold` ringkas dengan `AppBar(title: Text('MyBiasiswa KPT'))` dan `body: Center(child: Text('Selamat datang!'))` buat sementara.
-5. Hot Reload — sahkan `AppBar` kini **navy**, bukan ungu/biru lalai Material.
+Boleh guna **DartPad** ATAU cipta fail `.dart` tempatan dan jalankan dengan `dart run`.
 
-✅ **Semakan:** Bandingkan `lib/theme.dart` anda dengan `projek/mybiasiswa_kpt/lib/theme.dart`. Sepatutnya hampir sama.
+1. Tulis pembolehubah `const` untuk statistik rasmi pelajar Malaysia luar negara: `totalPelajarLN = 54903`, `pelajarTajaan = 14697`, `pelajarSendiri = 40206`. Guna operator `+` dan `==` untuk sahkan `pelajarTajaan + pelajarSendiri` sepadan `totalPelajarLN`.
+2. Tulis pembolehubah `yuranMelbourneAud = 52000.0` dan `kadarTukaranAudMyr = 3.0`. Guna operator `*` untuk kira `yuranMelbourneMyr`. Guna operator `<=` untuk semak jika ia dalam bajet `200000`, gabungkan dengan `&&` bersama satu syarat `bool` lain (cth. `statusDiiktiraf`).
+3. Tulis blok `if`/`else if`/`else` yang menyemak pembolehubah `String recognitionStatus` (nilai `'recognised'` atau `'checkWithMqa'`) dan cetak mesej berbeza untuk setiap kes — **plus** satu `else` untuk kes tidak dijangka.
+4. Tulis function `String emOfficeForCountry(String country)` menggunakan `switch` **statement** (bukan expression) yang memetakan sekurang-kurangnya **5 negara** kepada nama pejabat Education Malaysia (rujuk jadual 12 pejabat EM dalam `projek/mypelajar_ln/lib/data/em_offices.dart`), dengan satu `default:` untuk negara tidak dikenali. Sertakan **sekurang-kurangnya satu** pasangan `case` "jatuh melalui" (fall-through) ke `return` yang sama (cth. `'United Kingdom'` dan `'Ireland'` kedua-duanya → `'Education Malaysia London'`).
+5. Panggil `emOfficeForCountry(...)` dengan 5 negara berbeza (termasuk satu yang **tiada** dalam senarai anda, untuk uji `default:`) dan `print()` hasilnya.
+
+✅ **Semakan:** Kod anda jalan tanpa ralat, dan `switch` anda betul kembalikan `default:` untuk negara yang tiada `case` sepadan. Banding pendekatan anda dengan bahagian **"Control Flow"** dalam `README.md`.
 
 ---
 
-## Latihan 3 — Model `Scholarship` & Data Contoh
+## Latihan 2 — Looping (`for`, `while`) & Function
 
-**Objektif:** Bina struktur data untuk mewakili satu biasiswa, dan senarai data contoh.
+**Objektif:** Guna gelung untuk memproses koleksi data sebenar, dan bungkus logik berulang dalam function.
 
-1. Cipta folder `lib/models/` dan fail `lib/models/scholarship.dart`.
-2. Tulis `enum ScholarshipCategory` dengan 4 nilai: `praPerkhidmatan`, `dalamPerkhidmatan`, `bantuanKewangan`, `antarabangsa` — setiap satu ada getter `label` yang memulangkan versi Bahasa Melayu (guna `switch` expression Dart 3).
-3. Tulis `enum StudyLevel` dengan 6 nilai: `sijil`, `diploma`, `bachelor`, `master`, `phd`, `postDoctoral` — dengan getter `label` yang sama konsepnya.
-4. Tulis `class Scholarship` dengan **15 medan `final`**: `id`, `code`, `name`, `provider`, `category`, `studyLevel`, `fieldOfStudy`, `monthlyAllowance`, `tuitionCoverage`, `minCgpa`, `maxAge`, `applicationDeadline`, `isOpen`, `description`, `requirements`, `websiteUrl`.
-5. Tulis konstruktor `const Scholarship({required this.id, ...})` — **semua** parameter `required` dan **bernama** (named parameters).
-6. Cipta folder `lib/data/` dan fail `lib/data/sample_scholarships.dart`. Salin **kesemua 8 entri** biasiswa daripada `projek/mybiasiswa_kpt/lib/data/sample_scholarships.dart` (MyBrainSc, MyBrain 2.0, Biasiswa Yang di-Pertuan Agong, HLP, SLAI, BKOKU, BKPKK, Malaysia International Scholarship).
-7. Tambah `intl: ^0.19.0` di bawah `dependencies:` dalam `pubspec.yaml`, kemudian jalankan `flutter pub get`.
+1. Tulis `const Map<String, int> pelajarMengikutNegara` dengan **kesemua 12 negara** dan bilangan pelajar 2024 (rujuk jadual dalam `README.md`, bahagian "Looping — `for` & Function").
+2. Tulis function `int jumlahkanPelajar(Map<String, int> data)` yang guna `for (final entry in data.entries)` untuk jumlahkan semua nilai, dan `return` jumlahnya.
+3. Panggil function tersebut, `print()` jumlahnya (sepatutnya **53,035**), dan bandingkan dengan jumlah rasmi keseluruhan **54,903** — cetak juga **baki** (`54903 - jumlah12Negara`).
+4. Tulis gelung `for` **kedua** yang, semasa melintasi `pelajarMengikutNegara`, cetak setiap negara dengan format `'${negara.padRight(16)}: $bilangan pelajar'` (guna `String.padRight()` untuk jajaran kemas).
+5. Tulis gelung `while` yang melintasi senarai `['Australia', 'United Kingdom', 'Egypt']` dan cetak `'Destinasi popular #<nombor>: <negara>'` — **pastikan** anda tambah pengira (`i++`) supaya gelung tamat (elak *infinite loop*).
 
-✅ **Semakan:** Kod anda sepatutnya *compile* tanpa ralat (`flutter analyze` tiada isu merah). Bandingkan medan & susunan dengan `projek/mybiasiswa_kpt/lib/models/scholarship.dart`.
+✅ **Semakan:** Jumlah 12 negara anda **mesti** 53,035. Jika tidak, semak semula data yang anda taip. Banding dengan fungsi `loopingAndFunctionDemo()` dan `whileDemo()` dalam [`dart_asas.dart`](./dart_asas.dart).
 
 ---
 
-## Latihan 4 — Widget `ScholarshipCard`
+## Latihan 3 — Widget Asas: `Text`, `Icon`, `Image`
 
-**Objektif:** Bina satu widget yang memaparkan ringkasan satu biasiswa dalam bentuk kad.
+**Objektif:** Beralih dari Dart tulen ke Flutter — cuba tiga widget paparan paling asas.
 
-1. Cipta folder `lib/widgets/` dan fail `lib/widgets/scholarship_card.dart`.
-2. Tulis `class ScholarshipCard extends StatelessWidget` dengan konstruktor `const ScholarshipCard({super.key, required this.scholarship, this.onTap})`.
-3. Dalam `build()`, pulangkan `Card` yang mengandungi (guna `Column` + `Row` bersarang):
-   - **Baris 1:** nama biasiswa (`Expanded(child: Text(...))`) + pill status "Dibuka"/"Tutup" berwarna hijau/merah bergantung `scholarship.isOpen`.
-   - **Baris 2:** `scholarship.fieldOfStudy` dalam teks kecil kelabu.
-   - **Baris 3:** dua pill — kategori (`scholarship.category.label`) dan peringkat (`scholarship.studyLevel.label`).
-   - **Baris 4:** elaun bulanan diformat RM (guna `NumberFormat.currency(locale: 'ms_MY', symbol: 'RM', decimalDigits: 0)`) di kiri, tarikh tutup diformat (`DateFormat('d MMM yyyy', 'ms')`) di kanan — guna `Row(mainAxisAlignment: MainAxisAlignment.spaceBetween)`.
-4. Bungkus kandungan dengan `InkWell(onTap: onTap, child: Padding(...))` supaya kad boleh diketuk (walaupun `onTap` belum digunakan sepenuhnya hari ini).
-5. Cipta widget kecil `_Pill` (private) untuk elak ulang kod cip berwarna.
+1. Dalam projek `mypelajar_ln` anda (dicipta semasa Persediaan), buka `lib/main.dart` dan pastikan `MaterialApp` + `Scaffold` asas berjalan (rujuk bahagian "Eksperimen Widget Asas" dalam `README.md`).
+2. Dalam `body:` `Scaffold`, tambah satu `Text('University of Melbourne', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))`. Hot Reload — sahkan teks tebal kelihatan.
+3. Tambah satu `Icon(Icons.school, size: 32, color: Color(0xFF1A2B5C))` di sebelah/bawah teks tersebut (bungkus kedua-duanya dalam `Column` jika perlu).
+4. Cuba **kedua-dua** cara papar imej:
+   - `Image.network('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg', height: 120)`
+   - `Text('🇦🇺', style: TextStyle(fontSize: 40))` (emoji bendera Australia)
+5. Susun ketiga-tiga widget (`Text`, `Icon`, `Image`/emoji) dalam satu `Column` supaya kelihatan tersusun menegak.
 
-✅ **Semakan:** Bandingkan dengan `projek/mybiasiswa_kpt/lib/widgets/scholarship_card.dart`.
-
-> **Petunjuk format RM/tarikh:** Jangan lupa `import 'package:intl/intl.dart';` di atas fail. Jika `DateFormat('d MMM yyyy', 'ms')` bermasalah (locale `ms` belum dimuat), untuk lab hari ini boleh guna `DateFormat('d MMM yyyy')` sahaja (tanpa locale) — kita akan muatkan locale Bahasa Melayu penuh dalam `main()` pada hari-hari seterusnya.
+✅ **Semakan:** Ketiga-tiga widget kelihatan pada emulator/telefon tanpa ralat merah. Jika `Image.network` gagal (tiada internet semasa demo), guna emoji bendera sahaja — itu sah.
 
 ---
 
-## Latihan 5 — Skrin Senarai dengan `ListView.builder`
+## Latihan 4 — `Container`, `Padding`, `Margin`, `SizedBox`: Kad Info Universiti
 
-**Objektif:** Gabungkan semua — papar 8 biasiswa dalam senarai boleh skrol.
+**Objektif:** Bina secara **manual** satu kad maklumat universiti statik, gabungan widget susun atur asas — pendahulu kepada `UniversityCard` sebenar (Hari 2).
 
-1. Cipta folder `lib/screens/` dan fail `lib/screens/scholarship_list_screen.dart`.
-2. Tulis `class ScholarshipListScreen extends StatelessWidget` yang dalam `build()` memulangkan `ListView.builder(itemCount: sampleScholarships.length, itemBuilder: (context, index) => ScholarshipCard(scholarship: sampleScholarships[index]))`.
-3. Kemas kini `main.dart` — dalam `Scaffold`, tukar `body:` daripada `Center(...)` kepada `const ScholarshipListScreen()`.
-4. Hot Reload / `flutter run` semula — sahkan senarai **8 kad biasiswa** kelihatan dan **boleh diskrol**.
-5. Uji: skrol sampai bawah — kad terakhir sepatutnya "Malaysia International Scholarship".
+1. Dalam `body:`, cipta satu `Container` dengan:
+   - `margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8)` (jarak **LUAR**)
+   - `padding: const EdgeInsets.all(16)` (jarak **DALAM**)
+   - `decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: Colors.grey.shade300))`
+2. Dalam `child:`, letak `Column(crossAxisAlignment: CrossAxisAlignment.start, children: [...])` mengandungi (guna `SizedBox(height: ...)` sebagai jarak antara setiap baris, **bukan** `Padding` berasingan setiap kali):
+   - `Text('🇦🇺  University of Melbourne', ...)` — tebal, warna navy `Color(0xFF1A2B5C)`
+   - `Text('Melbourne, Australia')` — warna kelabu
+   - `Text('Bidang popular: Medicine, Engineering, Commerce')`
+   - `Text('Anggaran yuran: RM156,000/tahun')`
+   - `Text('Pelajar Malaysia (Australia, 2024): 18,348')`
+3. Hot Reload — sahkan kad putih bersudut bulat dengan sempadan kelabu nipis kelihatan, kandungan tersusun kemas dengan jarak sekata antara baris.
+4. **Eksperimen:** Tukar `margin` kepada `EdgeInsets.zero` sementara, perhatikan kad "melekat" ke tepi skrin — ini tunjukkan **beza** kesan `margin` (luar) berbanding `padding` (dalam) secara visual. Kembalikan semula selepas cuba.
 
-✅ **Semakan akhir:** Aplikasi anda kini sepatutnya kelihatan **sama** dengan `projek/mybiasiswa_kpt` apabila dijalankan (tanpa bar carian/cip tapisan — itu Hari 3). Jalankan `flutter analyze` — pastikan tiada ralat.
+✅ **Semakan:** Banding susun atur kad anda dengan contoh dalam `README.md` bahagian "Latihan Bengkel: Kad Info Universiti (Statik)", dan dengan struktur sebenar `projek/mypelajar_ln/lib/widgets/university_card.dart` (versi Hari 2 — lebih maju, guna data dinamik & `Card`, bukan `Container` manual).
+
+---
+
+## Latihan 5 — StatelessWidget vs StatefulWidget: Kaunter "Simpan Destinasi"
+
+**Objektif:** Rasa sendiri **kenapa** `StatefulWidget` + `setState()` diperlukan, melalui satu kaunter interaktif ringkas.
+
+1. Cipta widget baharu `SavedDestinationCounter` sebagai `class ... extends StatefulWidget`, dengan `createState()` memulangkan `_SavedDestinationCounterState()`.
+2. Dalam `_SavedDestinationCounterState extends State<SavedDestinationCounter>`, tambah medan `int _savedCount = 0;`.
+3. Tulis kaedah `_addDestination()` yang memanggil `setState(() { _savedCount++; })`.
+4. Dalam `build()`, pulangkan `Column` mengandungi `Text('Destinasi disimpan: $_savedCount')` dan `ElevatedButton(onPressed: _addDestination, child: const Text('+ Simpan Destinasi'))`.
+5. Letak `SavedDestinationCounter()` sebagai `body:` `Scaffold`, `flutter run`, dan **tekan butang beberapa kali** — sahkan angka bertambah setiap kali ditekan **tanpa** perlu *restart* aplikasi.
+6. **Eksperimen (penting untuk faham konsep):** Sementara, tukar `_addDestination()` supaya **hanya** `_savedCount++;` **tanpa** bungkus dalam `setState(...)`. Tekan butang lagi — perhatikan **angka pada skrin TIDAK berubah** walaupun nilai sebenarnya bertambah "di belakang tabir". Kembalikan semula `setState(...)` selepas faham kesannya.
+
+✅ **Semakan akhir:** Kaunter bertambah setiap tekan **hanya bila** `setState()` digunakan. Anda faham beza `StatelessWidget` (`UniversityCard` Latihan 4 — statik) berbanding `StatefulWidget` (`SavedDestinationCounter` — berubah ikut interaksi).
+
+> **Nota:** Ini **baru pengenalan**. Kitaran hayat penuh `StatefulWidget` (`initState()`, `dispose()`) dan `setState()` dalam konteks borang sebenar ialah **SESI 5, Hari 3** — jangan risau jika belum faham semua bahagian `State` lagi.
 
 ---
 
@@ -131,13 +133,13 @@ Jika ada yang belum ✓, rujuk semula **Bahagian 1 — Persediaan** dalam `READM
 
 Pilih **sekurang-kurangnya satu** untuk cuba selepas Latihan 5 siap:
 
-1. **Badge kiraan** — Tambah `Text('${sampleScholarships.length} biasiswa dijumpai')` kecil di bawah `AppBar` (atas senarai), guna `Column` untuk susun teks kiraan + `Expanded(child: ListView.builder(...))` di bawahnya.
-2. **Susun atur kad berbeza** — Ubah `ScholarshipCard` supaya ikon `Icons.payments_outlined` dan jumlah elaun dipaparkan di **penjuru kanan atas** kad (bukan baris bawah), guna `Stack` atau susun semula `Row`/`Column`.
-3. **Warna status dinamik** — Tambah kes ketiga untuk pill status: jika `applicationDeadline` sudah lepas (`DateTime.now().isAfter(scholarship.applicationDeadline)`) tetapi `isOpen` masih `true`, papar "Tamat Tempoh" berwarna oren dan bukan "Dibuka" hijau.
-4. **Ikon kategori** — Petakan setiap `ScholarshipCategory` kepada satu `IconData` berbeza (cth. `praPerkhidmatan` → `Icons.school`, `antarabangsa` → `Icons.public`) dan paparkan di sebelah nama biasiswa.
-5. **Susun senarai** — Sebelum hantar ke `ListView.builder`, cipta senarai baharu yang disusun (`sorted`) mengikut `applicationDeadline` paling hampir dahulu, guna `List.of(sampleScholarships)..sort((a, b) => a.applicationDeadline.compareTo(b.applicationDeadline))`.
+1. **Function tukar mata wang** — Tulis `double convertTuitionToMyr(double amount, String currency)` dengan `Map<String, double>` kadar tukaran anggaran untuk sekurang-kurangnya 4 mata wang (`AUD`, `GBP`, `EGP`, `JOD`). Panggil untuk **4 universiti** (Melbourne/AUD, Imperial/GBP, Al-Azhar/EGP, Jordan/JOD) dan `print()` hasil dalam format `'<nama>: <yuran> <currency> ≈ RM<anggaran>/tahun'`. Banding jawapan anda dengan `tuitionConversionDemo()` dalam [`dart_asas.dart`](./dart_asas.dart).
+2. **Enum dengan getter** — Tulis semula `enum StudyLevel` (4 nilai: `diploma`, `bachelor`, `master`, `doctorate`) dan `enum RecognitionStatus` (2 nilai: `recognised`, `checkWithMqa`), setiap satu dengan getter `label` (guna `switch` expression Dart 3) memulangkan label Bahasa Melayu. Cetak label **semua** nilai `StudyLevel.values` dalam satu gelung `for`.
+3. **Kad kedua** — Ulang Latihan 4 untuk **satu lagi** universiti (cth. Kyoto University — Jepun, yuran anggaran RM16,000/tahun, bidang Engineering/Science/Economics). Susun **kedua-dua** kad dalam satu `Column` supaya kelihatan berturutan pada skrin.
+4. **Kaunter dua arah** — Tambah **dua** butang pada `SavedDestinationCounter`: satu `+` (tambah) dan satu `-` (tolak), dengan syarat `_savedCount` **tidak boleh** jadi negatif (guna `if (_savedCount > 0)` sebelum tolak dalam `setState()`).
+5. **Switch bilangan negara** — Tulis function `String kategoriBilanganPelajar(int bilangan)` yang guna `switch` **expression** dengan corak julat (*pattern* + `when` guard, Dart 3) atau rantaian `if/else` untuk pulangkan `'Sangat Ramai'` (≥10,000), `'Ramai'` (≥2,000), `'Sederhana'` (≥500), atau `'Sedikit'` (<500) berdasarkan `pelajarMengikutNegara` — panggil untuk semua 12 negara.
 
-> Tiada jawapan "betul" tunggal untuk Cabaran — matlamatnya berlatih gabungkan widget yang sudah dipelajari. Tunjukkan hasil kepada fasilitator/rakan sekelas sebelum tamat kelas.
+> Tiada jawapan "betul" tunggal untuk Cabaran — matlamatnya berlatih gabungkan konsep yang sudah dipelajari. Tunjukkan hasil kepada fasilitator/rakan sekelas sebelum tamat kelas.
 
 ---
 
@@ -147,10 +149,11 @@ Untuk banding kod anda, fail rujukan lengkap (hasil akhir 5 hari) ada di:
 
 | Fail anda (lab) | Fail rujukan (projek sebenar) |
 |------------------|-------------------------------|
-| `lib/theme.dart` | `projek/mybiasiswa_kpt/lib/theme.dart` |
-| `lib/models/scholarship.dart` | `projek/mybiasiswa_kpt/lib/models/scholarship.dart` |
-| `lib/data/sample_scholarships.dart` | `projek/mybiasiswa_kpt/lib/data/sample_scholarships.dart` |
-| `lib/widgets/scholarship_card.dart` | `projek/mybiasiswa_kpt/lib/widgets/scholarship_card.dart` |
-| `lib/screens/scholarship_list_screen.dart` | `projek/mybiasiswa_kpt/lib/screens/scholarship_list_screen.dart` (versi lebih maju — ada carian & tapisan, Hari 3) |
+| Dart operators/control flow/loops (Latihan 1–2) | [`dart_asas.dart`](./dart_asas.dart) — boleh jalan terus (`dart run snippets/dart_asas.dart`) |
+| Widget `Text`/`Icon`/`Image` (Latihan 3) | `projek/mypelajar_ln/lib/widgets/university_card.dart` (bahagian atas) |
+| `enum StudyLevel`/`RecognitionStatus` (Cabaran #2) | `projek/mypelajar_ln/lib/models/overseas_university.dart` |
+| Kad info universiti (Latihan 4) | `projek/mypelajar_ln/lib/widgets/university_card.dart` (versi Hari 2 — lebih maju) |
+| Kaunter Stateful (Latihan 5) | *(tiada padanan terus — teaser konsep sahaja; `setState()` penuh di SESI 5, Hari 3)* |
+| Data statistik 12 negara | `nota-spec` domain (lihat jadual dalam `README.md`) |
 
-> Lihat juga [`dart_asas.dart`](./dart_asas.dart) dalam folder ini untuk contoh Dart asas yang boleh dijalankan terus (`dart run snippets/dart_asas.dart`) — berguna jika anda mahu berlatih sintaks Dart di luar konteks widget Flutter.
+> Lihat juga [`dart_asas.dart`](./dart_asas.dart) untuk contoh Dart penuh yang boleh dijalankan terus (`dart run snippets/dart_asas.dart`) — berguna untuk berlatih sintaks Dart di luar konteks widget Flutter.

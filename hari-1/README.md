@@ -1,215 +1,220 @@
-# Hari 1 — Persediaan, Widget & Skrin Senarai
+# Hari 1 — Aliran Kawalan Dart & Widget Asas
 
-Panduan langkah demi langkah untuk hari pertama kursus **Flutter 5 Hari (gaya KPT/HRD Corp)**. Pada akhir hari ini (lebih kurang 6–7 jam), anda akan mempunyai aplikasi Flutter yang **benar-benar berjalan** pada emulator/telefon anda, memaparkan senarai skrol biasiswa Kementerian Pendidikan Tinggi (KPT) — permulaan kepada projek kursus **"MyBiasiswa KPT"** yang akan kita bina berperingkat sepanjang 5 hari.
+Panduan langkah demi langkah untuk hari pertama kursus **Latihan Secara *Coaching* Aplikasi Mobil Bagi Sistem Pendidikan Tinggi Luar Negara Menggunakan Flutter** (Kementerian Pendidikan Tinggi/KPT, 20–24 Julai 2026). Nota ini mengikut **aturcara rasmi SESI 1** — lihat [`JADUAL.md`](../JADUAL.md) — bukan susunan bebas.
 
-> **Nota untuk pemula:** Anda tidak perlu tahu Flutter langsung. Setiap langkah diterangkan perlahan-lahan, dengan arahan (command) yang boleh disalin terus. Ikut satu demi satu, dan uji selalu dengan **Hot Reload**.
+Projek kursus: **MyPelajar LN** (*MyPelajar Luar Negara*) — aplikasi mudah alih rujukan destinasi pengajian luar negara & pendaftaran pelajar, konsep cermin sistem sebenar **MyData@EducationMalaysia4U**.
 
-> **Konvensyen kod:** Penerangan dalam nota ini ditulis dalam **Bahasa Melayu**, tetapi semua kod, nama kelas, nama pembolehubah dan komen dalam fail `.dart` ditulis dalam **Bahasa Inggeris** — ini adalah amalan standard industri Flutter/Dart, dan kita ikut sepanjang kursus ini.
+> **Penafian:** Bahan latihan ini **BUKAN sistem rasmi KPT**. Data yuran adalah ilustrasi; semakan pengiktirafan kelayakan sebenar dibuat melalui **eSisraf (MQA)**.
+
+> **Nota untuk pemula:** Anda tidak perlu tahu Flutter atau Dart langsung. Setiap langkah diterangkan perlahan-lahan.
+
+> **Konvensyen kod:** Penerangan dalam nota ini ditulis dalam **Bahasa Melayu**, tetapi semua kod, nama kelas/pembolehubah dan komen dalam fail `.dart` ditulis dalam **Bahasa Inggeris** — amalan standard industri Flutter/Dart yang kita ikut sepanjang kursus.
 
 ---
 
 ## Fokus Hari Ini
 
-| Topik | Rujukan rasmi Flutter |
-|-------|------------------------|
-| Pasang Flutter SDK | [docs.flutter.dev/get-started/install](https://docs.flutter.dev/get-started/install) |
-| Sediakan editor (VS Code) | [docs.flutter.dev/get-started/editor](https://docs.flutter.dev/get-started/editor) |
-| Cipta & jalankan projek pertama | [docs.flutter.dev/get-started/test-drive](https://docs.flutter.dev/get-started/test-drive) |
-| Struktur aplikasi Flutter (`main()`, widget) | [docs.flutter.dev/get-started/fundamentals/application-structure](https://docs.flutter.dev/get-started/fundamentals/application-structure) |
-| Widget & pokok widget (widget tree) | [docs.flutter.dev/get-started/fundamentals/widgets](https://docs.flutter.dev/get-started/fundamentals/widgets) |
-| State: Stateless vs Stateful | [docs.flutter.dev/get-started/fundamentals/state-management](https://docs.flutter.dev/get-started/fundamentals/state-management) |
-| Widget susun atur (layout) | [docs.flutter.dev/ui/layout](https://docs.flutter.dev/ui/layout) |
-| Tema Material 3 | [docs.flutter.dev/ui/design/material](https://docs.flutter.dev/ui/design/material) |
-| Senarai panjang (`ListView.builder`) | [docs.flutter.dev/cookbook/lists/long-lists](https://docs.flutter.dev/cookbook/lists/long-lists) |
-| Hot Reload | [docs.flutter.dev/tools/hot-reload](https://docs.flutter.dev/tools/hot-reload) |
+| Topik | Rujukan rasmi |
+|-------|----------------|
+| Operators (pengendali) | [dart.dev/language/operators](https://dart.dev/language/operators) |
+| Control flow — if/else, switch | [dart.dev/language/branches](https://dart.dev/language/branches) |
+| Looping — for, while | [dart.dev/language/loops](https://dart.dev/language/loops) |
+| Function | [dart.dev/language/functions](https://dart.dev/language/functions) |
+| Widget `Text` | [api.flutter.dev/.../Text-class.html](https://api.flutter.dev/flutter/widgets/Text-class.html) |
+| Widget `Icon` | [api.flutter.dev/.../Icon-class.html](https://api.flutter.dev/flutter/widgets/Icon-class.html) |
+| Widget `Image` | [docs.flutter.dev/cookbook/images/network-image](https://docs.flutter.dev/cookbook/images/network-image) |
+| `Container`, `Padding`, `SizedBox` | [docs.flutter.dev/ui/layout](https://docs.flutter.dev/ui/layout) |
+| `EdgeInsets` (padding/margin) | [api.flutter.dev/.../EdgeInsets-class.html](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) |
+| StatelessWidget vs StatefulWidget | [docs.flutter.dev/get-started/fundamentals/state-management](https://docs.flutter.dev/get-started/fundamentals/state-management) |
+| DartPad (latih Dart dalam pelayar) | [dartpad.dev](https://dartpad.dev) |
 
 ---
 
-## Apa Akan Dibina Hari Ini
+## Jadual Hari Ini
 
-Pada penghujung Hari 1, aplikasi **MyBiasiswa KPT** anda akan:
+| Masa | Agenda |
+|------|--------|
+| 8.30 – 9.00 pagi | Pendaftaran Peserta & Minum Pagi |
+| **9.00 pagi – 1.00 petang** | **SESI 1: Widget Asas & Aliran Kawalan Dart** — Operators, Control flow (if/else, switch), Looping (for, while) & Function, Eksperimen Widget Asas: Text, Icon, Image |
+| 1.00 – 2.30 petang | Rehat dan Makan Tengah Hari |
+| **2.30 – 5.00 petang** | **Sambungan SESI 1** — Container, Padding, Margin, SizedBox; Perbezaan StatelessWidget vs StatefulWidget |
+| 5.00 petang | Bersurai |
 
-| # | Ciri | Status |
-|---|------|--------|
-| 1 | Aplikasi Flutter yang boleh dijalankan pada emulator Android / telefon sebenar | ✅ |
-| 2 | `AppBar` berjenama KPT — warna navy `#1A2B5C` dengan tajuk "MyBiasiswa KPT" | ✅ |
-| 3 | Skrin senarai (`ScholarshipListScreen`) memaparkan **8 biasiswa contoh** secara boleh skrol | ✅ |
-| 4 | Setiap biasiswa dipaparkan dalam `ScholarshipCard` — nama, bidang, kategori, elaun bulanan, tarikh tutup, status "Dibuka"/"Tutup" | ✅ |
-| 5 | Carian & tapisan kategori | ⏳ Hari 3 |
-| 6 | Ketuk kad → buka skrin butiran | ⏳ Hari 2 |
-
-**Bayangkan skrin akhir hari ini** (tiada tangkapan skrin sebenar — ini gambaran teks):
-
-```
-┌─────────────────────────────────┐
-│  MyBiasiswa KPT            (navy)│  <- AppBar
-├─────────────────────────────────┤
-│ ┌─────────────────────────────┐ │
-│ │ Biasiswa MyBrainSc   [Dibuka]│ │  <- ScholarshipCard #1
-│ │ Sains Tulen…                 │ │
-│ │ [Pra Perkhidmatan][Bachelor] │ │
-│ │ RM1,500/bulan     30 Sep 2026│ │
-│ └─────────────────────────────┘ │
-│ ┌─────────────────────────────┐ │
-│ │ MyBrain 2.0 (Sarjana)[Dibuka]│ │  <- ScholarshipCard #2
-│ │ Semua Bidang…                │ │
-│ │ …                             │ │
-│ └─────────────────────────────┘ │
-│              ⋮ (skrol ke bawah) │
-└─────────────────────────────────┘
-```
-
-Ini adalah asas — Hari 2 kita tambah navigasi ke skrin butiran, Hari 3 tambah carian & tapisan, Hari 4 sambung ke API sebenar, Hari 5 kita siapkan & bungkus untuk *release*.
+Hari ini **tidak** merangkumi `ListView`, `Card`, `Scaffold` penuh, `ThemeData`, navigasi, borang, `provider`, atau API — semua itu SESI 2 ke atas (lihat [`JADUAL.md`](../JADUAL.md)). Fokus hari ini **semata-mata** aliran kawalan Dart + segelintir widget paling asas.
 
 ---
 
-## Bahagian 1 — Persediaan (Setup)
+## Persediaan (Sebelum 9.00 Pagi / Pra-syarat)
 
-### 1.1 Pasang Flutter SDK
+Persediaan **bukan** item agenda rasmi (ia tidak disebut dalam SESI 1), tetapi anda perlukan projek Flutter yang **boleh dijalankan** sebelum kelas bermula. Selesaikan **sebelum** 20 Julai 2026:
 
-**Keperluan sistem (Windows):** Windows 10/11 64-bit, minimum **8GB RAM**, **≥2.5GB** ruang cakera kosong untuk Flutter SDK (dan lebih lagi untuk Android Studio + emulator — sediakan sekurang-kurangnya 10GB), sambungan internet, dan **Git for Windows** dipasang terlebih dahulu ([git-scm.com](https://git-scm.com/downloads)).
-
-1. Muat turun **Flutter SDK** untuk Windows daripada halaman rasmi:
-   [docs.flutter.dev/get-started/install/windows/mobile](https://docs.flutter.dev/get-started/install/windows/mobile)
-2. **Ekstrak** fail zip ke lokasi tanpa ruang/aksara istimewa dalam laluan, contohnya `C:\src\flutter`. **Jangan** ekstrak ke dalam `C:\Program Files\` (perlukan kebenaran *admin* setiap kali).
-3. Tambah `C:\src\flutter\bin` ke **PATH** sistem:
-   - Cari "Edit environment variables for your account" dalam menu Start.
-   - Dalam **User variables**, pilih `Path` → **Edit** → **New** → taip `C:\src\flutter\bin` → **OK** semua tetingkap.
-4. Buka **PowerShell baharu** (penting — PATH hanya dimuat semula pada terminal baharu) dan sahkan:
+1. Pasang **Flutter SDK**, **Android Studio** (untuk Android SDK & emulator) dan **VS Code** (+ sambungan Flutter/Dart) — panduan penuh langkah demi langkah ada di [`nota/04-setup-windows.md`](../nota/04-setup-windows.md).
+2. Sahkan persekitaran anda sedia dengan:
 
    ```bash
-   flutter --version
+   flutter doctor
+   flutter devices
    ```
 
-> 🍎 **Pengguna macOS:** Cara paling mudah ialah `brew install --cask flutter` (perlukan [Homebrew](https://brew.sh)), atau muat turun SDK terus daripada [docs.flutter.dev/get-started/install/macos/mobile-ios](https://docs.flutter.dev/get-started/install/macos/mobile-ios). Anda juga akan perlukan **Xcode** (dari App Store) jika mahu sasar iOS Simulator — untuk kursus ini kita fokus Android sahaja, jadi Xcode **tidak wajib**.
+3. Cipta **satu** projek ujian untuk pastikan semuanya berfungsi hujung ke hujung:
 
-### 1.2 Pasang Android Studio (untuk Android SDK & Emulator)
+   ```bash
+   flutter create mypelajar_ln
+   cd mypelajar_ln
+   flutter run
+   ```
 
-Walaupun kita akan **menulis kod dalam VS Code**, kita tetap perlukan **Android Studio** kerana ia membawa **Android SDK**, **Android Virtual Device (AVD) Manager**, dan pemacu (*driver*) yang diperlukan Flutter untuk membina & menjalankan aplikasi Android.
+   Jika aplikasi lalai (kaunter "+1") berjaya berjalan pada emulator/telefon — **persekitaran anda sedia**. Biarkan projek ini terbuka; kita akan edit `lib/main.dart` sepanjang sesi hari ini.
 
-1. Muat turun & pasang [Android Studio](https://developer.android.com/studio).
-2. Semasa *first-run wizard*, pilih **Standard setup** — ini akan memasang Android SDK, Android SDK Platform-Tools, dan Android Virtual Device.
-3. Buka Android Studio → **More Actions** → **SDK Manager** → pastikan sekurang-kurangnya satu **Android SDK Platform** (cth. Android 14 / API 34) ditanda.
-
-### 1.3 Jalankan `flutter doctor`
-
-`flutter doctor` ialah arahan diagnostik — ia menyemak semua komponen yang Flutter perlukan dan memberitahu apa yang masih tertinggal.
-
-```bash
-flutter doctor
-```
-
-Contoh output (sebelum semuanya lengkap):
-
-```
-[✓] Flutter (Channel stable, 3.35.7, on Microsoft Windows...)
-[!] Android toolchain - develop for Android devices
-    ✗ Android license status unknown.
-[✓] VS Code (version 1.9x)
-[!] Connected device
-    ! No devices available
-```
-
-Selesaikan setiap tanda `[!]` atau `[✗]` mengikut cadangan yang dipaparkan. Perkara paling biasa — terima lesen Android SDK:
-
-```bash
-flutter doctor --android-licenses
-```
-
-Taip `y` untuk setiap lesen sehingga semua diterima. Jalankan `flutter doctor` sekali lagi sehingga sebanyak mungkin tanda `[✓]` (tanda `[!]` untuk peranti/telefon disambung boleh diabaikan buat sementara — kita sediakan itu di langkah 1.5).
-
-### 1.4 Pasang VS Code & Sambungan Flutter/Dart
-
-1. Muat turun & pasang [VS Code](https://code.visualstudio.com/download).
-2. Buka VS Code → tab **Extensions** (ikon kotak di sebelah kiri, atau `Ctrl+Shift+X`) → cari dan pasang:
-
-   | Sambungan | Penerbit | Tujuan |
-   |-----------|----------|--------|
-   | **Flutter** | Dart Code | Sokongan projek Flutter, debug, jalankan aplikasi, snippet |
-   | **Dart** | Dart Code | Dipasang automatik bersama sambungan Flutter — analisis kod, format, IntelliSense |
-
-   > Rujukan rasmi: [docs.flutter.dev/get-started/editor](https://docs.flutter.dev/get-started/editor)
-3. Sahkan pemasangan: buka **Command Palette** (`Ctrl+Shift+P`) → taip `Flutter: New Project` — jika ia muncul dalam senarai, sambungan berjaya dipasang.
-
-### 1.5 Sediakan Emulator Android ATAU Telefon Sebenar
-
-Pilih **SALAH SATU**:
-
-**Pilihan A — Android Emulator (disyorkan untuk kelas)**
-
-1. Dalam Android Studio: **More Actions** → **Virtual Device Manager** → **Create Device**.
-2. Pilih peranti (cth. **Pixel 7**) → **Next** → pilih *system image* (cth. **API 34**, muat turun jika belum ada) → **Next** → **Finish**.
-3. Mulakan emulator dengan klik ▶️ di sebelah peranti dalam senarai.
-
-**Pilihan B — Telefon Android Sebenar (USB debugging)**
-
-1. Pada telefon: **Settings → About phone** → ketuk **Build number** 7 kali untuk membuka **Developer options**.
-2. **Settings → Developer options** → hidupkan **USB debugging**.
-3. Sambungkan telefon ke komputer melalui kabel USB → terima *prompt* "Allow USB debugging?" pada telefon.
-
-Sahkan peranti dikesan:
-
-```bash
-flutter devices
-```
-
-Anda sepatutnya nampak sekurang-kurangnya satu peranti disenaraikan (emulator atau telefon sebenar).
-
-### 1.6 Cipta Projek Pertama
-
-Navigasi ke folder tempat anda mahu simpan projek kursus, kemudian jalankan:
-
-```bash
-flutter create mybiasiswa_kpt
-cd mybiasiswa_kpt
-flutter run
-```
-
-`flutter run` akan **compile** dan **install** aplikasi lalai Flutter (contoh kaunter +1) pada emulator/telefon anda. Jika ia berjaya berjalan — **tahniah, persekitaran pembangunan anda sudah sedia!**
-
-> Projek sebenar kursus (versi lengkap, hasil akhir 5 hari) sudah disediakan di `projek/mybiasiswa_kpt/` dalam repo ini untuk **rujukan**. Jangan salin terus — kita bina **dari kosong** sepanjang minggu ini supaya faham setiap baris. Boleh buka fail di sana untuk **banding** kod anda selepas setiap latihan.
+> Projek **rujukan penuh** (hasil akhir 5 hari) sudah disediakan di `projek/mypelajar_ln/` dalam repo ini. Jangan salin terus — kita bina **dari kosong**, berperingkat, sepanjang minggu supaya faham setiap baris. Boleh buka fail di sana untuk **banding** kod anda selepas setiap latihan.
 
 ---
 
-## Bahagian 2 — Anatomi Projek Flutter
+## SESI 1 (Pagi, 9.00 – 1.00) — Aliran Kawalan Dart
 
-Buka folder `mybiasiswa_kpt` dalam VS Code (`File → Open Folder…`). Struktur penting:
+Sebelum sentuh sebarang widget, kita perlu selesa dengan **sintaks asas Dart** — bahasa pengaturcaraan di sebalik Flutter. Bahagian ini **tidak perlukan Flutter langsung**; kita akan tulis & jalankan kod Dart tulen dahulu, sama ada dalam [DartPad](https://dartpad.dev) (pelayar, tiada pemasangan) atau terus dalam terminal (`dart run`).
 
-```
-mybiasiswa_kpt/
-├── lib/
-│   └── main.dart          ← titik masuk (entry point) aplikasi — kod kita bermula di sini
-├── android/                ← projek Android asli (jarang disentuh)
-├── ios/                    ← projek iOS asli (jarang disentuh)
-├── test/                   ← ujian automatik (Hari 5)
-├── pubspec.yaml            ← "package.json" versi Flutter — nama projek, dependencies, versi
-└── pubspec.lock            ← versi tepat setiap dependency (jangan edit manual)
-```
+> **Cadangan kelas:** buka [dartpad.dev](https://dartpad.dev) di tab pelayar berasingan — setiap contoh kod di bawah boleh ditampal terus dan diklik **Run** tanpa perlu tunggu `flutter run`/emulator. Ini jimat masa semasa bereksperimen.
 
-### `pubspec.yaml`
+### Operators (Pengendali)
 
-Fail konfigurasi utama projek — sepadan konsep dengan `package.json` (Node.js) atau `composer.json` (PHP/Laravel).
+Dart menyokong pengendali standard: aritmetik, bandingan, logik, dan tugasan gabungan (*compound assignment*).
 
-```yaml
-name: mybiasiswa_kpt
-description: "MyBiasiswa KPT — aplikasi semakan & permohonan biasiswa Kementerian Pendidikan Tinggi."
-version: 1.0.0+1
+```dart
+const int totalPelajarLN = 54903;      // arithmetic: pemalar
+const int pelajarTajaan = 14697;
+const int pelajarSendiri = 40206;
 
-environment:
-  sdk: ^3.9.2
+print(pelajarTajaan + pelajarSendiri);              // + (tambah)
+print(pelajarTajaan + pelajarSendiri == totalPelajarLN); // == (bandingan)
 
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.8
+const double yuranMelbourneAud = 52000;
+const double kadarTukaranAudMyr = 3.0;              // anggaran, bukan rasmi
+final double yuranMelbourneMyr = yuranMelbourneAud * kadarTukaranAudMyr; // *
+
+final bool dalamBajet = yuranMelbourneMyr <= 200000; // <=
+final bool statusDiiktiraf = true;
+print(dalamBajet && statusDiiktiraf);                // && (logik DAN)
+
+int kiraan = 0;
+kiraan += 1;   // tugasan gabungan
+kiraan *= 3;
 ```
 
-- `dependencies:` — pakej (*package*) yang aplikasi anda **perlukan** untuk berjalan. Sepanjang kursus kita akan tambah `provider` (Hari 3), `http` (Hari 4), `intl` (format tarikh/RM), dan lain-lain.
-- Setiap kali `pubspec.yaml` diubah, jalankan `flutter pub get` untuk memuat turun/kemas kini pakej.
+| Kategori | Contoh | Maksud |
+|----------|--------|--------|
+| Aritmetik | `+ - * / ~/ %` | tambah, tolak, darab, bahagi, bahagi integer, baki |
+| Bandingan | `== != > < >= <=` | pulangkan `bool` |
+| Logik | `&& \|\| !` | DAN, ATAU, TIDAK |
+| Tugasan gabungan | `+= -= *= /= ??=` | kemas kini nilai pembolehubah terus |
 
-### `lib/main.dart` — Titik Masuk Aplikasi
+> Rujukan rasmi: [dart.dev/language/operators](https://dart.dev/language/operators)
 
-Buka `lib/main.dart` — ganti kandungan lalai dengan versi minimum berikut supaya kita faham setiap baris dari kosong:
+### Control Flow — `if` / `else`
+
+```dart
+const String recognitionStatusAuckland = 'checkWithMqa';
+
+if (recognitionStatusAuckland == 'recognised') {
+  print('University of Auckland: diiktiraf terus.');
+} else if (recognitionStatusAuckland == 'checkWithMqa') {
+  print('University of Auckland: perlu semak eSisraf (MQA) dahulu.');
+} else {
+  print('Status tidak dikenali.');
+}
+```
+
+`if`/`else if`/`else` menilai syarat `bool` **dari atas ke bawah** — sebaik sahaja satu syarat `true`, blok itu dijalankan dan yang lain **dilangkau**.
+
+### Control Flow — `switch`
+
+`switch` lebih kemas berbanding rantaian panjang `if/else if` apabila membandingkan **satu nilai** dengan banyak kemungkinan tetap — contohnya, memetakan **negara** kepada **pejabat Education Malaysia (EM)** yang menyelianya:
+
+```dart
+String emOfficeForCountry(String country) {
+  switch (country) {
+    case 'Australia':
+      return 'Education Malaysia Australia';
+    case 'United Kingdom':
+    case 'Ireland':
+      // dua case "jatuh melalui" (fall-through) ke return yang sama
+      return 'Education Malaysia London';
+    case 'China':
+    case 'Japan':
+      return 'Education Malaysia Beijing';
+    default:
+      return 'Tiada pejabat EM khusus direkodkan';
+  }
+}
+```
+
+> **Nota Dart 3:** Selain `switch` *statement* klasik di atas, Dart 3 juga ada **`switch` *expression*** ringkas (`=>`) — kita akan jumpa corak ini apabila menulis `enum` di bawah. Kedua-dua bentuk sah; `switch` statement lebih biasa untuk **logik bercabang berbilang baris**, `switch` expression untuk **pulangkan satu nilai terus**.
+
+> Rujukan rasmi: [dart.dev/language/branches](https://dart.dev/language/branches)
+
+### Looping — `for` & Function
+
+Data sebenar (Statistik Pendidikan Tinggi 2024, Bab 6): **54,903** pelajar Malaysia belajar di luar negara (14,697 tajaan + 40,206 sendiri), merentasi destinasi seperti Australia, UK, Mesir, dan lain-lain. Mari kita jumlahkan bilangan mengikut 12 negara utama menggunakan **loop** dan **function**:
+
+```dart
+const Map<String, int> pelajarMengikutNegara = {
+  'Australia': 18348,
+  'United Kingdom': 13005,
+  'Egypt': 5445,
+  'United States': 4980,
+  'China': 4357,
+  'Jordan': 2003,
+  'Indonesia': 1110,
+  'Japan': 1039,
+  'Ireland': 856,
+  'South Korea': 695,
+  'Russia': 622,
+  'New Zealand': 575,
+};
+
+// Function — jumlahkan semua nilai dalam peta statistik negara.
+int jumlahkanPelajar(Map<String, int> data) {
+  int jumlah = 0;
+  for (final entry in data.entries) {   // for (... in ...)
+    jumlah += entry.value;
+  }
+  return jumlah;
+}
+
+void main() {
+  final jumlah = jumlahkanPelajar(pelajarMengikutNegara);
+  print('Jumlah 12 negara utama: $jumlah');       // 53,035
+  print('Jumlah rasmi keseluruhan: 54903');
+  // baki (1,868) tersebar di destinasi lain yang tidak disenaraikan di sini
+}
+```
+
+- **`function`** — blok kod dinamakan yang boleh **dipanggil semula** (`jumlahkanPelajar(...)`), menerima **parameter** (`Map<String, int> data`), dan **memulangkan** nilai (`return jumlah;`) berjenis `int`.
+- **`for (final entry in data.entries)`** — bentuk `for-in`, lelar (*iterate*) setiap pasangan kunci-nilai dalam `Map` tanpa perlu urus indeks secara manual.
+
+> Rujukan rasmi: [dart.dev/language/loops](https://dart.dev/language/loops) · [dart.dev/language/functions](https://dart.dev/language/functions)
+
+### Looping — `while`
+
+Guna `while` apabila bilangan lelaran **tidak diketahui terlebih dahulu**, atau anda perlu kawal syarat berhenti sendiri:
+
+```dart
+const senaraiDestinasiPopular = ['Australia', 'United Kingdom', 'Egypt'];
+
+int i = 0;
+while (i < senaraiDestinasiPopular.length) {
+  print('Destinasi popular #${i + 1}: ${senaraiDestinasiPopular[i]}');
+  i++; // PENTING: jangan lupa naikkan i, jika tidak -> infinite loop
+}
+```
+
+> **Kesilapan biasa pemula:** Lupa `i++` (atau apa-apa yang mengubah syarat `while`) menyebabkan **infinite loop** — program "tersangkut" selama-lamanya. Sentiasa sahkan syarat berhenti akan tercapai.
+
+---
+
+## SESI 1 (Pagi, sambungan) — Eksperimen Widget Asas: Text, Icon, Image
+
+Sekarang kita beralih dari Dart tulen ke **Flutter**. Buka `lib/main.dart` dalam projek `mypelajar_ln` yang anda cipta semasa Persediaan, dan gantikan kandungannya:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -224,9 +229,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyBiasiswa KPT',
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: const Text('MyBiasiswa KPT')),
+        appBar: AppBar(title: const Text('MyPelajar LN')),
         body: const Center(child: Text('Selamat datang!')),
       ),
     );
@@ -234,623 +239,217 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-Simpan (`Ctrl+S`) — dengan `flutter run` masih berjalan, perubahan akan **Hot Reload** secara automatik. Mari bedah setiap bahagian:
-
-| Elemen | Penjelasan |
-|--------|-----------|
-| `import 'package:flutter/material.dart';` | Import pustaka **Material Design** — set widget UI gaya Google yang kita gunakan sepanjang kursus (butang, kad, senarai, dll). |
-| `void main()` | Fungsi Dart standard — **titik masuk** aplikasi (sama seperti `main()` dalam Java/C, atau skrip permulaan Node.js). |
-| `runApp(const MyApp())` | Fungsi Flutter yang **melekatkan (attach)** widget akar (`MyApp`) ke skrin peranti dan memulakan proses render. |
-| `class MyApp extends StatelessWidget` | Widget akar aplikasi kita — jenis `StatelessWidget` (huraian di Bahagian 3). |
-| `build(BuildContext context)` | Kaedah **wajib** setiap widget — memulangkan (`return`) pokok widget yang mahu dipaparkan. Dipanggil semula setiap kali Flutter perlu "melukis semula" widget ini. |
-| `MaterialApp` | Widget "bungkusan" peringkat tertinggi — menyediakan tema, navigasi, tajuk aplikasi, dan konfigurasi Material Design untuk **seluruh** aplikasi. |
-| `Scaffold` | Rangka halaman standard Material — sediakan struktur untuk `appBar`, `body`, `floatingActionButton`, `bottomNavigationBar`, dsb. Hampir setiap skrin dalam aplikasi kita akan guna `Scaffold`. |
-| `AppBar` | Bar tajuk di bahagian atas skrin. |
-| `Center` / `Text` | Widget UI asas — dibincang penuh di Bahagian 4. |
-
-> **Konsep penting:** Dalam Flutter, **segalanya adalah widget** — bukan sahaja butang atau teks, tetapi juga *padding*, susun atur, malah tema. Kita akan ulang konsep ini sepanjang kursus.
-
----
-
-## Bahagian 3 — Widget = Segalanya
-
-### Widget Tree (Pokok Widget)
-
-Flutter membina UI dengan **menyusun widget bersarang** (nested) — satu widget mengandungi widget lain sebagai `child` atau `children`. Struktur ini dipanggil **widget tree** (pokok widget):
-
-```
-MyApp
- └── MaterialApp
-      └── Scaffold
-           ├── AppBar
-           │    └── Text('MyBiasiswa KPT')
-           └── Center
-                └── Text('Selamat datang!')
-```
-
-Setiap kali data berubah, Flutter tidak "memadam & lukis semula skrin" — ia **bandingkan** pokok widget baharu dengan yang lama, dan hanya kemas kini bahagian yang berubah. Ini sebabnya Flutter sangat pantas.
-
-### StatelessWidget vs StatefulWidget
-
-Dua jenis widget asas yang anda akan tulis **setiap hari**:
-
-| | `StatelessWidget` | `StatefulWidget` |
-|---|---|---|
-| **Bila guna** | UI **tidak berubah** selepas dibina (atau hanya bergantung pada data luaran yang diterima) | UI **perlu berubah** akibat interaksi pengguna atau data dalaman (cth. tekan butang, taip teks) |
-| **Contoh dalam projek kita** | `ScholarshipCard` (papar sahaja) | Borang permohonan biasiswa (Hari 4) — medan input berubah semasa pengguna menaip |
-| **Cara ia berfungsi** | Satu kaedah `build()` sahaja | Ada objek `State` berasingan yang menyimpan data (*state*) & kaedah `setState()` untuk beritahu Flutter "lukis semula" |
-| **Contoh kod** | `class Foo extends StatelessWidget { @override Widget build(...) { ... } }` | `class Foo extends StatefulWidget { @override State<Foo> createState() => _FooState(); }` diikuti `class _FooState extends State<Foo> { ... }` |
-
-> **Analogi:** `StatelessWidget` seperti gambar bercetak — sekali dicetak, tidak berubah. `StatefulWidget` seperti papan tanda LED — ia boleh dikemas kini bila-bila masa (`setState()` = "tekan butang kemas kini papan").
-
-Sepanjang **Hari 1**, hampir semua widget yang kita tulis adalah `StatelessWidget` — kita baru sentuh `StatefulWidget` mula-mula pada Hari 2/3 apabila perlu simpan *state* seperti teks carian atau navigasi tab.
-
-### Demo Hot Reload
-
-Dengan `flutter run` masih berjalan (jangan tutup terminal):
-
-1. Dalam `main.dart`, tukar `'Selamat datang!'` kepada `'Selamat datang ke MyBiasiswa KPT!'`.
-2. Simpan fail (`Ctrl+S`).
-3. Lihat emulator/telefon — teks berubah dalam **kurang daripada 1 saat**, tanpa aplikasi *restart* dari awal.
-
-Ini **Hot Reload** — ia menyuntik kod baharu ke dalam aplikasi yang sedang berjalan sambil **mengekalkan state semasa**. Bandingkan dengan **Hot Restart** (`Shift+R` dalam terminal, atau ikon *restart* dalam VS Code) yang memulakan semula seluruh aplikasi (state hilang, tetapi berguna bila Hot Reload tidak mencukupi — cth. selepas ubah `main()` atau tambah *class* baharu).
-
-> Rujukan rasmi: [docs.flutter.dev/tools/hot-reload](https://docs.flutter.dev/tools/hot-reload)
-
----
-
-## Bahagian 4 — Widget Teras
-
-Berikut widget asas yang akan anda gunakan **setiap hari** sepanjang kursus. Cuba setiap satu — tampal ke dalam `body:` `Scaffold` anda dan lihat hasilnya dengan Hot Reload.
+Simpan (`Ctrl+S`) — dengan `flutter run` masih berjalan, ini akan **Hot Reload** automatik. Sekarang cuba tiga widget paparan paling asas dalam Flutter, satu demi satu, dalam `body:`:
 
 ### `Text` — papar teks
 
 ```dart
 const Text(
-  'Biasiswa MyBrainSc',
+  'University of Melbourne',
   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 )
 ```
 
-### `Container` — kotak serba boleh (warna, saiz, padding, margin, border)
+`style: TextStyle(...)` mengawal saiz fon, berat (*weight*), warna, dsb. — kita akan bedah `TextStyle` penuh di SESI 3 (Hari 2).
+
+### `Icon` — ikon Material terbina-dalam
+
+```dart
+const Icon(Icons.school, size: 32, color: Color(0xFF1A2B5C))
+const Icon(Icons.flag, size: 32)
+```
+
+`Icons.school`, `Icons.flag` ialah sebahagian daripada **beribu-ribu ikon Material** terbina-dalam Flutter — tiada muat turun asset diperlukan. Katalog penuh: [fonts.google.com/icons](https://fonts.google.com/icons).
+
+### `Image` — papar imej
+
+Projek kursus **tiada** aset logo terbenam (*bundled asset*) — jadi kita guna **dua** cara yang tidak perlukan fail imej tempatan:
+
+```dart
+// Cara 1: Image.network — muat imej terus dari URL
+Image.network(
+  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+  height: 120,
+)
+
+// Cara 2: emoji bendera sebagai Text — mudah untuk representasi negara
+const Text('🇦🇺', style: TextStyle(fontSize: 40)) // Australia
+```
+
+> **Kenapa emoji bendera?** Model sebenar `OverseasUniversity` dalam projek kursus (`projek/mypelajar_ln/lib/models/overseas_university.dart`) ada getter `flagEmoji` yang memetakan negara kepada emoji bendera — corak ringan yang elakkan keperluan muat turun/urus fail imej bendera untuk setiap negara. Kita akan guna corak ini semula di Hari 2.
+
+> Rujukan rasmi: [api.flutter.dev/flutter/widgets/Text-class.html](https://api.flutter.dev/flutter/widgets/Text-class.html) · [api.flutter.dev/flutter/widgets/Icon-class.html](https://api.flutter.dev/flutter/widgets/Icon-class.html) · [docs.flutter.dev/cookbook/images/network-image](https://docs.flutter.dev/cookbook/images/network-image)
+
+---
+
+## SESI 1 (Petang, 2.30 – 5.00) — Container, Padding, Margin, SizedBox
+
+### `Container` — kotak serba boleh
+
+`Container` ialah widget "kotak" paling serba boleh dalam Flutter — boleh ada warna latar, saiz, sempadan (*border*), sudut bulat, dan **padding**/**margin** terbina sekali:
 
 ```dart
 Container(
   padding: const EdgeInsets.all(16),
-  margin: const EdgeInsets.symmetric(horizontal: 12),
   decoration: BoxDecoration(
-    color: const Color(0xFF1A2B5C), // navy KPT
+    color: const Color(0xFF1A2B5C), // navy — pilihan reka bentuk latihan, BUKAN warna rasmi KPT
     borderRadius: BorderRadius.circular(12),
   ),
   child: const Text('Kotak navy', style: TextStyle(color: Colors.white)),
 )
 ```
 
-### `Column` & `Row` — susun menegak / mendatar
+### `Padding` vs `Margin` — apa beza?
+
+Konsep ini sering mengelirukan pemula — kedua-dua "jarak", tetapi **arah** berbeza:
+
+| | `Padding` | `Margin` |
+|---|---|---|
+| **Maksud** | Jarak **DALAM** — antara sempadan widget dengan kandungannya | Jarak **LUAR** — antara sempadan widget dengan widget/skrin di sekelilingnya |
+| **Analogi** | Ruang kosong di dalam bingkai gambar, sekitar gambar itu sendiri | Ruang kosong di luar bingkai, sebelum dinding/bingkai lain |
+| **Cara guna dalam `Container`** | `padding: const EdgeInsets.all(16)` | `margin: const EdgeInsets.all(16)` |
+| **Widget berasingan?** | Ya — `Padding(padding: ..., child: ...)` boleh berdiri sendiri | Tiada widget `Margin` berasingan — hanya parameter `Container` (atau bungkus dengan `Padding` di luar) |
 
 ```dart
-Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: const [
-    Text('Biasiswa MyBrainSc'),
-    Text('Sains Tulen'),
-  ],
-)
-
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: const [
-    Text('RM1,500/bulan'),
-    Text('30 Sep 2026'),
-  ],
+Container(
+  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), // jarak LUAR kotak
+  padding: const EdgeInsets.all(16),                                // jarak DALAM kotak
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+  ),
+  child: const Text('Ada margin di luar DAN padding di dalam'),
 )
 ```
 
-> **Konsep penting:** `Column` menyusun *children* dari **atas ke bawah**; `Row` dari **kiri ke kanan**. `mainAxisAlignment` mengawal jarak sepanjang paksi utama; `crossAxisAlignment` mengawal jajaran sepanjang paksi silang.
+`EdgeInsets` ada beberapa konstruktor berguna: `EdgeInsets.all(16)` (semua sisi sama), `EdgeInsets.symmetric(horizontal: 12, vertical: 8)` (kiri=kanan, atas=bawah berbeza), `EdgeInsets.only(top: 8, left: 16)` (sisi tertentu sahaja).
 
-### `Padding` & `SizedBox` — jarak
+### `SizedBox` — jarak/saiz tepat
 
 ```dart
-Padding(
-  padding: const EdgeInsets.all(16),
-  child: const Text('Ada jarak 16px di semua sisi'),
-)
-
 Column(
   children: const [
-    Text('Baris 1'),
+    Text('University of Melbourne'),
     SizedBox(height: 12), // jarak kosong 12px — TIADA widget lain buat ini seefisien ini
-    Text('Baris 2'),
+    Text('Melbourne, Australia'),
   ],
 )
 ```
 
-### `Icon` — ikon Material
+`SizedBox` boleh juga guna untuk **paksa saiz tepat** widget lain (`SizedBox(width: 200, height: 50, child: ...)`), tetapi kegunaan paling lazim ialah sebagai **jarak kosong** (*spacer*) ringkas antara widget dalam `Column`/`Row`.
+
+### Latihan Bengkel: Kad Info Universiti (Statik)
+
+Mari gabungkan `Container`, `Padding`, `SizedBox`, `Text`, dan `Icon` untuk bina **secara manual** satu kad maklumat universiti — pendahulu (*precursor*) kepada widget `UniversityCard` sebenar yang kita bina Hari 2. Data diambil daripada `sample_universities.dart`:
 
 ```dart
-const Icon(Icons.payments_outlined, size: 16, color: Color(0xFF1A2B5C))
-```
-
-### `Card` — kad terapung dengan bayang (shadow) & sudut bulat
-
-```dart
-Card(
-  margin: const EdgeInsets.all(12),
-  child: const Padding(
-    padding: EdgeInsets.all(16),
-    child: Text('Ini kandungan dalam Card'),
+Container(
+  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  padding: const EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(14),
+    border: Border.all(color: Colors.grey.shade300),
   ),
-)
-```
-
-### `Center` — tengahkan satu child
-
-```dart
-const Center(child: Text('Di tengah skrin'))
-```
-
-### `Expanded` — isi ruang berbaki dalam `Row`/`Column`
-
-```dart
-Row(
-  children: [
-    const Icon(Icons.search),
-    const SizedBox(width: 8),
-    Expanded(
-      child: const Text(
-        'Teks panjang ini akan isi semua ruang berbaki tanpa overflow',
-        overflow: TextOverflow.ellipsis,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Text(
+        '🇦🇺  University of Melbourne',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1A2B5C)),
       ),
-    ),
-  ],
-)
-```
-
-> **Kesilapan biasa pemula:** Letak `Text` panjang terus dalam `Row` **tanpa** `Expanded` sering menyebabkan ralat *"RenderFlex overflowed"* (teks cuba melebihi lebar skrin). Bungkus dengan `Expanded` untuk selesaikan.
-
-Rujukan katalog penuh widget: [docs.flutter.dev/ui/widgets/layout](https://docs.flutter.dev/ui/widgets/layout)
-
----
-
-## Bahagian 5 — Tema KPT (`theme.dart`)
-
-Setiap aplikasi kerajaan/korporat ada identiti jenama. Untuk MyBiasiswa KPT, kita gunakan:
-
-| Warna | Kod hex | Kegunaan |
-|-------|---------|----------|
-| **Navy** | `0xFF1A2B5C` | Warna utama (primary) — AppBar, butang, teks penting |
-| **Gold** | `0xFFD4A017` | Warna aksen (secondary) — highlight, pill kategori |
-| **BG Light** | `0xFFF5F6FA` | Latar belakang skrin |
-
-Cipta fail baharu `lib/theme.dart`:
-
-```dart
-import 'package:flutter/material.dart';
-
-/// Tema rasmi aplikasi — warna jenama KPT.
-///
-/// Navy (biru tua) sebagai warna utama + emas sebagai aksen kecemerlangan.
-class KptTheme {
-  KptTheme._();
-
-  static const Color navy = Color(0xFF1A2B5C);
-  static const Color gold = Color(0xFFD4A017);
-  static const Color bgLight = Color(0xFFF5F6FA);
-
-  static ThemeData get light {
-    final scheme = ColorScheme.fromSeed(
-      seedColor: navy,
-      primary: navy,
-      secondary: gold,
-      brightness: Brightness.light,
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: scheme,
-      scaffoldBackgroundColor: bgLight,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: navy,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: false,
-      ),
-      cardTheme: CardThemeData(
-        elevation: 1,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        clipBehavior: Clip.antiAlias,
-      ),
-    );
-  }
-}
-```
-
-Bedah kod ini:
-
-- `KptTheme._()` — konstruktor **private** (nama bermula `_`). Ini menghalang sesiapa daripada mencipta *instance* `KptTheme()` — kelas ini hanya digunakan sebagai "bekas" untuk nilai `static`, bukan objek.
-- `ColorScheme.fromSeed(seedColor: navy, ...)` — ciri **Material 3**: berikan satu warna "benih" (*seed*), Flutter jana **satu set warna harmoni lengkap** (primary, secondary, error, surface, dll) secara automatik.
-- `useMaterial3: true` — aktifkan gaya reka bentuk **Material 3** (Google terkini) — bucu lebih bulat, warna lebih lembut berbanding Material 2.
-- `appBarTheme` / `cardTheme` — tetapan **lalai** untuk semua `AppBar`/`Card` dalam aplikasi, supaya kita tak perlu ulang gaya yang sama di setiap skrin.
-
-Kemudian dalam `main.dart`, sambungkan tema ini ke `MaterialApp`:
-
-```dart
-MaterialApp(
-  title: 'MyBiasiswa KPT',
-  debugShowCheckedModeBanner: false,
-  theme: KptTheme.light,
-  home: const Scaffold(
-    appBar: AppBar(title: Text('MyBiasiswa KPT')),
-    body: Center(child: Text('Selamat datang!')),
-  ),
-)
-```
-
-Hot Reload — perhatikan AppBar kini berwarna **navy**, bukan biru Material lalai.
-
-> `debugShowCheckedModeBanner: false` — buang lencana (banner) merah "DEBUG" di penjuru kanan atas semasa pembangunan. Kosmetik sahaja, tidak wajib, tetapi kemas untuk demo.
-
-> Rujukan rasmi: [docs.flutter.dev/ui/design/material](https://docs.flutter.dev/ui/design/material)
-
----
-
-## Bahagian 6 — Model Data: `Scholarship`
-
-Sebelum bina senarai, kita perlukan **struktur data** untuk mewakili satu biasiswa. Dalam Flutter/Dart, kita guna **class biasa** (bukan *interface* seperti TypeScript) sebagai model.
-
-Cipta fail `lib/models/scholarship.dart`:
-
-```dart
-/// Model utama: satu tawaran biasiswa KPT.
-///
-/// Cermin portal sebenar biasiswa.mohe.gov.my.
-library;
-
-/// Kategori biasiswa mengikut portal rasmi KPT.
-enum ScholarshipCategory {
-  praPerkhidmatan,
-  dalamPerkhidmatan,
-  bantuanKewangan,
-  antarabangsa;
-
-  /// Label Bahasa Melayu untuk paparan UI.
-  String get label => switch (this) {
-        ScholarshipCategory.praPerkhidmatan => 'Pra Perkhidmatan',
-        ScholarshipCategory.dalamPerkhidmatan => 'Dalam Perkhidmatan',
-        ScholarshipCategory.bantuanKewangan => 'Bantuan Kewangan',
-        ScholarshipCategory.antarabangsa => 'Antarabangsa',
-      };
-}
-
-/// Peringkat pengajian yang ditaja.
-enum StudyLevel {
-  sijil,
-  diploma,
-  bachelor,
-  master,
-  phd,
-  postDoctoral;
-
-  String get label => switch (this) {
-        StudyLevel.sijil => 'Sijil',
-        StudyLevel.diploma => 'Diploma',
-        StudyLevel.bachelor => 'Ijazah Sarjana Muda',
-        StudyLevel.master => 'Sarjana',
-        StudyLevel.phd => 'PhD',
-        StudyLevel.postDoctoral => 'Pasca Kedoktoran',
-      };
-}
-
-class Scholarship {
-  final String id;
-  final String code;
-  final String name;
-  final String provider;
-  final ScholarshipCategory category;
-  final StudyLevel studyLevel;
-  final String fieldOfStudy;
-  final double monthlyAllowance;
-  final bool tuitionCoverage;
-  final double minCgpa;
-  final int maxAge;
-  final DateTime applicationDeadline;
-  final bool isOpen;
-  final String description;
-  final List<String> requirements;
-  final String websiteUrl;
-
-  const Scholarship({
-    required this.id,
-    required this.code,
-    required this.name,
-    required this.provider,
-    required this.category,
-    required this.studyLevel,
-    required this.fieldOfStudy,
-    required this.monthlyAllowance,
-    required this.tuitionCoverage,
-    required this.minCgpa,
-    required this.maxAge,
-    required this.applicationDeadline,
-    required this.isOpen,
-    required this.description,
-    required this.requirements,
-    required this.websiteUrl,
-  });
-}
-```
-
-Bedah kod ini:
-
-- **`enum ... { ...; String get label => switch(this) {...}; }`** — ciri Dart moden (Dart 3): *enum* boleh ada **getter** dan kaedah, sama seperti *class* biasa. Ini berguna untuk terus memetakan nilai *enum* (`bachelor`) kepada label paparan Bahasa Melayu (`'Ijazah Sarjana Muda'`) tanpa perlu `if/else` berterusan di setiap skrin.
-- **`final` field** — semua medan `Scholarship` ditanda `final`: sekali objek dicipta, nilainya **tidak boleh diubah** (*immutable*). Ini amalan baik untuk model data — elak bug akibat data berubah secara tidak sengaja di tempat lain.
-- **Konstruktor `const Scholarship({required this.id, ...})`** — guna **named parameters** (parameter bernama) dengan kata kunci `required`. Ini bermakna semasa mencipta objek, anda **wajib** nyatakan nama setiap medan (`Scholarship(id: 'S001', name: '...', ...)`) — bukan mengikut susunan posisi. Lebih mudah dibaca & kurang bug berbanding parameter posisi seperti `Scholarship('S001', '...', ...)`.
-- `const` di depan konstruktor — membolehkan Dart cipta objek pada **masa kompil** apabila semua nilai juga `const`, jadi lebih jimat memori untuk data statik seperti senarai contoh kita.
-
-### Data Contoh (`sampleScholarships`)
-
-Cipta fail `lib/data/sample_scholarships.dart` — senarai `Scholarship` yang **dikodkan keras (hardcoded)** untuk Hari 1–3, sebelum kita sambung ke API sebenar pada Hari 4:
-
-```dart
-import '../models/scholarship.dart';
-
-final List<Scholarship> sampleScholarships = [
-  Scholarship(
-    id: 'S001',
-    code: 'MYBRAINSC',
-    name: 'Biasiswa MyBrainSc',
-    provider: 'Kementerian Pendidikan Tinggi',
-    category: ScholarshipCategory.praPerkhidmatan,
-    studyLevel: StudyLevel.bachelor,
-    fieldOfStudy: 'Sains Tulen (Fizik, Kimia, Biologi, Matematik)',
-    monthlyAllowance: 1500,
-    tuitionCoverage: true,
-    minCgpa: 3.50,
-    maxAge: 24,
-    applicationDeadline: DateTime.parse('2026-09-30'),
-    isOpen: true,
-    description:
-        'Penajaan pengajian sains tulen di IPTA/IPTS dan universiti terkemuka luar negara.',
-    requirements: [
-      'Warganegara Malaysia',
-      'CGPA 3.50 ke atas',
-      'Bidang sains tulen sepenuh masa',
+      SizedBox(height: 4),
+      Text('Melbourne, Australia', style: TextStyle(color: Colors.grey)),
+      SizedBox(height: 12),
+      Text('Bidang popular: Medicine, Engineering, Commerce'),
+      SizedBox(height: 4),
+      Text('Anggaran yuran: RM156,000/tahun'),
+      SizedBox(height: 4),
+      Text('Pelajar Malaysia (Australia, 2024): 18,348'),
     ],
-    websiteUrl: 'https://biasiswa.mohe.gov.my/MyBrainSc/',
   ),
-  // ... lagi 7 biasiswa — lihat senarai penuh (8 entri) di
-  // projek/mybiasiswa_kpt/lib/data/sample_scholarships.dart
-];
+)
 ```
 
-> **Latihan:** Salin **kesemua 8 entri** daripada fail sebenar `projek/mybiasiswa_kpt/lib/data/sample_scholarships.dart` ke fail anda — ini data rujukan penuh (MyBrainSc, MyBrain 2.0, Biasiswa Yang di-Pertuan Agong, HLP, SLAI, BKOKU, BKPKK, Malaysia International Scholarship).
+Tampal kod ini sebagai `body:` `Scaffold` anda (atau dalam `Center(child: ...)`) dan Hot Reload. Anda sepatutnya nampak satu **kad putih bersudut bulat** dengan maklumat University of Melbourne tersusun kemas.
 
-> **Kenapa `final List<...>` bukan `const`?** Kerana `DateTime.parse(...)` dikira pada **masa larian (runtime)**, bukan masa kompil, jadi keseluruhan senarai tidak boleh `const`. `final` masih memastikan pembolehubah `sampleScholarships` sendiri tidak boleh ditugaskan semula (*reassign*) selepas dicipta.
+> **Intip Hari 2:** Kad statik ini akan jadi widget `UniversityCard` yang **boleh guna semula** (*reusable*) untuk **8 universiti**, dipaparkan dalam senarai skrol — kita belum sentuh `ListView`/`Card` hari ini, jadi buat masa ini kita hanya bina **satu** kad secara manual untuk faham struktur `Container`/`Padding`/`SizedBox` dahulu.
 
 ---
 
-## Bahagian 7 — Skrin Senarai Biasiswa
+## SESI 1 (Petang) — StatelessWidget vs StatefulWidget
 
-Sekarang kita gabungkan semua yang dipelajari: tema, model, data, dan widget teras — untuk bina skrin senarai sebenar.
+Dua jenis widget asas yang anda akan tulis **setiap hari** sepanjang kursus:
 
-### `ScholarshipCard` — widget papar satu biasiswa
+| | `StatelessWidget` | `StatefulWidget` |
+|---|---|---|
+| **Bila guna** | UI **tidak berubah** selepas dibina (atau hanya bergantung pada data luaran yang diterima) | UI **perlu berubah** akibat interaksi pengguna atau data dalaman (cth. tekan butang, taip teks) |
+| **Contoh dalam projek kita** | `UniversityCard` (papar sahaja — Hari 2) | Kaunter interaksi, borang pendaftaran (Hari 3) |
+| **Cara ia berfungsi** | Satu kaedah `build()` sahaja | Ada objek `State` berasingan yang menyimpan data (*state*) & kaedah `setState()` untuk beritahu Flutter "lukis semula" |
+| **Struktur kod** | `class Foo extends StatelessWidget { @override Widget build(...) { ... } }` | `class Foo extends StatefulWidget { @override State<Foo> createState() => _FooState(); }` diikuti `class _FooState extends State<Foo> { ... }` |
 
-Cipta `lib/widgets/scholarship_card.dart`:
+> **Analogi:** `StatelessWidget` seperti gambar bercetak — sekali dicetak, tidak berubah. `StatefulWidget` seperti papan tanda LED — ia boleh dikemas kini bila-bila masa (`setState()` = "tekan butang kemas kini papan").
+
+### Teaser: Kaunter "Simpan Destinasi"
+
+Kita **belum** masuk mendalam kitaran hayat (*lifecycle*) penuh `setState()` — itu **SESI 5 (Hari 3)**. Tetapi mari lihat sepintas lalu **kenapa** `StatefulWidget` wujud, dengan satu kaunter ringkas — "berapa destinasi telah anda simpan":
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+class SavedDestinationCounter extends StatefulWidget {
+  const SavedDestinationCounter({super.key});
 
-import '../models/scholarship.dart';
-import '../theme.dart';
+  @override
+  State<SavedDestinationCounter> createState() => _SavedDestinationCounterState();
+}
 
-/// Kad yang memaparkan ringkasan satu biasiswa dalam senarai (Hari 1).
-class ScholarshipCard extends StatelessWidget {
-  const ScholarshipCard({
-    super.key,
-    required this.scholarship,
-    this.onTap,
-  });
+class _SavedDestinationCounterState extends State<SavedDestinationCounter> {
+  int _savedCount = 0; // data yang boleh BERUBAH sepanjang widget ini hidup
 
-  final Scholarship scholarship;
-  final VoidCallback? onTap;
+  void _addDestination() {
+    setState(() {
+      _savedCount++; // beritahu Flutter: "data berubah, lukis semula build()"
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final rm = NumberFormat.currency(locale: 'ms_MY', symbol: 'RM', decimalDigits: 0);
-    final tarikh = DateFormat('d MMM yyyy', 'ms').format(scholarship.applicationDeadline);
-
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      scholarship.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: KptTheme.navy,
-                      ),
-                    ),
-                  ),
-                  if (!scholarship.isOpen)
-                    const _Pill(text: 'Tutup', color: Colors.red)
-                  else
-                    const _Pill(text: 'Dibuka', color: Colors.green),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Text(
-                scholarship.fieldOfStudy,
-                style: TextStyle(color: Colors.grey[700], fontSize: 13),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  _Pill(text: scholarship.category.label, color: KptTheme.navy),
-                  const SizedBox(width: 8),
-                  _Pill(text: scholarship.studyLevel.label, color: KptTheme.gold),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.payments_outlined, size: 16, color: KptTheme.navy),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${rm.format(scholarship.monthlyAllowance)}/bulan',
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.event_outlined, size: 16, color: Colors.grey[600]),
-                      const SizedBox(width: 4),
-                      Text(tarikh, style: TextStyle(color: Colors.grey[700], fontSize: 12)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Destinasi disimpan: $_savedCount'),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: _addDestination,
+          child: const Text('+ Simpan Destinasi'),
         ),
-      ),
-    );
-  }
-}
-
-class _Pill extends StatelessWidget {
-  const _Pill({required this.text, required this.color});
-
-  final String text;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w600),
-      ),
+      ],
     );
   }
 }
 ```
 
-Perkara baharu di sini:
+Tampal `SavedDestinationCounter()` sebagai `body:` dan cuba tekan butang berulang kali — anda akan nampak angka bertambah **tanpa** perlu `flutter run` semula (Hot Reload kekalkan state semasa anda sedang menaip kod, tetapi tekanan butang berlaku semasa aplikasi berjalan, direkodkan oleh `setState()`).
 
-- **`InkWell`** — bungkus sekitar `Padding` supaya kad boleh **diketuk** (ripple effect Material apabila ditekan) dan memanggil `onTap`. Hari ini `onTap` belum digunakan sepenuhnya (kita hanya sediakan *parameter*) — Hari 2 kita sambungkan ke navigasi skrin butiran.
-- **`VoidCallback? onTap`** — jenis fungsi terbina-dalam Dart untuk fungsi tanpa parameter/pulangan (`void Function()`), ditanda `?` supaya **pilihan (optional)** — kad masih boleh dipapar walaupun `onTap` tidak diberikan.
-- **`NumberFormat.currency(...)` & `DateFormat(...)`** daripada pakej `intl` — format nombor jadi mata wang Ringgit (`RM1,500`) dan tarikh jadi format Bahasa Melayu (`30 Sep 2026`). Tambah `intl: ^0.19.0` di bawah `dependencies:` dalam `pubspec.yaml`, kemudian jalankan `flutter pub get`.
-- **`_Pill`** — widget kecil **private** (nama bermula `_`, hanya boleh diguna dalam fail ini) untuk cip label berwarna kecil (kategori, peringkat, status). Corak biasa: pecahkan bahagian UI berulang kepada widget kecil supaya kod `build()` utama kekal bersih.
-- **`if (!scholarship.isOpen) ... else ...` dalam `children: [...]`** — Dart membenarkan **kawalan aliran (`if`/`for`) terus di dalam senarai literal**. Tiada keperluan `List.of()` atau *ternary* rumit — ciri unik Dart yang sangat berguna untuk UI bersyarat.
+- **`class ... extends StatefulWidget`** — widget "cangkang" (*shell*) yang tidak menyimpan data sendiri; ia hanya cipta objek `State`.
+- **`class _SavedDestinationCounterState extends State<SavedDestinationCounter>`** — di sinilah **data sebenar** (`_savedCount`) hidup, dan `build()` dipanggil semula setiap kali `setState()` dipanggil.
+- **`setState(() { ... })`** — **satu-satunya** cara sah untuk beritahu Flutter "data telah berubah, sila lukis semula". Jika anda tukar `_savedCount++` **tanpa** bungkus dalam `setState()`, UI **TIDAK** akan kemas kini walaupun nilai berubah di belakang tabir.
 
-### `ScholarshipListScreen` — susun senarai dengan `ListView.builder`
-
-Cipta `lib/screens/scholarship_list_screen.dart` — **versi Hari 1** (ringkas, terus guna `sampleScholarships`):
-
-```dart
-import 'package:flutter/material.dart';
-
-import '../data/sample_scholarships.dart';
-import '../widgets/scholarship_card.dart';
-
-/// Skrin senarai biasiswa — versi Hari 1 (senarai statik, tiada carian/tapisan).
-/// Akan berkembang: Hari 3 = carian & tapisan, Hari 4 = data daripada API.
-class ScholarshipListScreen extends StatelessWidget {
-  const ScholarshipListScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: 8, bottom: 16),
-      itemCount: sampleScholarships.length,
-      itemBuilder: (context, index) {
-        final scholarship = sampleScholarships[index];
-        return ScholarshipCard(scholarship: scholarship);
-      },
-    );
-  }
-}
-```
-
-Bedah `ListView.builder`:
-
-| Parameter | Penjelasan |
-|-----------|-----------|
-| `itemCount` | Jumlah item dalam senarai. Flutter perlu tahu ini untuk urus skrol dengan efisien. |
-| `itemBuilder` | Fungsi `(context, index) => Widget` yang dipanggil untuk **setiap** item, memberikan `index` semasa (0, 1, 2, …). |
-
-> **Kenapa `ListView.builder` bukan `ListView(children: [...])`?** `ListView` biasa membina **semua** widget serentak walaupun belum kelihatan pada skrin — boros memori untuk senarai panjang. `ListView.builder` bersifat **malas (lazy)** — ia hanya membina item yang **kelihatan** (atau hampir kelihatan) pada skrin, dan musnahkan/bina semula secara automatik semasa pengguna skrol. Untuk senarai biasiswa yang mungkin berpuluh/beratus entri (selepas API Hari 4), ini penting untuk prestasi.
-
-> Rujukan rasmi: [docs.flutter.dev/cookbook/lists/long-lists](https://docs.flutter.dev/cookbook/lists/long-lists)
-
-### Sambungkan Semuanya dalam `main.dart`
-
-```dart
-import 'package:flutter/material.dart';
-
-import 'screens/scholarship_list_screen.dart';
-import 'theme.dart';
-
-void main() {
-  runApp(const MyBiasiswaApp());
-}
-
-class MyBiasiswaApp extends StatelessWidget {
-  const MyBiasiswaApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MyBiasiswa KPT',
-      debugShowCheckedModeBanner: false,
-      theme: KptTheme.light,
-      home: Scaffold(
-        appBar: AppBar(title: const Text('MyBiasiswa KPT')),
-        body: const ScholarshipListScreen(),
-      ),
-    );
-  }
-}
-```
-
-Jalankan `flutter run` (atau Hot Reload jika masih berjalan) — anda sepatutnya nampak **senarai skrol 8 biasiswa**, setiap satu dalam kad bertema navy/gold, lengkap dengan pill kategori, elaun bulanan dalam format RM, dan tarikh tutup permohonan.
-
-> **Pratonton Hari 3:** Skrin sebenar dalam `projek/mybiasiswa_kpt/lib/screens/scholarship_list_screen.dart` sudah ada **bar carian** (`TextField`) dan **cip tapisan kategori** (`ChoiceChip`) di atas senarai — kita akan tambah ciri itu Hari 3 apabila belajar `StatefulWidget` dan pengurusan *state* dengan pakej `provider`. Buka fail itu sekarang jika mahu **intai** ke hadapan — tetapi jangan risau kalau belum faham semua bahagiannya lagi.
+> **Pratonton SESI 5 (Hari 3):** Kita akan bedah **kitaran hayat penuh** `StatefulWidget` (`initState()`, `dispose()`, dsb.), sambungkan `setState()` kepada borang pendaftaran sebenar, dan bincang bila `provider` (pengurusan *state* lanjutan — **bonus/di luar aturcara rasmi**) berguna berbanding `setState()` semata-mata.
 
 ---
 
-## Penutup — Apa Yang Kita Bina & Langkah Seterusnya
+## Penutup — Ringkasan & Langkah Seterusnya
 
 ### Ringkasan
 
 Hari ini kita telah:
 
-1. ✅ Pasang **Flutter SDK**, **Android Studio**, **VS Code + sambungan Flutter/Dart**, dan sediakan emulator/telefon.
-2. ✅ Fahami **anatomi projek Flutter** — `pubspec.yaml`, `lib/main.dart`, `runApp()`, `MaterialApp`, `Scaffold`.
-3. ✅ Fahami **widget tree**, `StatelessWidget` vs `StatefulWidget`, dan `build()`.
-4. ✅ Cuba widget teras: `Text`, `Container`, `Column`, `Row`, `Padding`, `SizedBox`, `Icon`, `Card`, `Center`, `Expanded`.
-5. ✅ Bina **tema jenama KPT** (`KptTheme`) — navy + gold, Material 3.
-6. ✅ Bina **model data** `Scholarship` (dengan `enum` `ScholarshipCategory` & `StudyLevel`) dan data contoh `sampleScholarships`.
-7. ✅ Bina **skrin senarai** sebenar dengan `ListView.builder` + `ScholarshipCard`.
+1. ✅ Kuasai **operators** Dart (aritmetik, bandingan, logik, tugasan gabungan).
+2. ✅ Kuasai **control flow** — `if`/`else if`/`else` dan `switch`.
+3. ✅ Kuasai **looping** — `for` (termasuk `for-in`) dan `while` — serta cara tulis **function** dengan parameter & pulangan nilai.
+4. ✅ Cuba widget paparan asas: `Text`, `Icon`, `Image` (`Image.network` & emoji).
+5. ✅ Fahami `Container`, beza **`Padding`** (dalam) vs **`Margin`** (luar), dan `SizedBox` (jarak/saiz) — digunakan untuk bina satu kad info universiti statik.
+6. ✅ Fahami beza konsep **`StatelessWidget`** vs **`StatefulWidget`**, dengan pratonton `setState()` melalui kaunter ringkas.
 
 ### Simpan Kerja Anda (Git)
 
@@ -859,29 +458,17 @@ Jika projek anda belum dalam kawalan versi, mulakan sekarang — tabiat baik dar
 ```bash
 git init
 git add .
-git commit -m "Hari 1: setup projek, tema KPT, model Scholarship, skrin senarai"
+git commit -m "Hari 1: aliran kawalan Dart, widget asas, kad universiti statik"
 ```
 
 > **Nota:** `flutter create` sudah menjana fail `.gitignore` yang sesuai (mengabaikan `build/`, `.dart_tool/`, dll) — tidak perlu konfigurasi tambahan.
 
-### Apa Seterusnya — Hari 2
+### Apa Seterusnya — Hari 2 (SESI 2 & 3)
 
-Hari 2 kita akan:
-- Tambah **navigasi** — ketuk `ScholarshipCard` untuk buka **skrin butiran** (`ScholarshipDetailScreen`) menggunakan `Navigator.push()` & `MaterialPageRoute`.
-- Perkenalkan `StatefulWidget` buat kali pertama secara mendalam.
-- Mula bina rangka navigasi bawah (*bottom navigation*) untuk tab **Biasiswa / Permohonan Saya / Profil**.
+Esok kita mula bina **seni bina layout** sebenar (`Row`, `Column`, `Expanded`, `Stack`, `Scaffold`, `AppBar`) — termasuk **Slot AI** rasmi pertama (jana mockup UI dengan bantuan prompt AI) — kemudian sambung ke **`ListView.builder`**, `Card`, dan `ThemeData` untuk papar **8 universiti** dalam senarai boleh skrol bertema navy/gold.
 
 Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelum tamat kelas hari ini!
 
 ---
 
 > 🎤 **Nota penceramah/jurulatih:** [`nota-penceramah.md`](./nota-penceramah.md) — kumpulan nota persembahan (asalnya *speaker notes* dalam slaid) untuk Hari 1.
-
-## Nota Tambahan (fakta ringkas dari slaid)
-
-Petua persediaan yang disebut dalam slaid — dikumpulkan di sini supaya nota lengkap:
-
-- **Emulator vs telefon sebenar:** untuk kelas, emulator lebih mudah dikawal; namun telefon sebenar selalunya **lebih pantas** pada komputer berspesifikasi rendah.
-- **`flutter run` kali pertama ambil beberapa minit** — Gradle sedang memuat turun dependency. Ini **normal**, bukan hang.
-- **`pubspec.yaml` sensitif inden:** guna **2 ruang (space)**, bukan tab.
-- Ralat **`flutter is not recognized`** biasanya bermakna PATH belum dimuat semula — buka **terminal baharu** dan cuba lagi.

@@ -1,87 +1,75 @@
-# Nota Penceramah — Hari 1: Widget & Skrin Senarai
+# Nota Penceramah — Hari 1: Aliran Kawalan Dart & Widget Asas (SESI 1)
 
 > Nota rujukan untuk **penceramah/jurulatih**. Setiap entri sepadan dengan satu slaid dalam [`../slides/flutter-training.html`](../slides/flutter-training.html). Nota ini asalnya *speaker notes* dalam deck — dikumpulkan di sini supaya bahan lengkap walaupun tanpa membuka slaid. Slaid tanpa nota penceramah tidak disenaraikan.
 
-**Slaid 2 · Apa Akan Dibina Hari Ini**  
-Tunjukkan matlamat akhir hari ini supaya peserta nampak destinasi sebelum bermula. Tekankan bahawa carian dan navigasi datang pada hari-hari seterusnya.
+**Slaid 2 · Jadual Hari Ini**  
+Tegaskan skop hari ini sempit tapi penting: asas Dart dan segelintir widget paling asas sahaja. Semua yang lain datang mengikut sesi rasmi.
 
-**Slaid 3 · Persediaan: 4 Komponen**  
-Terangkan kenapa Android Studio masih diperlukan walaupun kita menulis kod dalam VS Code — ia membawa SDK dan emulator.
+**Slaid 3 · Projek Kursus: MyPelajar LN**  
+Perkenalkan domain projek supaya semua contoh Dart hari ini terasa relevan. Ulang penafian: ini bahan latihan, bukan sistem rasmi.
 
-**Slaid 4 · Pasang Flutter SDK (Windows)**  
-PATH hanya dimuat semula pada terminal baharu — ini punca paling biasa "flutter is not recognized". Minta semua peserta jalankan flutter --version sebelum teruskan.
+**Slaid 4 · Persediaan — Sudah Sedia?**  
+Persediaan sepatutnya siap sebelum kelas. Sesiapa yang bermasalah, bantu semasa rehat — jangan tahan seluruh kelas. DartPad ialah pelan B yang bagus.
 
-**Slaid 5 · flutter doctor — Semakan Kesihatan**  
-flutter doctor ialah kawan baik anda — ia beritahu apa yang tertinggal. Tanda amaran untuk peranti boleh diabaikan buat sementara; kita sediakan emulator selepas ini.
+**Slaid 5 · Operators (Pengendali)**  
+Jalankan dalam DartPad secara langsung. Tunjukkan tajaan + sendiri memang sama dengan jumlah rasmi 54,903 — data sebenar buat contoh lebih bermakna.
 
-**Slaid 6 · VS Code + Sambungan Flutter/Dart**  
-Extension Dart dipasang secara automatik bersama extension Flutter — peserta hanya perlu pasang satu.
+**Slaid 6 · Kategori Operator Dart**  
+Jangan hafal — tunjuk yang setiap kategori sudah muncul dalam contoh tadi. Rujukan rasmi: dart.dev/language/operators.
 
-**Slaid 7 · Emulator ATAU Telefon Sebenar — Pilih Satu**  
-Untuk kelas, emulator lebih mudah dikawal. Telefon sebenar lebih pantas pada komputer berspesifikasi rendah.
+**Slaid 7 · Control Flow — if / else**  
+Konsep pengiktirafan kelayakan ialah keputusan sebenar pelajar luar negara — if/else memodelkan keputusan itu. Minta peserta tukar nilai dan lihat output berubah.
 
-**Slaid 8 · Cipta Projek Pertama**  
-Larian pertama mengambil masa beberapa minit kerana Gradle memuat turun dependency — beri masa rehat pendek di sini.
+**Slaid 8 · Control Flow — switch**  
+Domain sebenar: setiap negara diselia pejabat Education Malaysia tertentu. Tunjuk fall-through UK/Ireland ke pejabat London — corak yang kerap berguna.
 
-**Slaid 9 · Anatomi Projek Flutter**  
-Bandingkan dengan ekosistem yang peserta kenal — pubspec.yaml sepadan dengan package.json (Node) atau composer.json (Laravel).
+**Slaid 9 · Data Sebenar: Pelajar Mengikut Negara (2024)**  
+Ini struktur Map — pasangan kunci-nilai. Tekankan senarai ini 12 negara utama sahaja, bukan semua destinasi; kita akan buktikan bezanya sebentar lagi dengan loop.
 
-**Slaid 10 · pubspec.yaml — Konfigurasi Projek**  
-Ingatkan: YAML sensitif kepada indentasi — dua ruang, bukan tab.
+**Slaid 10 · Looping (for) & Function**  
+Function ada nama, parameter dan nilai pulangan. Loop for-in melelar setiap entri Map tanpa urus indeks. Hasil 53,035 ≠ 54,903 — baki tersebar di negara lain yang tidak disenaraikan; contoh baik bahawa kod membantu kita semak data.
 
-**Slaid 11 · lib/main.dart — Versi Minimum**  
-Ganti kandungan lalai dengan versi minimum ini supaya kita faham setiap baris dari kosong. Simpan dan lihat Hot Reload berlaku.
+**Slaid 11 · Looping — while**  
+Guna while bila bilangan lelaran tidak diketahui awal. Demokan infinite loop dalam DartPad sekali — pengalaman "tersangkut" lebih diingati daripada amaran lisan.
 
-**Slaid 12 · Bedah main.dart**  
-build() dipanggil semula setiap kali Flutter perlu melukis semula widget — konsep ini penting untuk memahami state nanti.
+**Slaid 12 · Bonus: enum + switch Expression**  
+Ini pratonton model sebenar yang kita guna penuh Hari 2. Bandingkan: switch statement untuk logik bercabang berbilang baris, switch expression untuk pulangkan satu nilai.
 
-**Slaid 13 · Semuanya Adalah Widget**  
-Struktur bersarang ini dipanggil widget tree. Lukiskan di papan putih sambil merujuk kod main.dart tadi.
+**Slaid 13 · Function — Tukar Yuran Asing ke RM**  
+Gabungkan semua yang dipelajari: function, parameter, Map, operator. Tegaskan kadar tukaran hanya anggaran latihan, bukan kadar semasa.
 
-**Slaid 14 · StatelessWidget vs StatefulWidget**  
-Hari 1 hampir semua widget kita StatelessWidget — StatefulWidget mula digunakan Hari 2/3 apabila perlu simpan state seperti teks carian.
+**Slaid 14 · Slaid 14**  
+Gantikan kandungan lib/main.dart dengan kod ini. Simpan = Hot Reload automatik. Scaffold/AppBar dibedah penuh esok — hari ini kita hanya perlukan rangka minimum untuk bereksperimen.
 
-**Slaid 15 · Hot Reload — Kuasa Super Flutter**  
-Demo secara langsung — ini momen "wow" pertama untuk pemula. Galakkan peserta bereksperimen dan Hot Reload dengan kerap sepanjang kursus.
+**Slaid 15 · Widget Asas 1/3 — Text**  
+Tampal dalam body Scaffold dan Hot Reload. Cuba tukar fontSize dan lihat perubahan serta-merta — inilah keseronokan Hot Reload.
 
-**Slaid 16 · Widget Teras: Text & Container**  
-Minta peserta tampal setiap contoh ke dalam body Scaffold dan lihat hasilnya dengan Hot Reload.
+**Slaid 16 · Widget Asas 2/3 — Icon**  
+Minta peserta cari 2-3 ikon lain di katalog dan cuba. Sebut awal: navy/gold ialah pilihan reka bentuk bahan kursus, bukan palet korporat rasmi KPT.
 
-**Slaid 17 · Widget Teras: Column & Row**  
-Column dan Row ialah asas semua susun atur — kad biasiswa kita nanti hanyalah gabungan Column dan Row bersarang.
+**Slaid 17 · Widget Asas 3/3 — Image**  
+Projek tiada aset logo terbenam, jadi dua cara ini tak perlukan fail tempatan. Image.network perlukan internet pada emulator.
 
-**Slaid 18 · Widget Teras: Jarak & Bekas**  
-SizedBox ialah cara paling ringan untuk jarak kosong. Card memberi bayang dan sudut bulat secara percuma — kita guna untuk setiap biasiswa nanti.
+**Slaid 18 · Slaid 18**  
+Selepas makan tengah hari, kita sambung SESI 1 dengan widget kotak dan jarak, kemudian tutup hari dengan konsep Stateless vs Stateful.
 
-**Slaid 19 · Expanded — Elak "Overflow"**  
-Ralat overflow ialah ralat pertama yang hampir semua pemula jumpa — tunjukkan jalur kuning-hitam secara sengaja, kemudian betulkan dengan Expanded.
+**Slaid 19 · Container — Kotak Serba Boleh**  
+Container ialah widget kotak paling serba boleh. BoxDecoration mengawal rupa; borderRadius memberi sudut bulat moden.
 
-**Slaid 20 · Tema Jenama KPT**  
-Tema berpusat bermakna bila jenama berubah, kita hanya ubah satu fail — bukan setiap skrin.
+**Slaid 20 · Padding vs Margin**  
+Konsep paling mengelirukan pemula. Guna analogi bingkai gambar: padding di dalam bingkai, margin di luar bingkai.
 
-**Slaid 21 · lib/theme.dart — KptTheme**  
-ColorScheme.fromSeed ialah ciri Material 3 — beri satu warna benih, Flutter jana set warna harmoni lengkap secara automatik. useMaterial3 mengaktifkan gaya Google terkini.
+**Slaid 21 · SizedBox — Jarak & Saiz Tepat**  
+SizedBox ialah cara paling efisien untuk jarak kosong tetap. Column dibedah penuh esok — hari ini cukup faham ia menyusun anak menegak.
 
-**Slaid 22 · Model Data: Kenapa Class Scholarship?**  
-Enum dengan getter label mengelakkan if/else berulang di setiap skrin — nilai enum dalam English, label paparan dalam Bahasa Melayu.
+**Slaid 22 · Latihan Bengkel: Kad Info Universiti (Statik)**  
+Latihan utama petang: gabungkan Container, Padding, SizedBox, Text dan Icon jadi satu kad universiti. Esok kad ini jadi widget UniversityCard yang boleh guna semula untuk 8 universiti.
 
-**Slaid 23 · lib/models/scholarship.dart**  
-Fail sebenar ada 16 medan penuh serta fromJson/toJson untuk Hari 4 — hari ini fokus pada corak: final, required, const.
+**Slaid 23 · StatelessWidget vs StatefulWidget**  
+Beza paling asas dalam Flutter — peserta akan tulis kedua-duanya setiap hari sepanjang kursus. Analogi gambar bercetak vs papan LED biasanya melekat.
 
-**Slaid 24 · Data Contoh: sampleScholarships**  
-Kenapa final bukan const? DateTime.parse dikira pada runtime, jadi senarai tidak boleh const — tetapi final memastikan pembolehubah tidak boleh di-reassign.
+**Slaid 24 · Teaser: setState() — Kaunter "Simpan Destinasi"**  
+Tekan butang berulang kali — angka naik tanpa run semula. Tegaskan: tanpa setState(), nilai berubah di belakang tabir tetapi UI TIDAK dikemas kini.
 
-**Slaid 25 · ListView.builder — Senarai Efisien**  
-Ini versi Hari 1 yang ringkas — statik, tiada carian. Versi penuh dalam projek rujukan sudah ada carian dan tapisan yang kita bina Hari 3.
-
-**Slaid 26 · ScholarshipCard — Kad Satu Biasiswa**  
-Struktur penuh ialah Column berisi tiga Row — persis susun atur yang kita pelajari tadi. Buka fail penuh bersama peserta dan bedah baris demi baris.
-
-**Slaid 27 · Corak Penting dalam ScholarshipCard**  
-Corak pecahkan widget kecil seperti _Pill ialah amalan yang akan kita ulang sepanjang kursus — build() panjang sukar dibaca dan disenggara.
-
-**Slaid 28 · Gabungkan Semuanya — main.dart Akhir**  
-debugShowCheckedModeBanner buang lencana DEBUG merah — kosmetik sahaja. Skrin sebenar dalam projek rujukan sudah ada bar carian TextField dan ChoiceChip — itu untuk Hari 3.
-
-**Slaid 29 · Ringkasan Hari 1 + Langkah Seterusnya**  
-Pastikan flutter run setiap peserta masih berfungsi tanpa ralat sebelum tamat kelas. Galakkan tabiat git commit dari Hari 1.
+**Slaid 25 · Ringkasan Hari 1 & Langkah Seterusnya**  
+Pastikan flutter run setiap peserta masih berfungsi tanpa ralat sebelum bersurai. Galakkan commit git dari Hari 1 — tabiat baik.
