@@ -123,6 +123,29 @@ Definisi penuh: [`projek/ett_mobile/lib/models/`](./projek/ett_mobile/lib/models
 
 > ⚠️ Peraturan sebenar eTT: **SATU negara + SATU bidang** setiap permohonan; dalam bidang itu pelajar boleh menyusun sehingga 3 pilihan universiti. Status guna istilah sebenar **LAYAK / TIDAK LAYAK**.
 
+## Fakta Domain eTT (disahkan)
+
+Data kursus dibina atas fakta sebenar berikut (bahan latihan sahaja — lihat penafian di bawah):
+
+- **Bidang terhad.** eTT hanya menawarkan bidang tertentu: **Perubatan, Pergigian, Farmasi, dan Pengajian Islam** (termasuk Syariah, Usuluddin, Ulum Islamiah, Bahasa Arab, Qiraat). Bukan semua bidang.
+- **Laluan kemasukan.** Terbuka kepada lepasan **SPM** (laluan sains kesihatan + Ulum Islamiah) dan **STAM** (laluan pengajian Islam di Al-Azhar).
+- **Kelayakan.** Semakan guna istilah rasmi **LAYAK / TIDAK LAYAK**, kira-kira 7 hari bekerja selepas permohonan ditutup. Hanya pemohon LAYAK memuat naik dokumen sokongan.
+- **Portal sebenar:** Mesir → [`dohe.mohe.gov.my/timurtengah`](https://dohe.mohe.gov.my/timurtengah/) · Maghribi → [`dohe.mohe.gov.my/morocco`](https://dohe.mohe.gov.my/morocco/). Semakan pengiktirafan kelayakan → **eSisraf (MQA)**, [`www2.mqa.gov.my/esisraf`](https://www2.mqa.gov.my/esisraf/kelayakan.cfm).
+
+| Universiti | Bandar | Bidang (via eTT) | Nota |
+|-----------|--------|------------------|------|
+| Universiti Al-Azhar | Kaherah, Mesir | Perubatan, Pergigian, Ulum Islamiah (SPM); Syariah, Usuluddin, Bahasa Arab (STAM) | Diasaskan ~970M; satu-satunya destinasi pengajian Islam eTT |
+| Universiti Alexandria | Iskandariah, Mesir | Perubatan, Pergigian, Farmasi | — |
+| Universiti Ain Shams | Kaherah, Mesir | Perubatan | — |
+| Universiti Mansoura | Mansoura, Mesir | Perubatan, Farmasi | — |
+| Universiti Tanta | Tanta, Mesir | Perubatan, Pergigian | — |
+| Universite Al Quaraouiyine | Fes, Maghribi | Usuluddin, Syariah | Diasaskan 859M — universiti tertua di dunia yang masih beroperasi (UNESCO/Guinness) |
+| Universiti Mohammed V | Rabat, Maghribi | *(pemadanan ilustrasi)* | Universiti sebenar; pemadanan bidang ilustrasi latihan |
+
+> **Maghribi (Morocco):** data nipis — hanya **Al Quaraouiyine** disahkan sebagai destinasi; Mohammed V/Hassan II ialah pemadanan **ilustrasi**. Laluan Maghribi ialah **biasiswa kerajaan Maghribi** dengan **15 tempat** (angka rasmi sesi 2025/26); penempatan ditentukan kerajaan Maghribi.
+>
+> **Sumber:** Syarat_Mesir (portal eTT rasmi), Panduan Permohonan Morocco, pengumuman JPT/TCER sesi 2025/26. **Semua kos & kuota lain adalah ilustrasi.**
+
 ## Slaid
 
 Deck **reveal.js** sedia guna: [`slides/flutter-training.html`](./slides/flutter-training.html) — **185 slaid** mengikut aturcara rasmi (9 sesi), dengan **175 nota penceramah** (tekan `S`). Buka terus dalam pelayar; tiada pelayan diperlukan.

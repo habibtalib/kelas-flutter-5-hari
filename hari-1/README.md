@@ -478,3 +478,6 @@ Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelu
   // jika kadar tukaran tiada dalam peta, guna 1.0 sebagai lalai
   final kadar = kadarTukaranAnggaran[currency] ?? 1.0;
   ```
+- **Istilah kelayakan sebenar:** eTT menyemak permohonan dan menandakan **LAYAK / TIDAK LAYAK** (bukan istilah rekaan). Inilah keputusan pertama setiap pemohon.
+- **1 negara + 1 bidang + sehingga 3 pilihan universiti:** peraturan sebenar eTT ialah **satu negara dan satu bidang** setiap permohonan; dalam bidang itu pelajar boleh menyusun **sehingga 3 pilihan universiti**. (Didalami Hari 3.)
+- **Pratonton Hari 2:** untuk memformat kos ke RM secara automatik, kita akan guna pakej `intl` (`NumberFormat.currency`) — hari ini kita format manual dengan `toStringAsFixed`.
