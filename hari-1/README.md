@@ -2,9 +2,9 @@
 
 Panduan langkah demi langkah untuk hari pertama kursus **Latihan Secara *Coaching* Aplikasi Mobil Bagi Sistem Pendidikan Tinggi Luar Negara Menggunakan Flutter** (Kementerian Pendidikan Tinggi/KPT, 20–24 Julai 2026). Nota ini mengikut **aturcara rasmi SESI 1** — lihat [`JADUAL.md`](../JADUAL.md) — bukan susunan bebas.
 
-Projek kursus: **MyPelajar LN** (*MyPelajar Luar Negara*) — aplikasi mudah alih rujukan destinasi pengajian luar negara & pendaftaran pelajar, konsep cermin sistem sebenar **MyData@EducationMalaysia4U**.
+Projek kursus: **eTT Mobile** — companion latihan untuk sistem sebenar **e-Timur Tengah (eTT)**, Bahagian Pengantarabangsaan Pendidikan Tinggi (BPPT), KPT — permohonan pelajar Malaysia ke universiti di **Mesir** & **Maghribi (Morocco)**.
 
-> **Penafian:** Bahan latihan ini **BUKAN sistem rasmi KPT**. Data yuran adalah ilustrasi; semakan pengiktirafan kelayakan sebenar dibuat melalui **eSisraf (MQA)**.
+> **Penafian:** Bahan latihan — **BUKAN sistem e-Timur Tengah rasmi**. Permohonan sebenar hanya di **dohe.mohe.gov.my/timurtengah**. KPT **tidak melantik ejen**. Nama universiti & syarat adalah benar; **kos/kuota adalah ilustrasi**.
 
 > **Nota untuk pemula:** Anda tidak perlu tahu Flutter atau Dart langsung. Setiap langkah diterangkan perlahan-lahan.
 
@@ -59,14 +59,14 @@ Persediaan **bukan** item agenda rasmi (ia tidak disebut dalam SESI 1), tetapi a
 3. Cipta **satu** projek ujian untuk pastikan semuanya berfungsi hujung ke hujung:
 
    ```bash
-   flutter create mypelajar_ln
-   cd mypelajar_ln
+   flutter create ett_mobile
+   cd ett_mobile
    flutter run
    ```
 
    Jika aplikasi lalai (kaunter "+1") berjaya berjalan pada emulator/telefon — **persekitaran anda sedia**. Biarkan projek ini terbuka; kita akan edit `lib/main.dart` sepanjang sesi hari ini.
 
-> Projek **rujukan penuh** (hasil akhir 5 hari) sudah disediakan di `projek/mypelajar_ln/` dalam repo ini. Jangan salin terus — kita bina **dari kosong**, berperingkat, sepanjang minggu supaya faham setiap baris. Boleh buka fail di sana untuk **banding** kod anda selepas setiap latihan.
+> Projek **rujukan penuh** (hasil akhir 5 hari) sudah disediakan di `projek/ett_mobile/` dalam repo ini. Jangan salin terus — kita bina **dari kosong**, berperingkat, sepanjang minggu supaya faham setiap baris. Boleh buka fail di sana untuk **banding** kod anda selepas setiap latihan.
 
 ---
 
@@ -81,20 +81,19 @@ Sebelum sentuh sebarang widget, kita perlu selesa dengan **sintaks asas Dart** �
 Dart menyokong pengendali standard: aritmetik, bandingan, logik, dan tugasan gabungan (*compound assignment*).
 
 ```dart
-const int totalPelajarLN = 54903;      // arithmetic: pemalar
-const int pelajarTajaan = 14697;
-const int pelajarSendiri = 40206;
+const int kuotaEtt001 = 40;   // arithmetic: pemalar — Al-Azhar, Perubatan
+const int kuotaEtt003 = 80;   // Al-Azhar, Ulum Islamiah
 
-print(pelajarTajaan + pelajarSendiri);              // + (tambah)
-print(pelajarTajaan + pelajarSendiri == totalPelajarLN); // == (bandingan)
+print(kuotaEtt001 + kuotaEtt003);              // + (tambah)
+print(kuotaEtt003 > kuotaEtt001);              // > (bandingan)
 
-const double yuranMelbourneAud = 52000;
-const double kadarTukaranAudMyr = 3.0;              // anggaran, bukan rasmi
-final double yuranMelbourneMyr = yuranMelbourneAud * kadarTukaranAudMyr; // *
+const double kosFarmasiSetahun = 36000;        // RM, ilustrasi — ETT-004
+const int tempohPengajianTahun = 5;
+final double anggaranKosKeseluruhan = kosFarmasiSetahun * tempohPengajianTahun; // *
 
-final bool dalamBajet = yuranMelbourneMyr <= 200000; // <=
-final bool statusDiiktiraf = true;
-print(dalamBajet && statusDiiktiraf);                // && (logik DAN)
+final bool dalamBajet = anggaranKosKeseluruhan <= 200000; // <=
+const bool sijilLengkap = true;
+print(dalamBajet && sijilLengkap);              // && (logik DAN)
 
 int kiraan = 0;
 kiraan += 1;   // tugasan gabungan
@@ -113,37 +112,41 @@ kiraan *= 3;
 ### Control Flow — `if` / `else`
 
 ```dart
-const String recognitionStatusAuckland = 'checkWithMqa';
+const String keperluanProgram = 'stam'; // ETT-002: Syariah dan Undang-undang
+const String sijilPemohon = 'spm';
 
-if (recognitionStatusAuckland == 'recognised') {
-  print('University of Auckland: diiktiraf terus.');
-} else if (recognitionStatusAuckland == 'checkWithMqa') {
-  print('University of Auckland: perlu semak eSisraf (MQA) dahulu.');
+if (keperluanProgram == 'both') {
+  print('Program ini terima kedua-dua SPM & STAM.');
+} else if (keperluanProgram == sijilPemohon) {
+  print('Layak memohon — sijil sepadan keperluan program.');
 } else {
-  print('Status tidak dikenali.');
+  print('Tidak layak — program ini hanya terima '
+      '${keperluanProgram.toUpperCase()}.');
 }
 ```
 
 `if`/`else if`/`else` menilai syarat `bool` **dari atas ke bawah** — sebaik sahaja satu syarat `true`, blok itu dijalankan dan yang lain **dilangkau**.
 
+> **Nota realiti eTT:** Setiap permohonan sebenar hanya untuk **SATU negara + SATU bidang** (butiran penuh borang permohonan — Hari 3, SESI 4). Contoh di atas mengelabelkan `keperluanProgram` sebagai `'spm'`, `'stam'` atau `'both'` — corak sebenar model `EntryCategory` yang kita formalkan sebagai `enum` di bawah.
+
 ### Control Flow — `switch`
 
-`switch` lebih kemas berbanding rantaian panjang `if/else if` apabila membandingkan **satu nilai** dengan banyak kemungkinan tetap — contohnya, memetakan **negara** kepada **pejabat Education Malaysia (EM)** yang menyelianya:
+`switch` lebih kemas berbanding rantaian panjang `if/else if` apabila membandingkan **satu nilai** dengan banyak kemungkinan tetap — contohnya, memetakan **nama universiti** kepada **label negara** Bahasa Melayu:
 
 ```dart
-String emOfficeForCountry(String country) {
-  switch (country) {
-    case 'Australia':
-      return 'Education Malaysia Australia';
-    case 'United Kingdom':
-    case 'Ireland':
-      // dua case "jatuh melalui" (fall-through) ke return yang sama
-      return 'Education Malaysia London';
-    case 'China':
-    case 'Japan':
-      return 'Education Malaysia Beijing';
+String countryLabelForUniversity(String universityName) {
+  switch (universityName) {
+    case 'Universiti Al-Azhar':
+    case 'Universiti Alexandria':
+    case 'Universiti Ain Shams':
+    case 'Universiti Tanta':
+      // empat case "jatuh melalui" (fall-through) ke return yang sama
+      return 'Mesir';
+    case 'Universite Al Quaraouiyine':
+    case 'Universiti Mohammed V':
+      return 'Maghribi';
     default:
-      return 'Tiada pejabat EM khusus direkodkan';
+      return 'Negara tidak diketahui';
   }
 }
 ```
@@ -154,43 +157,37 @@ String emOfficeForCountry(String country) {
 
 ### Looping — `for` & Function
 
-Data sebenar (Statistik Pendidikan Tinggi 2024, Bab 6): **54,903** pelajar Malaysia belajar di luar negara (14,697 tajaan + 40,206 sendiri), merentasi destinasi seperti Australia, UK, Mesir, dan lain-lain. Mari kita jumlahkan bilangan mengikut 12 negara utama menggunakan **loop** dan **function**:
+eTT menawarkan **8 program** (universiti + bidang) merentasi Mesir & Maghribi. Mari kita jumlahkan **kuota tempat** (ilustrasi, kecuali laluan Maghribi — 15 tempat, angka rasmi) menggunakan **loop** dan **function**:
 
 ```dart
-const Map<String, int> pelajarMengikutNegara = {
-  'Australia': 18348,
-  'United Kingdom': 13005,
-  'Egypt': 5445,
-  'United States': 4980,
-  'China': 4357,
-  'Jordan': 2003,
-  'Indonesia': 1110,
-  'Japan': 1039,
-  'Ireland': 856,
-  'South Korea': 695,
-  'Russia': 622,
-  'New Zealand': 575,
-};
+const List<Map<String, Object>> sampleProgrammes = [
+  {'id': 'ETT-001', 'universityName': 'Universiti Al-Azhar', 'quotaSeats': 40},
+  {'id': 'ETT-002', 'universityName': 'Universiti Al-Azhar', 'quotaSeats': 120},
+  {'id': 'ETT-003', 'universityName': 'Universiti Al-Azhar', 'quotaSeats': 80},
+  {'id': 'ETT-004', 'universityName': 'Universiti Alexandria', 'quotaSeats': 30},
+  {'id': 'ETT-005', 'universityName': 'Universiti Ain Shams', 'quotaSeats': 25},
+  {'id': 'ETT-006', 'universityName': 'Universiti Tanta', 'quotaSeats': 20},
+  {'id': 'ETT-007', 'universityName': 'Universite Al Quaraouiyine', 'quotaSeats': 15},
+  {'id': 'ETT-008', 'universityName': 'Universiti Mohammed V', 'quotaSeats': 10},
+];
 
-// Function — jumlahkan semua nilai dalam peta statistik negara.
-int jumlahkanPelajar(Map<String, int> data) {
+// Function — jumlahkan quotaSeats semua program dalam senarai.
+int jumlahkanKuota(List<Map<String, Object>> data) {
   int jumlah = 0;
-  for (final entry in data.entries) {   // for (... in ...)
-    jumlah += entry.value;
+  for (final programme in data) {   // for (... in ...)
+    jumlah += programme['quotaSeats'] as int;
   }
   return jumlah;
 }
 
 void main() {
-  final jumlah = jumlahkanPelajar(pelajarMengikutNegara);
-  print('Jumlah 12 negara utama: $jumlah');       // 53,035
-  print('Jumlah rasmi keseluruhan: 54903');
-  // baki (1,868) tersebar di destinasi lain yang tidak disenaraikan di sini
+  final jumlah = jumlahkanKuota(sampleProgrammes);
+  print('Jumlah kuota keseluruhan (8 program): $jumlah tempat'); // 340
 }
 ```
 
-- **`function`** — blok kod dinamakan yang boleh **dipanggil semula** (`jumlahkanPelajar(...)`), menerima **parameter** (`Map<String, int> data`), dan **memulangkan** nilai (`return jumlah;`) berjenis `int`.
-- **`for (final entry in data.entries)`** — bentuk `for-in`, lelar (*iterate*) setiap pasangan kunci-nilai dalam `Map` tanpa perlu urus indeks secara manual.
+- **`function`** — blok kod dinamakan yang boleh **dipanggil semula** (`jumlahkanKuota(...)`), menerima **parameter** (`List<Map<String, Object>> data`), dan **memulangkan** nilai (`return jumlah;`) berjenis `int`.
+- **`for (final programme in data)`** — bentuk `for-in`, lelar (*iterate*) setiap program dalam senarai tanpa perlu urus indeks secara manual.
 
 > Rujukan rasmi: [dart.dev/language/loops](https://dart.dev/language/loops) · [dart.dev/language/functions](https://dart.dev/language/functions)
 
@@ -199,11 +196,11 @@ void main() {
 Guna `while` apabila bilangan lelaran **tidak diketahui terlebih dahulu**, atau anda perlu kawal syarat berhenti sendiri:
 
 ```dart
-const senaraiDestinasiPopular = ['Australia', 'United Kingdom', 'Egypt'];
+const senaraiBidangPopular = ['Perubatan (Medicine)', 'Farmasi (Pharmacy)', 'Pergigian (Dentistry)'];
 
 int i = 0;
-while (i < senaraiDestinasiPopular.length) {
-  print('Destinasi popular #${i + 1}: ${senaraiDestinasiPopular[i]}');
+while (i < senaraiBidangPopular.length) {
+  print('Bidang popular #${i + 1}: ${senaraiBidangPopular[i]}');
   i++; // PENTING: jangan lupa naikkan i, jika tidak -> infinite loop
 }
 ```
@@ -214,7 +211,7 @@ while (i < senaraiDestinasiPopular.length) {
 
 ## SESI 1 (Pagi, sambungan) — Eksperimen Widget Asas: Text, Icon, Image
 
-Sekarang kita beralih dari Dart tulen ke **Flutter**. Buka `lib/main.dart` dalam projek `mypelajar_ln` yang anda cipta semasa Persediaan, dan gantikan kandungannya:
+Sekarang kita beralih dari Dart tulen ke **Flutter**. Buka `lib/main.dart` dalam projek `ett_mobile` yang anda cipta semasa Persediaan, dan gantikan kandungannya:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -231,7 +228,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: const Text('MyPelajar LN')),
+        appBar: AppBar(title: const Text('eTT Mobile')),
         body: const Center(child: Text('Selamat datang!')),
       ),
     );
@@ -245,7 +242,7 @@ Simpan (`Ctrl+S`) — dengan `flutter run` masih berjalan, ini akan **Hot Reload
 
 ```dart
 const Text(
-  'University of Melbourne',
+  'Universiti Al-Azhar',
   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 )
 ```
@@ -273,10 +270,10 @@ Image.network(
 )
 
 // Cara 2: emoji bendera sebagai Text — mudah untuk representasi negara
-const Text('🇦🇺', style: TextStyle(fontSize: 40)) // Australia
+const Text('🇪🇬', style: TextStyle(fontSize: 40)) // Mesir (Egypt)
 ```
 
-> **Kenapa emoji bendera?** Model sebenar `OverseasUniversity` dalam projek kursus (`projek/mypelajar_ln/lib/models/overseas_university.dart`) ada getter `flagEmoji` yang memetakan negara kepada emoji bendera — corak ringan yang elakkan keperluan muat turun/urus fail imej bendera untuk setiap negara. Kita akan guna corak ini semula di Hari 2.
+> **Kenapa emoji bendera?** Model sebenar `Programme` dalam projek kursus (`projek/ett_mobile/lib/models/programme.dart`) ada getter `flagEmoji` yang memetakan `country` (`'Egypt'`/`'Morocco'`) kepada emoji bendera (`🇪🇬`/`🇲🇦`) — corak ringan yang elakkan keperluan muat turun/urus fail imej bendera untuk setiap negara. Kita akan guna corak ini semula di Hari 2.
 
 > Rujukan rasmi: [api.flutter.dev/flutter/widgets/Text-class.html](https://api.flutter.dev/flutter/widgets/Text-class.html) · [api.flutter.dev/flutter/widgets/Icon-class.html](https://api.flutter.dev/flutter/widgets/Icon-class.html) · [docs.flutter.dev/cookbook/images/network-image](https://docs.flutter.dev/cookbook/images/network-image)
 
@@ -329,18 +326,18 @@ Container(
 ```dart
 Column(
   children: const [
-    Text('University of Melbourne'),
+    Text('Universiti Al-Azhar'),
     SizedBox(height: 12), // jarak kosong 12px — TIADA widget lain buat ini seefisien ini
-    Text('Melbourne, Australia'),
+    Text('Kaherah (Cairo), Mesir'),
   ],
 )
 ```
 
 `SizedBox` boleh juga guna untuk **paksa saiz tepat** widget lain (`SizedBox(width: 200, height: 50, child: ...)`), tetapi kegunaan paling lazim ialah sebagai **jarak kosong** (*spacer*) ringkas antara widget dalam `Column`/`Row`.
 
-### Latihan Bengkel: Kad Info Universiti (Statik)
+### Latihan Bengkel: Kad Info Program (Statik)
 
-Mari gabungkan `Container`, `Padding`, `SizedBox`, `Text`, dan `Icon` untuk bina **secara manual** satu kad maklumat universiti — pendahulu (*precursor*) kepada widget `UniversityCard` sebenar yang kita bina Hari 2. Data diambil daripada `sample_universities.dart`:
+Mari gabungkan `Container`, `Padding`, `SizedBox`, `Text`, dan `Icon` untuk bina **secara manual** satu kad maklumat program — pendahulu (*precursor*) kepada widget `ProgrammeCard` sebenar yang kita bina Hari 2. Data diambil daripada `sample_programmes.dart` (**ETT-001**: Universiti Al-Azhar, Perubatan):
 
 ```dart
 Container(
@@ -355,25 +352,25 @@ Container(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: const [
       Text(
-        '🇦🇺  University of Melbourne',
+        '🇪🇬  Universiti Al-Azhar',
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1A2B5C)),
       ),
       SizedBox(height: 4),
-      Text('Melbourne, Australia', style: TextStyle(color: Colors.grey)),
+      Text('Kaherah (Cairo), Mesir', style: TextStyle(color: Colors.grey)),
       SizedBox(height: 12),
-      Text('Bidang popular: Medicine, Engineering, Commerce'),
+      Text('Bidang: Perubatan (Medicine)'),
       SizedBox(height: 4),
-      Text('Anggaran yuran: RM156,000/tahun'),
+      Text('Anggaran yuran: RM23,000/tahun (ilustrasi)'),
       SizedBox(height: 4),
-      Text('Pelajar Malaysia (Australia, 2024): 18,348'),
+      Text('Kuota (ilustrasi): 40 tempat · Pengambilan: September'),
     ],
   ),
 )
 ```
 
-Tampal kod ini sebagai `body:` `Scaffold` anda (atau dalam `Center(child: ...)`) dan Hot Reload. Anda sepatutnya nampak satu **kad putih bersudut bulat** dengan maklumat University of Melbourne tersusun kemas.
+Tampal kod ini sebagai `body:` `Scaffold` anda (atau dalam `Center(child: ...)`) dan Hot Reload. Anda sepatutnya nampak satu **kad putih bersudut bulat** dengan maklumat Universiti Al-Azhar (Perubatan) tersusun kemas.
 
-> **Intip Hari 2:** Kad statik ini akan jadi widget `UniversityCard` yang **boleh guna semula** (*reusable*) untuk **8 universiti**, dipaparkan dalam senarai skrol — kita belum sentuh `ListView`/`Card` hari ini, jadi buat masa ini kita hanya bina **satu** kad secara manual untuk faham struktur `Container`/`Padding`/`SizedBox` dahulu.
+> **Intip Hari 2:** Kad statik ini akan jadi widget `ProgrammeCard` yang **boleh guna semula** (*reusable*) untuk **8 program**, dipaparkan dalam senarai skrol — kita belum sentuh `ListView`/`Card` hari ini, jadi buat masa ini kita hanya bina **satu** kad secara manual untuk faham struktur `Container`/`Padding`/`SizedBox` dahulu.
 
 ---
 
@@ -384,28 +381,28 @@ Dua jenis widget asas yang anda akan tulis **setiap hari** sepanjang kursus:
 | | `StatelessWidget` | `StatefulWidget` |
 |---|---|---|
 | **Bila guna** | UI **tidak berubah** selepas dibina (atau hanya bergantung pada data luaran yang diterima) | UI **perlu berubah** akibat interaksi pengguna atau data dalaman (cth. tekan butang, taip teks) |
-| **Contoh dalam projek kita** | `UniversityCard` (papar sahaja — Hari 2) | Kaunter interaksi, borang pendaftaran (Hari 3) |
+| **Contoh dalam projek kita** | `ProgrammeCard` (papar sahaja — Hari 2) | Kaunter interaksi, borang permohonan (Hari 3) |
 | **Cara ia berfungsi** | Satu kaedah `build()` sahaja | Ada objek `State` berasingan yang menyimpan data (*state*) & kaedah `setState()` untuk beritahu Flutter "lukis semula" |
 | **Struktur kod** | `class Foo extends StatelessWidget { @override Widget build(...) { ... } }` | `class Foo extends StatefulWidget { @override State<Foo> createState() => _FooState(); }` diikuti `class _FooState extends State<Foo> { ... }` |
 
 > **Analogi:** `StatelessWidget` seperti gambar bercetak — sekali dicetak, tidak berubah. `StatefulWidget` seperti papan tanda LED — ia boleh dikemas kini bila-bila masa (`setState()` = "tekan butang kemas kini papan").
 
-### Teaser: Kaunter "Simpan Destinasi"
+### Teaser: Kaunter "Simpan Program"
 
-Kita **belum** masuk mendalam kitaran hayat (*lifecycle*) penuh `setState()` — itu **SESI 5 (Hari 3)**. Tetapi mari lihat sepintas lalu **kenapa** `StatefulWidget` wujud, dengan satu kaunter ringkas — "berapa destinasi telah anda simpan":
+Kita **belum** masuk mendalam kitaran hayat (*lifecycle*) penuh `setState()` — itu **SESI 5 (Hari 3)**. Tetapi mari lihat sepintas lalu **kenapa** `StatefulWidget` wujud, dengan satu kaunter ringkas — "berapa program telah anda simpan (bookmark)":
 
 ```dart
-class SavedDestinationCounter extends StatefulWidget {
-  const SavedDestinationCounter({super.key});
+class SavedProgrammeCounter extends StatefulWidget {
+  const SavedProgrammeCounter({super.key});
 
   @override
-  State<SavedDestinationCounter> createState() => _SavedDestinationCounterState();
+  State<SavedProgrammeCounter> createState() => _SavedProgrammeCounterState();
 }
 
-class _SavedDestinationCounterState extends State<SavedDestinationCounter> {
+class _SavedProgrammeCounterState extends State<SavedProgrammeCounter> {
   int _savedCount = 0; // data yang boleh BERUBAH sepanjang widget ini hidup
 
-  void _addDestination() {
+  void _addProgramme() {
     setState(() {
       _savedCount++; // beritahu Flutter: "data berubah, lukis semula build()"
     });
@@ -416,11 +413,11 @@ class _SavedDestinationCounterState extends State<SavedDestinationCounter> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Destinasi disimpan: $_savedCount'),
+        Text('Program disimpan: $_savedCount'),
         const SizedBox(height: 8),
         ElevatedButton(
-          onPressed: _addDestination,
-          child: const Text('+ Simpan Destinasi'),
+          onPressed: _addProgramme,
+          child: const Text('+ Simpan Program'),
         ),
       ],
     );
@@ -428,13 +425,13 @@ class _SavedDestinationCounterState extends State<SavedDestinationCounter> {
 }
 ```
 
-Tampal `SavedDestinationCounter()` sebagai `body:` dan cuba tekan butang berulang kali — anda akan nampak angka bertambah **tanpa** perlu `flutter run` semula (Hot Reload kekalkan state semasa anda sedang menaip kod, tetapi tekanan butang berlaku semasa aplikasi berjalan, direkodkan oleh `setState()`).
+Tampal `SavedProgrammeCounter()` sebagai `body:` dan cuba tekan butang berulang kali — anda akan nampak angka bertambah **tanpa** perlu `flutter run` semula (Hot Reload kekalkan state semasa anda sedang menaip kod, tetapi tekanan butang berlaku semasa aplikasi berjalan, direkodkan oleh `setState()`).
 
 - **`class ... extends StatefulWidget`** — widget "cangkang" (*shell*) yang tidak menyimpan data sendiri; ia hanya cipta objek `State`.
-- **`class _SavedDestinationCounterState extends State<SavedDestinationCounter>`** — di sinilah **data sebenar** (`_savedCount`) hidup, dan `build()` dipanggil semula setiap kali `setState()` dipanggil.
+- **`class _SavedProgrammeCounterState extends State<SavedProgrammeCounter>`** — di sinilah **data sebenar** (`_savedCount`) hidup, dan `build()` dipanggil semula setiap kali `setState()` dipanggil.
 - **`setState(() { ... })`** — **satu-satunya** cara sah untuk beritahu Flutter "data telah berubah, sila lukis semula". Jika anda tukar `_savedCount++` **tanpa** bungkus dalam `setState()`, UI **TIDAK** akan kemas kini walaupun nilai berubah di belakang tabir.
 
-> **Pratonton SESI 5 (Hari 3):** Kita akan bedah **kitaran hayat penuh** `StatefulWidget` (`initState()`, `dispose()`, dsb.), sambungkan `setState()` kepada borang pendaftaran sebenar, dan bincang bila `provider` (pengurusan *state* lanjutan — **bonus/di luar aturcara rasmi**) berguna berbanding `setState()` semata-mata.
+> **Pratonton SESI 5 (Hari 3):** Kita akan bedah **kitaran hayat penuh** `StatefulWidget` (`initState()`, `dispose()`, dsb.), sambungkan `setState()` kepada borang permohonan sebenar (`ApplicationFormScreen`), dan bincang bila `provider` (pengurusan *state* lanjutan — **bonus/di luar aturcara rasmi**) berguna berbanding `setState()` semata-mata.
 
 ---
 
@@ -448,7 +445,7 @@ Hari ini kita telah:
 2. ✅ Kuasai **control flow** — `if`/`else if`/`else` dan `switch`.
 3. ✅ Kuasai **looping** — `for` (termasuk `for-in`) dan `while` — serta cara tulis **function** dengan parameter & pulangan nilai.
 4. ✅ Cuba widget paparan asas: `Text`, `Icon`, `Image` (`Image.network` & emoji).
-5. ✅ Fahami `Container`, beza **`Padding`** (dalam) vs **`Margin`** (luar), dan `SizedBox` (jarak/saiz) — digunakan untuk bina satu kad info universiti statik.
+5. ✅ Fahami `Container`, beza **`Padding`** (dalam) vs **`Margin`** (luar), dan `SizedBox` (jarak/saiz) — digunakan untuk bina satu kad info program statik.
 6. ✅ Fahami beza konsep **`StatelessWidget`** vs **`StatefulWidget`**, dengan pratonton `setState()` melalui kaunter ringkas.
 
 ### Simpan Kerja Anda (Git)
@@ -458,14 +455,14 @@ Jika projek anda belum dalam kawalan versi, mulakan sekarang — tabiat baik dar
 ```bash
 git init
 git add .
-git commit -m "Hari 1: aliran kawalan Dart, widget asas, kad universiti statik"
+git commit -m "Hari 1: aliran kawalan Dart, widget asas, kad program eTT statik"
 ```
 
 > **Nota:** `flutter create` sudah menjana fail `.gitignore` yang sesuai (mengabaikan `build/`, `.dart_tool/`, dll) — tidak perlu konfigurasi tambahan.
 
 ### Apa Seterusnya — Hari 2 (SESI 2 & 3)
 
-Esok kita mula bina **seni bina layout** sebenar (`Row`, `Column`, `Expanded`, `Stack`, `Scaffold`, `AppBar`) — termasuk **Slot AI** rasmi pertama (jana mockup UI dengan bantuan prompt AI) — kemudian sambung ke **`ListView.builder`**, `Card`, dan `ThemeData` untuk papar **8 universiti** dalam senarai boleh skrol bertema navy/gold.
+Esok kita mula bina **seni bina layout** sebenar (`Row`, `Column`, `Expanded`, `Stack`, `Scaffold`, `AppBar`) — termasuk **Slot AI** rasmi pertama (jana mockup UI dengan bantuan prompt AI) — kemudian sambung ke **`BottomNavigationBar`** (Program / Permohonan Saya / Profil), **`Drawer`** (pilih negara: Mesir/Maghribi), **`ListView.builder`**, `Card`, dan `ThemeData` untuk papar **8 program** dalam senarai boleh skrol bertema navy/gold.
 
 Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelum tamat kelas hari ini!
 
@@ -478,6 +475,6 @@ Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelu
 - **Operator tugasan gabungan:** `kiraan += 1;` **sama dengan** `kiraan = kiraan + 1;` — ia hanya cara ringkas menulis semula nilai ke pembolehubah yang sama. Begitu juga `-=`, `*=`, `/=`.
 - **Operator `??` (if-null):** pulangkan nilai di sebelah kiri jika ia **bukan** null; jika null, guna nilai lalai di sebelah kanan.
   ```dart
-  // jika mata wang tiada dalam peta, guna 1.0 sebagai lalai
-  final kadar = kadarTukaran[currency] ?? 1.0;
+  // jika kadar tukaran tiada dalam peta, guna 1.0 sebagai lalai
+  final kadar = kadarTukaranAnggaran[currency] ?? 1.0;
   ```

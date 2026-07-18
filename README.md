@@ -1,24 +1,22 @@
-# Kelas Flutter 5 Hari — MyPelajar LN 🎓
+# Kelas Flutter 5 Hari — eTT Mobile 🎓
 
 Bahan **Latihan Secara *Coaching* Aplikasi Mobil Bagi Sistem Pendidikan Tinggi Luar Negara Menggunakan Flutter Berteraskan Amalan Pengekodan Moden Dengan Bantuan *Artificial Intelligence* (AI)** — anjuran **Bahagian Pengurusan Maklumat (BPM), Kementerian Pendidikan Tinggi (KPT)**.
 
-Nota dalam **Bahasa Melayu**, kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta membina **MyPelajar LN** — aplikasi mobil pendamping bagi **pendaftaran pelajar Malaysia di luar negara** — daripada asas Dart sehingga aplikasi berfungsi yang menggabungkan UI, borang, navigasi dan API.
+Nota dalam **Bahasa Melayu**, kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta membina **eTT Mobile** — aplikasi mobil *companion* latihan bagi sistem **e-Timur Tengah (eTT)**, membolehkan pelajar meneliti & memohon program pengajian di universiti **Mesir** & **Maghribi (Morocco)** — daripada asas Dart sehingga aplikasi berfungsi yang menggabungkan UI, borang, navigasi dan API.
 
 > 📅 **Aturcara rasmi (20–24 Julai 2026):** lihat [`JADUAL.md`](./JADUAL.md) — 9 sesi, waktu sebenar, tempat. **Modul ini mengikut aturcara tersebut.**
 
-> Inspirasi domain: sistem sebenar KPT — [MyData@EducationMalaysia4U](https://dohe.mohe.gov.my/mydata/login) (pendaftaran pelajar luar negara), [e-TimurTengah](https://dohe.mohe.gov.my/timurtengah/), [eSisraf MQA](https://www2.mqa.gov.my/esisraf/kelayakan.cfm) (semakan pengiktirafan), dan 12 [Pejabat Education Malaysia](https://jpt.mohe.gov.my/index.php/en/contact-us/education-malaysia-offices) di luar negara. Diselia oleh **Bahagian Pengantarabangsaan Pendidikan Tinggi (BPPT), JPT**.
+> Inspirasi domain: sistem sebenar KPT — [e-TimurTengah](https://dohe.mohe.gov.my/timurtengah/) (permohonan pelajar ke Mesir & Maghribi, sejak 2014). Diselia oleh **Bahagian Pengantarabangsaan Pendidikan Tinggi (BPPT), JPT**.
 
-## Projek: MyPelajar LN
+## Projek: eTT Mobile
 
 Aplikasi ini membolehkan pelajar:
 
-- **Terokai Destinasi** — senarai universiti luar negara dengan carian & tapisan wilayah
-- **Baca Butiran** — status pengiktirafan (rujuk MQA), anggaran yuran (RM), pejabat EM liputan, tarikh ambilan & tutup
-- **Daftar** — borang pendaftaran pelajar luar negara dengan pengesahan (No. KP, pasport, emel, telefon)
-- **Jejak Pendaftaran** — status: Draf → Dihantar → Disahkan → Aktif → Tamat
-- **Profil & Statistik** — ringkasan pendaftaran mengikut status
-
-> 📊 Konteks sebenar: **54,903** pelajar Malaysia di luar negara (2024) — 14,697 tajaan, 40,206 persendirian. *(Statistik Pendidikan Tinggi 2024, Bab 6)*
+- **Terokai Program** — senarai tawaran pengajian (universiti + bidang) di Mesir & Maghribi dengan carian & tapisan negara
+- **Baca Butiran** — kelayakan (SPM/STAM), anggaran kos (RM), bulan ambilan, kuota tempat, nota pengiktirafan
+- **Mohon** — borang permohonan dengan pengesahan (No. KP, emel, telefon), pilih **1 negara + 1 bidang** + sehingga **3 pilihan universiti**, senarai semak dokumen
+- **Jejak Permohonan** — status: Draf → Dihantar → Dalam Semakan → Layak/Tidak Layak → Tawaran → Diterima/Ditolak
+- **Profil & Statistik** — ringkasan permohonan mengikut status
 
 ## Ringkasan Kursus
 
@@ -34,7 +32,7 @@ Urutan mengikut aturcara rasmi: **Dart & widget asas** (Hari 1) → **layout & s
 | [**Hari 4**](./hari-4/) | SESI 6–7 | REST API, **HTTP methods & JSON**, pakej `http`, **async/Future/await**, fetch · 🤖 **Slot AI: JSON→Dart model** · submit data, **status code**, **try-catch/CircularProgressIndicator** | Data dari API + pengendalian ralat |
 | [**Hari 5**](./hari-5/) | SESI 8–9 | **Projek mini (hackathon)** — gabung UI+Form+Navigasi+API · 🤖 alatan AI untuk coding & debugging · **Clean Coding Principles**, **Refactoring** · demo & sijil | Aplikasi berfungsi + demo |
 
-> **Nota:** Setiap hari **membina di atas** hari sebelumnya (kumulatif). Aplikasi rujukan lengkap ada di [`projek/mypelajar_ln/`](./projek/mypelajar_ln/).
+> **Nota:** Setiap hari **membina di atas** hari sebelumnya (kumulatif). Aplikasi rujukan lengkap ada di [`projek/ett_mobile/`](./projek/ett_mobile/).
 
 ## 🤖 Slot AI
 
@@ -58,7 +56,7 @@ Topik berikut **tiada dalam aturcara rasmi** — dikekalkan sebagai rujukan lanj
 | `provider` / `ChangeNotifier`, `shared_preferences` | [`nota/05-state-management.md`](./nota/05-state-management.md) — sukatan rasmi guna **`setState()`** (SESI 5) |
 | Deployment / `flutter build apk` | [`nota/07-deployment.md`](./nota/07-deployment.md) — tiada sesi deployment dalam aturcara |
 
-> Aplikasi rujukan `projek/mypelajar_ln` menggunakan `provider` sebagai contoh **lanjutan**. Untuk kursus, ikut **`setState()`** seperti dalam Hari 3.
+> Aplikasi rujukan `projek/ett_mobile` menggunakan `provider` sebagai contoh **lanjutan**. Untuk kursus, ikut **`setState()`** seperti dalam Hari 3.
 
 ## Nota Konsep (Latar Belakang)
 
@@ -106,22 +104,32 @@ Sebelum & sepanjang coding, folder [`nota/`](./nota/) mengandungi nota konsep ri
 
 ## Entiti Domain
 
-**`Scholarship`** (medan Bahasa Inggeris):
-- `id`, `code` (MYBRAINSC/BYDPA/HLP…), `name`, `provider`
-- `category` (enum: praPerkhidmatan / dalamPerkhidmatan / bantuanKewangan / antarabangsa)
-- `studyLevel` (enum: sijil / diploma / bachelor / master / phd / postDoctoral)
-- `fieldOfStudy`, `monthlyAllowance` (RM), `tuitionCoverage`, `minCgpa`, `maxAge`
-- `applicationDeadline`, `isOpen`, `description`, `requirements`, `websiteUrl`
+Definisi penuh: [`projek/ett_mobile/lib/models/`](./projek/ett_mobile/lib/models/).
 
-**`ScholarshipApplication`**:
-- `id` (APP-0001…), `scholarshipId`, `applicantName`, `icNumber`, `email`, `phone`, `institution`, `currentCgpa`
-- `status` (enum: draft / submitted / underReview / interview / approved / rejected), `submittedAt`, `notes`
+**`Programme`** (entiti utama — satu tawaran universiti + bidang, medan Bahasa Inggeris):
+- `id` (ETT-001…), `universityName`, `country` ("Egypt" | "Morocco"), `city`
+- `fieldOfStudy`, `studyLevel` (enum `StudyLevel`: foundation / diploma / bachelor)
+- `category` (enum `EntryCategory`: spm / stam / both — kategori sijil yang layak memohon)
+- `estimatedAnnualCostMyr` — ⚠️ **ilustrasi sahaja**
+- `intakeMonth`, `recognitionNote` (membawa kaveat kos ilustrasi)
+- `quotaSeats` — ⚠️ **ilustrasi sahaja**, kecuali laluan Maghribi (15 tempat rasmi)
 
-**`Institution`** (untuk dropdown): UM, USM, UKM, UPM, UTM, UiTM, UUM, UMS, UNIMAS, UIAM.
+**`Application`** (permohonan pelajar — dicipta dalam apl):
+- `id` (ETT-2026-0001…), `fullName`, `icNumber`, `email`, `phoneNumber`
+- `academicCategory` (SPM/STAM), `academicSummary`
+- `country` (**1 negara**) + `fieldOfStudy` (**1 bidang**) — peraturan sebenar eTT
+- `universityChoiceIds` — **sehingga 3** id `Programme` (pilihan universiti dalam bidang tersebut)
+- `uploadedDocuments` (senarai semak label dokumen), `status` (enum `ApplicationStatus`: draft / submitted / underReview / eligible / notEligible / offered / accepted / rejected), `submittedAt`
+
+> ⚠️ Peraturan sebenar eTT: **SATU negara + SATU bidang** setiap permohonan; dalam bidang itu pelajar boleh menyusun sehingga 3 pilihan universiti. Status guna istilah sebenar **LAYAK / TIDAK LAYAK**.
 
 ## Slaid
 
-Deck slaid dijana melalui **prompt Claude** — lihat [`slides/PROMPT.md`](./slides/PROMPT.md). Ini memastikan slaid sentiasa selaras dengan modul terkini. Warna jenama: navy `#1A2B5C` + emas `#D4A017`.
+Deck **reveal.js** sedia guna: [`slides/flutter-training.html`](./slides/flutter-training.html) — **185 slaid** mengikut aturcara rasmi (9 sesi), dengan **175 nota penceramah** (tekan `S`). Buka terus dalam pelayar; tiada pelayan diperlukan.
+
+Nota penceramah juga tersedia sebagai teks: [`hari-N/nota-penceramah.md`](./hari-1/nota-penceramah.md) + [`slides/nota-penceramah.md`](./slides/nota-penceramah.md). Untuk menjana semula deck, lihat [`slides/README.md`](./slides/README.md).
+
+Warna: navy `#1A2B5C` + emas `#D4A017` — **pilihan reka bentuk kursus, bukan palet rasmi KPT** (lihat penafian di bawah).
 
 ## Struktur Repositori
 
@@ -145,9 +153,9 @@ kelas-flutter-5-hari/
 │   └── vendor/reveal/         # reveal.js tempatan
 └── projek/
     ├── README.md
-    ├── mypelajar_ln/          # ⭐ Aplikasi rujukan (MyPelajar LN)
+    ├── ett_mobile/            # ⭐ Aplikasi rujukan (eTT Mobile)
     ├── mock-api/
-    │   └── universities.json  # Data untuk mock REST API (Hari 4)
+    │   └── programmes.json    # Data untuk mock REST API (Hari 4)
     └── mybiasiswa_kpt/        # (arkib — versi kursus terdahulu)
 ```
 
@@ -157,15 +165,18 @@ kelas-flutter-5-hari/
 2. Pasang perisian di atas; sahkan dengan `flutter doctor` (panduan penuh: [`nota/04-setup-windows.md`](./nota/04-setup-windows.md)).
 3. Baca [`nota/01-kenapa-flutter.md`](./nota/01-kenapa-flutter.md) & [`nota/02-dart-asas.md`](./nota/02-dart-asas.md).
 4. Ikut [Hari 1](./hari-1/) → [Hari 5](./hari-5/) mengikut urutan.
-5. Rujuk aplikasi lengkap di [`projek/mypelajar_ln/`](./projek/mypelajar_ln/) bila-bila anda tersangkut.
+5. Rujuk aplikasi lengkap di [`projek/ett_mobile/`](./projek/ett_mobile/) bila-bila anda tersangkut.
 
 ```bash
 # Menjalankan aplikasi rujukan yang lengkap
-cd projek/mypelajar_ln
+cd projek/ett_mobile
 flutter pub get
 flutter run
 ```
 
 ---
 
-> ⚠️ **Penafian:** Bahan latihan. Nama & butiran biasiswa berdasarkan program sebenar KPT tetapi data (jumlah, tarikh, syarat) dipermudahkan untuk pembelajaran. Aplikasi ini **bukan** sistem rasmi KPT — rujuk [portal rasmi](https://biasiswa.mohe.gov.my/) untuk maklumat sebenar.
+> ⚠️ **Penafian:** Bahan latihan — **BUKAN sistem e-Timur Tengah rasmi**. Permohonan sebenar hanya di [dohe.mohe.gov.my/timurtengah](https://dohe.mohe.gov.my/timurtengah/). KPT **tidak melantik ejen**.
+>
+> - **Nama universiti & syarat kelayakan adalah benar**; **kos anggaran & kuota tempat adalah ilustrasi** (kecuali laluan Maghribi — 15 tempat adalah angka rasmi).
+> - **Warna navy `#1A2B5C` + emas `#D4A017` ialah pilihan reka bentuk kursus, BUKAN palet rasmi KPT** — KPT tidak menerbitkan garis panduan jenama awam. KPT juga tiada tagline rasmi; jangan cipta satu.
