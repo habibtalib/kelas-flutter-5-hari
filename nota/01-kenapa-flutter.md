@@ -76,6 +76,6 @@ Ini membuktikan Flutter bukan sekadar untuk projek kecil — ia digunakan pada s
 
 ## Kaitan dengan projek kursus
 
-Sepanjang 5 hari, kita akan bina **satu aplikasi mobil sebenar** untuk domain **Kementerian Pengajian Tinggi (KPT)** menggunakan Flutter — bermula dari widget asas sehingga aplikasi lengkap yang menyambung ke API dan boleh dibina (`build`) sebagai fail APK Android.
+Sepanjang 5 hari, kita akan bina **eTT Mobile** — aplikasi mobil *companion* latihan bagi sistem **e-Timur Tengah (eTT)**, domain **Kementerian Pendidikan Tinggi (KPT)**, yang membolehkan pelajar meneliti & memohon program pengajian di universiti **Mesir** & **Maghribi (Morocco)** — menggunakan Flutter. Bermula dari asas Dart & widget (Hari 1) sehingga **projek mini berfungsi** yang menggabungkan UI, borang, navigasi dan REST API (Hari 5).
 
 Seterusnya: [`02-dart-asas.md`](./02-dart-asas.md) — asas bahasa Dart yang perlu anda tahu sebelum menulis widget pertama.

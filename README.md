@@ -2,7 +2,7 @@
 
 Bahan **Latihan Secara *Coaching* Aplikasi Mobil Bagi Sistem Pendidikan Tinggi Luar Negara Menggunakan Flutter Berteraskan Amalan Pengekodan Moden Dengan Bantuan *Artificial Intelligence* (AI)** — anjuran **Bahagian Pengurusan Maklumat (BPM), Kementerian Pendidikan Tinggi (KPT)**.
 
-Nota dalam **Bahasa Melayu**, kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta membina **eTT Mobile** — aplikasi mobil *companion* latihan bagi sistem **e-Timur Tengah (eTT)**, membolehkan pelajar meneliti & memohon program pengajian di universiti **Mesir** & **Maghribi (Morocco)** — daripada asas Dart sehingga aplikasi berfungsi yang menggabungkan UI, borang, navigasi dan API.
+Nota dalam **Bahasa Melayu**, kod dalam **Bahasa Inggeris**. Sepanjang 5 hari, peserta membina **eTT Mobile** — aplikasi mobil *companion* latihan bagi sistem **e-Timur Tengah (eTT)**, membolehkan pelajar meneliti & memohon program pengajian di universiti **Mesir** & **Maghribi (Morocco)** — daripada asas Dart sehingga aplikasi berfungsi yang menggabungkan UI, borang, navigasi dan API. Sepanjang perjalanan itu, alatan AI (Claude Code, ChatGPT, GitHub Copilot) turut diguna secara semula jadi untuk mempercepatkan penulisan kod & *debugging* — bahagian biasa cara kita bekerja, bukan sesi berasingan.
 
 > 📅 **Aturcara rasmi (20–24 Julai 2026):** lihat [`JADUAL.md`](./JADUAL.md) — 9 sesi, waktu sebenar, tempat. **Modul ini mengikut aturcara tersebut.**
 
@@ -27,36 +27,12 @@ Urutan mengikut aturcara rasmi: **Dart & widget asas** (Hari 1) → **layout & s
 | Hari | Sesi | Fokus | Hasil |
 |------|------|-------|-------|
 | [**Hari 1**](./hari-1/) | SESI 1 | Operators, control flow, looping & function; widget asas **Text/Icon/Image**; **Container/Padding/Margin/SizedBox**; **StatelessWidget vs StatefulWidget** | Faham asas Dart + widget pertama |
-| [**Hari 2**](./hari-2/) | SESI 2–3 | **Row/Column/Expanded/Flexible**, **Stack/Positioned/Align/Center**, Scaffold/AppBar · 🤖 **Slot AI: mockup UI** · **BottomNavigationBar & Drawer**, **ListView/GridView**, **Card & ListTile**, **ThemeData** | Skrin senarai destinasi bergaya |
-| [**Hari 3**](./hari-3/) | SESI 4–5 | **Navigator push/pop**, **named routes**, passing data, **TextField/TextFormField** · **Input Controller**, **Button & GestureDetector** · 🤖 **Slot AI: form validation** · **`setState()` & lifecycle** | Navigasi + borang pendaftaran disahkan |
-| [**Hari 4**](./hari-4/) | SESI 6–7 | REST API, **HTTP methods & JSON**, pakej `http`, **async/Future/await**, fetch · 🤖 **Slot AI: JSON→Dart model** · submit data, **status code**, **try-catch/CircularProgressIndicator** | Data dari API + pengendalian ralat |
-| [**Hari 5**](./hari-5/) | SESI 8–9 | **Projek mini (hackathon)** — gabung UI+Form+Navigasi+API · 🤖 alatan AI untuk coding & debugging · **Clean Coding Principles**, **Refactoring** · demo & sijil | Aplikasi berfungsi + demo |
+| [**Hari 2**](./hari-2/) | SESI 2–3 | **Row/Column/Expanded/Flexible**, **Stack/Positioned/Align/Center**, Scaffold/AppBar, menjana mockup UI dengan bantuan AI, **BottomNavigationBar & Drawer**, **ListView/GridView**, **Card & ListTile**, **ThemeData** | Skrin senarai destinasi bergaya |
+| [**Hari 3**](./hari-3/) | SESI 4–5 | **Navigator push/pop**, **named routes**, passing data, **TextField/TextFormField** · **Input Controller**, **Button & GestureDetector**, menulis logik *form validation* dengan bantuan AI · **`setState()` & lifecycle** | Navigasi + borang pendaftaran disahkan |
+| [**Hari 4**](./hari-4/) | SESI 6–7 | REST API, **HTTP methods & JSON**, pakej `http`, **async/Future/await**, fetch, menukar respons JSON kepada Dart model dengan bantuan AI · submit data, **status code**, **try-catch/CircularProgressIndicator** | Data dari API + pengendalian ralat |
+| [**Hari 5**](./hari-5/) | SESI 8–9 | **Projek mini (hackathon)** — gabung UI+Form+Navigasi+API, dibantu AI untuk coding & debugging · **Clean Coding Principles**, **Refactoring** · demo & sijil | Aplikasi berfungsi + demo |
 
-> **Nota:** Setiap hari **membina di atas** hari sebelumnya (kumulatif). Aplikasi rujukan lengkap ada di [`projek/ett_mobile/`](./projek/ett_mobile/).
-
-## 🤖 Slot AI
-
-Kursus ini **berteraskan amalan pengekodan moden dengan bantuan AI**. "Slot AI" ialah **item aturcara rasmi**, bukan bonus:
-
-| Sesi | Slot AI |
-|------|---------|
-| SESI 2 (Hari 2) | Menjana layout mockup UI moden dengan prompt AI |
-| SESI 5 (Hari 3) | Menulis logik Form Validation dengan bantuan AI |
-| SESI 7 (Hari 4) | Menukarkan respon JSON kepada Dart Model Class |
-| SESI 8–9 (Hari 5) | Memaksimumkan alatan AI untuk coding & *debugging* |
-
-> Prinsip: **AI membantu, anda memandu.** Sentiasa semak kod yang dijana, jalankan `flutter analyze`, dan fahami sebelum terima. Lihat [`nota/08-prompt-claude-code.md`](./nota/08-prompt-claude-code.md).
-
-## Di Luar Sukatan (Nota Bonus)
-
-Topik berikut **tiada dalam aturcara rasmi** — dikekalkan sebagai rujukan lanjutan sahaja:
-
-| Topik | Nota |
-|-------|------|
-| `provider` / `ChangeNotifier`, `shared_preferences` | [`nota/05-state-management.md`](./nota/05-state-management.md) — sukatan rasmi guna **`setState()`** (SESI 5) |
-| Deployment / `flutter build apk` | [`nota/07-deployment.md`](./nota/07-deployment.md) — tiada sesi deployment dalam aturcara |
-
-> Aplikasi rujukan `projek/ett_mobile` menggunakan `provider` sebagai contoh **lanjutan**. Untuk kursus, ikut **`setState()`** seperti dalam Hari 3.
+> **Nota:** Setiap hari **membina di atas** hari sebelumnya (kumulatif). Aplikasi rujukan lengkap ada di [`projek/ett_mobile/`](./projek/ett_mobile/). Sepanjang kursus, prinsipnya sama: **AI membantu, anda memandu** — sentiasa semak kod yang dijana, jalankan `flutter analyze`, dan fahami sebelum terima (lihat [`nota/08-prompt-claude-code.md`](./nota/08-prompt-claude-code.md)).
 
 ## Nota Konsep (Latar Belakang)
 
@@ -125,7 +101,7 @@ Definisi penuh: [`projek/ett_mobile/lib/models/`](./projek/ett_mobile/lib/models
 
 ## Fakta Domain eTT (disahkan)
 
-Data kursus dibina atas fakta sebenar berikut (bahan latihan sahaja — lihat penafian di bawah):
+Data kursus dibina atas fakta sebenar berikut:
 
 - **Bidang terhad.** eTT hanya menawarkan bidang tertentu: **Perubatan, Pergigian, Farmasi, dan Pengajian Islam** (termasuk Syariah, Usuluddin, Ulum Islamiah, Bahasa Arab, Qiraat). Bukan semua bidang.
 - **Laluan kemasukan.** Terbuka kepada lepasan **SPM** (laluan sains kesihatan + Ulum Islamiah) dan **STAM** (laluan pengajian Islam di Al-Azhar).
@@ -152,7 +128,7 @@ Deck **reveal.js** sedia guna: [`slides/flutter-training.html`](./slides/flutter
 
 Nota penceramah juga tersedia sebagai teks: [`hari-N/nota-penceramah.md`](./hari-1/nota-penceramah.md) + [`slides/nota-penceramah.md`](./slides/nota-penceramah.md). Untuk menjana semula deck, lihat [`slides/README.md`](./slides/README.md).
 
-Warna: navy `#1A2B5C` + emas `#D4A017` — **pilihan reka bentuk kursus, bukan palet rasmi KPT** (lihat penafian di bawah).
+Warna: navy `#1A2B5C` + emas `#D4A017` — **pilihan reka bentuk kursus, bukan palet rasmi KPT** (KPT tidak menerbitkan garis panduan jenama awam).
 
 ## Struktur Repositori
 
@@ -196,10 +172,3 @@ cd projek/ett_mobile
 flutter pub get
 flutter run
 ```
-
----
-
-> ⚠️ **Penafian:** Bahan latihan — **BUKAN sistem e-Timur Tengah rasmi**. Permohonan sebenar hanya di [dohe.mohe.gov.my/timurtengah](https://dohe.mohe.gov.my/timurtengah/). KPT **tidak melantik ejen**.
->
-> - **Nama universiti & syarat kelayakan adalah benar**; **kos anggaran & kuota tempat adalah ilustrasi** (kecuali laluan Maghribi — 15 tempat adalah angka rasmi).
-> - **Warna navy `#1A2B5C` + emas `#D4A017` ialah pilihan reka bentuk kursus, BUKAN palet rasmi KPT** — KPT tidak menerbitkan garis panduan jenama awam. KPT juga tiada tagline rasmi; jangan cipta satu.

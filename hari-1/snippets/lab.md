@@ -2,8 +2,6 @@
 
 Lab ini mengiringi [`README.md`](../README.md) Hari 1. Ikut latihan **secara berurutan** — setiap latihan bina di atas latihan sebelumnya. Rujuk projek akhir sebenar di `projek/ett_mobile/lib/` untuk **banding** jawapan anda selepas cuba sendiri dahulu.
 
-> **Penafian:** Bahan latihan — **BUKAN sistem e-Timur Tengah rasmi**. Permohonan sebenar hanya di **dohe.mohe.gov.my/timurtengah**. KPT **tidak melantik ejen**. Nama universiti & syarat adalah benar; **kos/kuota adalah ilustrasi**.
-
 > **Peraturan lab:** Cuba tulis kod **sendiri** dahulu berdasarkan penerangan dalam README sebelum tengok fail rujukan. Belajar Flutter/Dart paling berkesan dengan **taip kod sendiri**, bukan salin-tampal.
 
 ---
@@ -131,7 +129,7 @@ Boleh guna **DartPad** ATAU cipta fail `.dart` tempatan dan jalankan dengan `dar
 
 ---
 
-## Cabaran (Bonus)
+## Cabaran
 
 Pilih **sekurang-kurangnya satu** untuk cuba selepas Latihan 5 siap:
 

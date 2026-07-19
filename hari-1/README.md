@@ -4,8 +4,6 @@ Panduan langkah demi langkah untuk hari pertama kursus **Latihan Secara *Coachin
 
 Projek kursus: **eTT Mobile** — companion latihan untuk sistem sebenar **e-Timur Tengah (eTT)**, Bahagian Pengantarabangsaan Pendidikan Tinggi (BPPT), KPT — permohonan pelajar Malaysia ke universiti di **Mesir** & **Maghribi (Morocco)**.
 
-> **Penafian:** Bahan latihan — **BUKAN sistem e-Timur Tengah rasmi**. Permohonan sebenar hanya di **dohe.mohe.gov.my/timurtengah**. KPT **tidak melantik ejen**. Nama universiti & syarat adalah benar; **kos/kuota adalah ilustrasi**.
-
 > **Nota untuk pemula:** Anda tidak perlu tahu Flutter atau Dart langsung. Setiap langkah diterangkan perlahan-lahan.
 
 > **Konvensyen kod:** Penerangan dalam nota ini ditulis dalam **Bahasa Melayu**, tetapi semua kod, nama kelas/pembolehubah dan komen dalam fail `.dart` ditulis dalam **Bahasa Inggeris** — amalan standard industri Flutter/Dart yang kita ikut sepanjang kursus.
@@ -109,6 +107,8 @@ kiraan *= 3;
 
 > Rujukan rasmi: [dart.dev/language/operators](https://dart.dev/language/operators)
 
+> Terjumpa operator yang tak biasa (contoh `~/` atau `??=`) dalam kod orang lain nanti? Tanya sahaja AI (Claude Code, ChatGPT) — *"Apa beza `/` dengan `~/` dalam Dart, bagi contoh guna kuota program"* — cara pantas faham sintaks tanpa kena scroll dokumentasi rasmi setiap kali.
+
 ### Control Flow — `if` / `else`
 
 ```dart
@@ -153,6 +153,8 @@ String countryLabelForUniversity(String universityName) {
 
 > **Nota Dart 3:** Selain `switch` *statement* klasik di atas, Dart 3 juga ada **`switch` *expression*** ringkas (`=>`) — kita akan jumpa corak ini apabila menulis `enum` di bawah. Kedua-dua bentuk sah; `switch` statement lebih biasa untuk **logik bercabang berbilang baris**, `switch` expression untuk **pulangkan satu nilai terus**.
 
+> Selepas tulis function macam `countryLabelForUniversity` di atas, biasakan diri **sahkan** ia dengan AI sebelum yakin 100% — tampal kod, tanya *"Adakah ada universiti dalam senarai 8 program eTT yang saya terlepas dalam switch ini?"*. Kadang AI tercapture kesilapan kecil yang mata kita dah biasa dengan kod sendiri terlepas pandang.
+
 > Rujukan rasmi: [dart.dev/language/branches](https://dart.dev/language/branches)
 
 ### Looping — `for` & Function
@@ -190,6 +192,8 @@ void main() {
 - **`for (final programme in data)`** — bentuk `for-in`, lelar (*iterate*) setiap program dalam senarai tanpa perlu urus indeks secara manual.
 
 > Rujukan rasmi: [dart.dev/language/loops](https://dart.dev/language/loops) · [dart.dev/language/functions](https://dart.dev/language/functions)
+
+> Nak lebih banyak latihan `for`/function sebelum move on? Minta AI: *"Beri saya 3 latihan Dart pendek pakai `for` untuk kira purata `quotaSeats` daripada senarai program, tahap pemula"* — cara cepat dapat soalan tambahan tanpa tunggu buku teks. Cuma ingat: taip & jalankan sendiri jawapannya, jangan sekadar baca.
 
 ### Looping — `while`
 
@@ -289,7 +293,7 @@ const Text('🇪🇬', style: TextStyle(fontSize: 40)) // Mesir (Egypt)
 Container(
   padding: const EdgeInsets.all(16),
   decoration: BoxDecoration(
-    color: const Color(0xFF1A2B5C), // navy — pilihan reka bentuk latihan, BUKAN warna rasmi KPT
+    color: const Color(0xFF1A2B5C), // navy — warna tema KptTheme
     borderRadius: BorderRadius.circular(12),
   ),
   child: const Text('Kotak navy', style: TextStyle(color: Colors.white)),
@@ -431,7 +435,7 @@ Tampal `SavedProgrammeCounter()` sebagai `body:` dan cuba tekan butang berulang 
 - **`class _SavedProgrammeCounterState extends State<SavedProgrammeCounter>`** — di sinilah **data sebenar** (`_savedCount`) hidup, dan `build()` dipanggil semula setiap kali `setState()` dipanggil.
 - **`setState(() { ... })`** — **satu-satunya** cara sah untuk beritahu Flutter "data telah berubah, sila lukis semula". Jika anda tukar `_savedCount++` **tanpa** bungkus dalam `setState()`, UI **TIDAK** akan kemas kini walaupun nilai berubah di belakang tabir.
 
-> **Pratonton SESI 5 (Hari 3):** Kita akan bedah **kitaran hayat penuh** `StatefulWidget` (`initState()`, `dispose()`, dsb.), sambungkan `setState()` kepada borang permohonan sebenar (`ApplicationFormScreen`), dan bincang bila `provider` (pengurusan *state* lanjutan — **bonus/di luar aturcara rasmi**) berguna berbanding `setState()` semata-mata.
+> **Pratonton SESI 5 (Hari 3):** Kita akan bedah **kitaran hayat penuh** `StatefulWidget` (`initState()`, `dispose()`, dsb.), sambungkan `setState()` kepada borang permohonan sebenar (`ApplicationFormScreen`), dan bincang bila `provider` (pengurusan *state* lanjutan) berguna berbanding `setState()` semata-mata.
 
 ---
 
@@ -462,7 +466,7 @@ git commit -m "Hari 1: aliran kawalan Dart, widget asas, kad program eTT statik"
 
 ### Apa Seterusnya — Hari 2 (SESI 2 & 3)
 
-Esok kita mula bina **seni bina layout** sebenar (`Row`, `Column`, `Expanded`, `Stack`, `Scaffold`, `AppBar`) — termasuk **Slot AI** rasmi pertama (jana mockup UI dengan bantuan prompt AI) — kemudian sambung ke **`BottomNavigationBar`** (Program / Permohonan Saya / Profil), **`Drawer`** (pilih negara: Mesir/Maghribi), **`ListView.builder`**, `Card`, dan `ThemeData` untuk papar **8 program** dalam senarai boleh skrol bertema navy/gold.
+Esok kita mula bina **seni bina layout** sebenar (`Row`, `Column`, `Expanded`, `Stack`, `Scaffold`, `AppBar`) — kemudian sambung ke **`BottomNavigationBar`** (Program / Permohonan Saya / Profil), **`Drawer`** (pilih negara: Mesir/Maghribi), **`ListView.builder`**, `Card`, dan `ThemeData` untuk papar **8 program** dalam senarai boleh skrol bertema navy/gold.
 
 Sehingga esok — pastikan `flutter run` anda masih berfungsi tanpa ralat sebelum tamat kelas hari ini!
 
