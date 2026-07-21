@@ -10,6 +10,12 @@ Panduan langkah demi langkah untuk **Hari 2** kursus *eTT Mobile*. Hari ini kita
 
 ---
 
+> 📱 **Demo interaktif dalam aplikasi.** Konsep hari ini ada demo yang boleh anda **jalankan & main-main** pada telefon/emulator — ubah kawalan, lihat kesannya serta-merta:
+>
+> Row & Column · Expanded vs Flexible · Stack & Positioned · **ListView vs ListView.builder** · GridView · Card & ListTile · ThemeData
+>
+> Jalankan galeri demo: `cd projek/ett_mobile && flutter run -t lib/demos_main.dart` → pilih **Hari 2**. Kod: [`projek/ett_mobile/lib/demos/hari2/`](../projek/ett_mobile/lib/demos/hari2/).
+
 ## Fokus Hari Ini
 
 | Topik | Rujukan Rasmi Flutter |
