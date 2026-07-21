@@ -687,7 +687,8 @@ Tambah kaedah `_selectCountry` di dalam `_HomeScreenState` (atas `build()`):
 
 ```dart
   void _selectCountry(String? country) {
-    // Hari 3 ke atas: hubung dengan ProgrammeProvider untuk tapis sebenar.
+    // Buat masa ini: tutup Drawer sahaja. Tapisan sebenar memerlukan
+    // setState() + hantar data ke widget anak — itu Hari 3 (SESI 5).
     Navigator.of(context).pop(); // tutup Drawer
   }
 ```
@@ -751,7 +752,7 @@ class _CountryDrawer extends StatelessWidget {
 
 Hot Reload. Tekan ikon hamburger (☰) atau leret dari tepi kiri skrin — `Drawer` meluncur keluar memaparkan header navy "eTT Mobile" + 3 pilihan negara. Tekan mana-mana negara — `Drawer` tertutup semula.
 
-✅ **Semakan Latihan 5:** Tukar antara ketiga-tiga tab beberapa kali — `_titles[_index]` di `AppBar` **sentiasa sepadan** dengan tab aktif. Buka `Drawer`, kira baris negara — mesti tepat **3**.
+✅ **Semakan Latihan 5:** Tukar antara ketiga-tiga tab beberapa kali — tajuk `AppBar` **sentiasa sepadan** dengan tab aktif. Buka `Drawer`, kira baris negara — tepat **3**. Tekan mana-mana negara → `Drawer` tertutup. (Tapisan **sebenar** ialah Hari 3 — `setState()` diajar rasmi SESI 5.) `flutter analyze` bersih.
 
 ---
 
