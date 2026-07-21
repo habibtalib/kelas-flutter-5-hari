@@ -518,9 +518,48 @@ class ProgrammeIntakeTile extends StatelessWidget {
 }
 ```
 
-Jalankan `flutter analyze` — mesti **"No issues found!"**. Uji dengan `for (final p in sampleProgrammes) ProgrammeIntakeTile(programme: p)` dalam `ListView`, sama corak seperti Latihan 3.
+Jalankan `flutter analyze` — mesti **"No issues found!"**.
 
-✅ **Semakan Latihan 4:** `flutter analyze` bersih, dan anda boleh tulis (di komen atas fail) **sekurang-kurangnya satu** perkara yang anda ubah daripada output asal AI.
+### 4.3 — Guna widget itu (jangan biarkan fail terbiar)
+
+Widget yang tidak pernah dipaparkan tidak dapat disemak dengan mata. Kita pasang `ProgrammeIntakeTile` ke dalam `LayoutPlaygroundScreen` (Latihan 3) supaya anda boleh **banding** dua cara memaparkan data **sama**: `ProgrammeBanner` (`Stack`) berbanding `ProgrammeIntakeTile` (`Card` + `ListTile`).
+
+Buka `lib/screens/layout_playground_screen.dart`, tambah import:
+
+```dart
+import '../widgets/programme_banner.dart';
+import '../widgets/programme_intake_tile.dart';   // 👈 TAMBAH
+```
+
+Kemudian tambah bahagian kedua di **hujung** senarai `children:` (selepas gelung `ProgrammeBanner`):
+
+```dart
+          for (final p in sampleProgrammes)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: ProgrammeBanner(programme: p),
+            ),
+
+          // ── 4.3 — Cara KEDUA paparkan data sama: Card + ListTile ──
+          const SizedBox(height: 8),
+          Text(
+            'Versi Ringkas (Card + ListTile)',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 8),
+          for (final p in sampleProgrammes)
+            ProgrammeIntakeTile(programme: p),
+```
+
+▶ **Jalankan** (`home: const LayoutPlaygroundScreen()`) dan skrol ke bawah → selepas 8 banner navy yang besar, anda nampak **8 baris ringkas** yang memaparkan **data yang sama** — ikon sekolah navy, nama universiti, `bidang · bulan ambilan`, dan bilangan tempat di kanan.
+
+| Banding dua bahagian skrin | Perhatikan | Kesimpulan |
+|---|---|---|
+| `ProgrammeBanner` (atas) vs `ProgrammeIntakeTile` (bawah) | Banner tinggi 160px setiap satu; tile hanya ~72px | `Card`+`ListTile` jauh lebih padat — sesuai untuk senarai panjang |
+| Kira baris kod dua widget itu | Banner ~45 baris (`Stack`+`Positioned`); tile ~20 baris | `ListTile` beri susun atur standard **percuma**, tanpa kira jarak sendiri |
+| Nama panjang (Al Quaraouiyine) pada tile | Dipotong dengan `…`, tidak overflow | Kesan `overflow: TextOverflow.ellipsis` yang **anda** tambah semasa menyemak kod AI |
+
+✅ **Semakan Latihan 4:** `flutter analyze` bersih; `LayoutPlaygroundScreen` memaparkan **kedua-dua** gaya (8 banner + 8 tile ringkas) daripada `sampleProgrammes` yang sama; dan anda boleh tunjuk **sekurang-kurangnya satu** perkara yang anda ubah daripada output asal AI (contoh: tambah `overflow: TextOverflow.ellipsis`, atau tukar warna kepada `KptTheme.navy`).
 
 ---
 
