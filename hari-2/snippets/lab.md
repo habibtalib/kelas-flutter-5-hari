@@ -11,19 +11,28 @@ Lab ini menyambung terus daripada projek `ett_mobile` yang anda bina Hari 1. Iku
 ## Persediaan
 
 1. Buka semula projek `ett_mobile` daripada Hari 1 (JANGAN buat projek baharu).
-2. Pastikan `flutter pub get` dijalankan.
-3. Jalankan aplikasi sedia ada untuk pastikan ia masih berfungsi:
+2. **Salin fail permulaan (foundation).** Lab hari ini membina UI **di atas** data & model yang sudah siap. Salin folder [`starter/`](./starter/) ke `lib/` projek anda (rujuk [`starter/README.md`](./starter/README.md)) — jangan taip dari kosong:
+   ```bash
+   # dari dalam folder projek ett_mobile anda
+   mkdir -p lib/models lib/data lib/widgets
+   cp <laluan-repo>/hari-2/snippets/starter/theme.dart                 lib/theme.dart
+   cp <laluan-repo>/hari-2/snippets/starter/models/programme.dart      lib/models/programme.dart
+   cp <laluan-repo>/hari-2/snippets/starter/data/sample_programmes.dart lib/data/sample_programmes.dart
+   cp <laluan-repo>/hari-2/snippets/starter/widgets/programme_card.dart lib/widgets/programme_card.dart
+   ```
+3. Pastikan `flutter pub get` dijalankan.
+4. Jalankan aplikasi sedia ada untuk pastikan ia masih berfungsi:
    ```bash
    flutter run
    ```
-4. Buka fail-fail berikut dalam editor — ini rujukan sepanjang lab:
+5. Buka fail-fail berikut dalam editor — ini rujukan sepanjang lab:
    - `lib/main.dart` (sedia ada, Hari 1)
-   - `lib/theme.dart` (sedia ada, Hari 1)
-   - `lib/models/programme.dart` (sedia ada, Hari 1)
-   - `lib/data/sample_programmes.dart` (sedia ada, Hari 1)
-   - `lib/widgets/programme_card.dart` (sedia ada — mengandungi `CategoryPill` yang akan kita guna semula)
+   - `lib/theme.dart` (fail starter — `KptTheme.navy` + `KptTheme.gold`)
+   - `lib/models/programme.dart` (fail starter — kelas `Programme` + enum)
+   - `lib/data/sample_programmes.dart` (fail starter — `sampleProgrammes`, 8 tawaran)
+   - `lib/widgets/programme_card.dart` (fail starter — mengandungi `CategoryPill` yang akan kita guna semula)
 
-✅ **Semakan:** `flutter run` berjaya, dan anda nampak kad `ProgrammeInfoCard` + kaunter `SavedProgrammeCounter` daripada Hari 1 pada skrin.
+✅ **Semakan:** `flutter analyze` bersih dan `flutter run` berjaya. `sampleProgrammes` dan `KptTheme.navy` sudah boleh digunakan.
 
 ---
 
