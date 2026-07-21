@@ -455,7 +455,7 @@ Container(
     borderRadius: BorderRadius.circular(12),
   ),
   child: const Text('Kotak navy', style: TextStyle(color: Colors.white)),
-)
+);
 ```
 
 **Apa yang anda patut nampak:** satu kotak segi empat tepat, warna latar **navy** (`0xFF1A2B5C`), sudut bulat lembut (`borderRadius: 12`), dengan teks putih "Kotak navy" di tengahnya — ada ruang kosong 16px di sekeliling teks (kesan `padding`) sebelum sampai ke sempadan kotak.
@@ -480,7 +480,7 @@ Container(
     borderRadius: BorderRadius.circular(12),
   ),
   child: const Text('Ada margin di luar DAN padding di dalam'),
-)
+);
 ```
 
 **Apa yang anda patut nampak:** kotak putih bersudut bulat yang **tidak** melekat ke tepi skrin (kesan `margin` — ada jurang 12px kiri/kanan, 8px atas/bawah antara kotak dengan tepi skrin), dan teks di dalamnya **tidak** melekat ke sempadan kotak (kesan `padding` — ada jurang 16px di semua sisi antara teks dengan sempadan).
@@ -496,7 +496,7 @@ Column(
     SizedBox(height: 12), // jarak kosong 12px — TIADA widget lain buat ini seefisien ini
     Text('Kaherah (Cairo), Mesir'),
   ],
-)
+);
 ```
 
 **Apa yang anda patut nampak:** dua baris teks tersusun **menegak**, dengan jurang kosong 12px yang jelas antara keduanya — tiada garis, tiada warna, hanya ruang kosong.
@@ -533,7 +533,7 @@ Container(
       Text('Kuota (ilustrasi): 40 tempat · Pengambilan: September'),
     ],
   ),
-)
+);
 ```
 
 Tampal kod ini sebagai `body:` `Scaffold` anda (atau dalam `Center(child: ...)`) dan Hot Reload. **Apa yang anda patut nampak:** satu **kad putih bersudut bulat** dengan sempadan kelabu nipis, tergantung dengan jurang kosong dari tepi skrin (kesan `margin`). Di dalam kad — dari atas ke bawah, dijajarkan ke **kiri** (`crossAxisAlignment: CrossAxisAlignment.start`) — teks navy tebal "🇪🇬 Universiti Al-Azhar", diikuti teks kelabu kecil "Kaherah (Cairo), Mesir", kemudian empat baris maklumat (bidang, yuran, kuota) dengan jurang kecil (`SizedBox(height: 4)`) antara setiap baris.
