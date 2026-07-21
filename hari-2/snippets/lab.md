@@ -322,6 +322,22 @@ Hot Reload. Sekarang **tiga** lapisan kelihatan bertindan: kotak navy (bawah), t
 | `right: 12` → `left: 12` (pill kategori) | Pill berpindah ke sudut **kiri** atas, mungkin bertindih nama universiti kalau kad kecil | Anda kawal **sudut mana** widget itu berlabuh — gabungan `top`/`bottom` + `left`/`right` |
 | Uji `sampleProgrammes[1]` (STAM) vs `sampleProgrammes[0]` (SPM) | Teks dalam pill bertukar `STAM` ↔ `SPM` | `CategoryPill` **membaca** `programme.category` — ia bukan teks tetap |
 
+### 2.4b — Halang teks panjang tersorok di bawah pill
+
+Uji `sampleProgrammes[6]` (**Universite Al Quaraouiyine** — nama paling panjang). Nama itu memanjang ke kanan sehingga **masuk ke bawah** pill kategori, kerana `Positioned` dengan `left` + `bottom` sahaja **tidak** mengehadkan lebar teks.
+
+Tambah `right:` pada `Positioned` **nama universiti** (bukan pill) supaya lebarnya terhad sebelum sampai ke kawasan pill:
+
+```dart
+        Positioned(
+          left: 16,
+          bottom: 14,
+          right: 90, // 👈 TAMBAH — elak teks tersorok di bawah pill kategori
+          child: Text(
+```
+
+▶ **Hot Reload** → nama panjang kini **berpatah ke baris baharu** sebelum sampai ke pill, tiada lagi teks tersorok di belakang pill emas.
+
 ### 2.5 — Fail penuh selepas Latihan 2
 
 ```dart
@@ -358,6 +374,7 @@ class ProgrammeBanner extends StatelessWidget {
         Positioned(
           left: 16,
           bottom: 14,
+          right: 90, // elak teks tersorok di bawah pill kategori (2.4b)
           child: Text(
             '${programme.universityName}\n${programme.fieldOfStudy}',
             style: const TextStyle(
