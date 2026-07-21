@@ -5,10 +5,22 @@
 // (Jangan taip dari kosong — salin terus ke projek anda.)
 // ══════════════════════════════════════════════════════════════════
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/programme.dart';
 import '../theme.dart';
+
+// Format ringkas RM tanpa pakej luar (cth. 12345 -> "RM12,345"), supaya
+// fail starter ini terus berfungsi dalam projek `flutter create` baharu.
+// (Aplikasi rujukan `projek/ett_mobile` guna `NumberFormat` dari pakej intl.)
+String _formatRm(num value) {
+  final digits = value.round().toString();
+  final buffer = StringBuffer('RM');
+  for (var i = 0; i < digits.length; i++) {
+    if (i > 0 && (digits.length - i) % 3 == 0) buffer.write(',');
+    buffer.write(digits[i]);
+  }
+  return buffer.toString();
+}
 
 /// Kad ringkasan satu tawaran pengajian dalam senarai.
 ///
@@ -25,12 +37,6 @@ class ProgrammeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rm = NumberFormat.currency(
-      locale: 'ms_MY',
-      symbol: 'RM',
-      decimalDigits: 0,
-    );
-
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: InkWell(
@@ -84,7 +90,7 @@ class ProgrammeCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        rm.format(programme.estimatedAnnualCostMyr),
+                        _formatRm(programme.estimatedAnnualCostMyr),
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: KptTheme.navy,
