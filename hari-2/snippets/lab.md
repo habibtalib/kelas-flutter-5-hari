@@ -86,6 +86,33 @@ class LabHari1App extends StatelessWidget {
 
 **Hari ini kita akan tukar `body:` `Scaffold` di atas beberapa kali** — sekali bagi setiap latihan besar — dan pada penghujung lab, kita gantikan **keseluruhan** `home:` dengan skrin sebenar aplikasi (`HomeScreen`, lengkap dengan tab + drawer). `ProgrammeInfoCard`/`SavedProgrammeCounter` kekal di bawah fail sebagai rujukan Hari 1, kita cuma tidak paparkan lagi selepas Latihan 1.
 
+### ⚠️ Langkah wajib — daftarkan tema pada `MaterialApp`
+
+Fail starter `lib/theme.dart` memberi anda `KptTheme.light`, tetapi ia **tidak aktif** sehingga didaftarkan pada `MaterialApp`. Tanpa langkah ini, `AppBar` anda **tidak** akan bertukar navy secara automatik (Latihan 3) dan tajuk `Theme.of(context).textTheme.titleLarge` **tidak** akan jadi navy+bold (Latihan 7).
+
+Tambah `import` dan satu baris `theme:` dalam `main.dart`:
+
+```dart
+import 'package:flutter/material.dart';
+import 'theme.dart';                    // 👈 TAMBAH baris ini
+
+// ...
+
+    return MaterialApp(
+      title: 'Lab Hari 1-2',
+      debugShowCheckedModeBanner: false,
+      theme: KptTheme.light,             // 👈 TAMBAH baris ini
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Lab eTT Mobile'),
+          // 👈 BUANG dua baris warna di bawah — tema sudah uruskan warna
+          //    backgroundColor: const Color(0xFF1A2B5C),
+          //    foregroundColor: Colors.white,
+        ),
+```
+
+▶ **Jalankan** (`flutter run`) → `AppBar` kekal **navy dengan teks putih**, walaupun anda sudah **membuang** `backgroundColor`/`foregroundColor`. Itu bukti tema global berfungsi — warna kini datang daripada `appBarTheme` dalam `KptTheme.light`, bukan ditulis semula pada setiap `AppBar`.
+
 ---
 
 ## Latihan 1 — `Row`, `Column` & `Expanded` (Elak Overflow)
@@ -597,7 +624,37 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 ```
 
-Tukar `home:` `main.dart` kepada `const HomeScreen()` (import `screens/home_screen.dart`). `flutter run`. Tekan setiap tab bawah — `AppBar` title dan `body` mesti bertukar mengikut tab yang aktif, ikon tab aktif bertukar warna navy.
+Tukar `home:` `main.dart` kepada `const HomeScreen()` (import `screens/home_screen.dart`). Mulai sekarang `main.dart` menjadi ringkas — `HomeScreen` yang uruskan skrin:
+
+```dart
+// lib/main.dart — STATUS AKHIR HARI 2
+import 'package:flutter/material.dart';
+
+import 'screens/home_screen.dart';
+import 'theme.dart';
+
+void main() {
+  runApp(const EttMobileApp());
+}
+
+class EttMobileApp extends StatelessWidget {
+  const EttMobileApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'eTT Mobile',
+      debugShowCheckedModeBanner: false,
+      theme: KptTheme.light,      // tema navy + emas
+      home: const HomeScreen(),   // skrin kekal aplikasi
+    );
+  }
+}
+```
+
+> `ProgrammeInfoCard`, `SavedProgrammeCounter` dan `ProgrammeSummaryRow` (Hari 1 + Latihan 1) sudah tidak dipaparkan lagi. Anda boleh **biarkan** class-class itu di bawah fail sebagai rujukan, atau **buang** supaya `main.dart` bersih — kedua-duanya OK.
+
+▶ **Jalankan** (`flutter run`, atau tekan **`R`** besar untuk Hot **Restart** kerana nama kelas root bertukar) → tekan setiap tab bawah: `AppBar` title dan `body` bertukar mengikut tab aktif, ikon tab aktif bertukar warna navy.
 
 ### 5.3 — Tambah `Drawer` negara
 
@@ -844,7 +901,35 @@ Dalam `lib/screens/layout_playground_screen.dart` (Latihan 3), tambah satu tajuk
       ),
 ```
 
-Buat perkara **sama** dalam `lib/screens/programme_grid_screen.dart` (Latihan 6.2) — tambah `Text('Tawaran Pengajian eTT (Grid)', style: Theme.of(context).textTheme.titleLarge)` sebagai baris pertama sebelum `GridView`, dibalut `Padding`.
+Buat perkara **sama** dalam `lib/screens/programme_grid_screen.dart` (Latihan 6.2) — tambah tajuk sebelum `GridView`.
+
+⚠️ **Hati-hati di sini** — `GridView` (dan `ListView`) mahu mengisi **semua** ruang menegak. Jika anda hanya masukkan kedua-duanya ke dalam `Column` begitu sahaja, `GridView` menerima tinggi **tidak terhad** dan aplikasi meletup dengan ralat `RenderFlex overflowed by 99xxx pixels on the bottom`. Penyelesaiannya: balut `GridView` dengan **`Expanded`**.
+
+```dart
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── 7.2 — Tajuk guna tema global ──
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+            child: Text(
+              'Tawaran Pengajian eTT (Grid)',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          Expanded(              // 👈 WAJIB — beri GridView tinggi terhad
+            child: GridView.builder(
+              // ... kekalkan GridView.builder sedia ada Latihan 6.2 ...
+            ),
+          ),
+        ],
+      ),
+```
+
+| Cuba tukar | Perhatikan pada skrin | Kesimpulan |
+|---|---|---|
+| Buang `Expanded(` (biar `GridView` terus dalam `Column`) | Skrin merah / jalur overflow besar, terminal: `overflowed by 99xxx pixels on the bottom` | `Column` beri tinggi **tak terhad**; `GridView` cuba jadi infinit |
+| Kembalikan `Expanded` | Grid muncul semula, boleh diskrol | `Expanded` mengehadkan tinggi kepada ruang **baki** sebenar |
 
 `flutter run` kedua-dua skrin (tukar `home:` sementara untuk uji) — **kedua-dua** tajuk kelihatan **navy + bold**, konsisten, walaupun ditulis di **dua fail berlainan**, tanpa `color: KptTheme.navy` diulang secara eksplisit pada `Text` masing-masing.
 
