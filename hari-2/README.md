@@ -776,7 +776,7 @@ ListTile(
 
 Kalau anda perlu banyak variasi kad/baris macam ni untuk skrin lain (contoh: senarai dokumen, senarai pilihan universiti dalam borang Hari 3), pantas untuk minta AI jana satu terus — *"Jana StatelessWidget `ProgrammeIntakeTile` — Card + ListTile, leading ikon sekolah warna KptTheme.navy, title universityName, subtitle 'fieldOfStudy · intakeMonth', trailing quotaSeats sebagai teks kecil"*. Semak macam biasa: `const` di tempat patut, warna rujuk `KptTheme` (bukan hex baharu), teks panjang dilindungi `overflow`/`Expanded`, dan `flutter analyze` bersih sebelum diguna pakai.
 
-> **Ringkasan setakat ini:** `Card` = bekas bayang+sudut bulat untuk satu unit maklumat. `ListTile` = baris standard ikon+tajuk+subtajuk+trailing. Gabungan keduanya = senarai seragam yang cepat dibina, alternatif ringkas kepada kad tersuai penuh. Cuba sendiri dalam **Latihan 6** (`snippets/lab.md`).
+> **Ringkasan setakat ini:** `Card` = bekas bayang+sudut bulat untuk satu unit maklumat. `ListTile` = baris standard ikon+tajuk+subtajuk+trailing. Gabungan keduanya = senarai seragam yang cepat dibina, alternatif ringkas kepada kad tersuai penuh. Cuba sendiri dalam **Latihan 4** (`snippets/lab.md`) — jana `ProgrammeIntakeTile` (Card + ListTile) dengan bantuan AI.
 
 ---
 
