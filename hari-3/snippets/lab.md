@@ -26,6 +26,23 @@ Kotak ini menandakan **kawasan kosong** yang anda isi pada langkah `X.Y` — bia
 
 Komen `👈` menandakan **titik tepat** untuk menyisip kod baharu **selepas** baris yang ditunjuk. Baris `// ...` (tiga titik) bermaksud "kod sedia ada, jangan ubah — dipendekkan supaya fokus kepada bahagian relevan". Selepas setiap langkah, lab tunjukkan **hasil** (kawasan yang sama, sudah diisi) supaya anda boleh semak sendiri sebelum teruskan.
 
+### Dua penanda ujian — apa bezanya
+
+Lab ini ada **dua** jenis arahan menguji. Jangan keliru:
+
+| Penanda | Maksud | Perlu buat? |
+|---|---|---|
+| ▶ **Jalankan** | Semakan **pantas** di tengah langkah — Hot Reload, pandang skrin sekejap, teruskan. Ambil ~10 saat. | Ya, tetapi ringkas |
+| 🧪 **Uji Latihan N** | Ujian **penuh** di hujung setiap latihan. Ada **laluan navigasi** ("macam mana nak sampai ke skrin itu"), jadual langkah demi langkah, dan petua bila gagal. | **Ya — jangan langkau.** Ini bukti latihan anda betul |
+
+Setiap blok 🧪 **Uji** disusun begini:
+
+> **Sampai ke sana:** langkah navigasi dari skrin mula — supaya anda tidak tercari-cari.
+>
+> Kemudian jadual: **Buat ini** → **Patut nampak**. Buat ikut turutan, dari atas ke bawah.
+>
+> Akhir sekali **❌ Tak jadi?** — senarai punca paling biasa, supaya anda boleh baiki sendiri tanpa tunggu jurulatih.
+
 ---
 
 ## Persediaan
@@ -133,7 +150,7 @@ Komen `👈` menandakan **titik tepat** untuk menyisip kod baharu **selepas** ba
 
 5. Jalankan `flutter analyze` — pastikan tiada ralat sebelum bermula.
 
-✅ **Semakan:** `flutter run` berjaya, `lib/models/application.dart` wujud, dan `lib/utils/validators.dart` wujud dengan empat fungsi (`validateRequired`, `validateIcNumber`, `validateEmail`, `validatePhoneNumber`).
+✅ **Semakan Persediaan:** `flutter run` berjaya, `lib/models/application.dart` wujud, dan `lib/utils/validators.dart` wujud dengan empat fungsi (`validateRequired`, `validateIcNumber`, `validateEmail`, `validatePhoneNumber`).
 
 ---
 
@@ -194,9 +211,26 @@ Ganti dengan:
 
 Import `programme_detail_screen.dart` di atas fail jika belum ada. Jalankan app, tekan mana-mana kad tawaran.
 
-**Hot Reload checkpoint:** menekan kad membuka skrin baharu dengan `AppBar` memaparkan nama universiti, dan `Text` di tengah memaparkan bandar + negara.
+▶ **Jalankan** (Hot Reload) → menekan kad membuka skrin baharu dengan `AppBar` memaparkan nama universiti, dan `Text` di tengah memaparkan bandar + negara.
 
-✅ **Semakan:** Menekan kad tawaran membuka skrin butiran memaparkan nama universiti & negara yang **betul** (bukan tawaran pertama sahaja — cuba tekan beberapa kad berbeza, termasuk kad Mesir & Maghribi). Butang kembali (`←`) automatik pada `AppBar` mengembalikan anda ke senarai.
+### 🧪 Uji Latihan 1
+
+> **Sampai ke sana:** `flutter run` → aplikasi buka pada tab **Program** (senarai 8 tawaran).
+
+> ⚠️ **Perhatian sebelum menguji:** kad **1, 2 dan 3 semuanya "Universiti Al-Azhar"** — bezanya pada **bidang** (Perubatan / Syariah / Ulum Islamiah). Jadi jangan uji dengan kad 1 vs kad 2 sahaja; anda akan nampak nama sama dan tersilap sangka ada pepijat. Guna kad **1, 4 dan 7** yang jelas berbeza.
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 1 | Tekan kad **ke-1** (Al-Azhar · Perubatan) | Skrin baharu. `AppBar` = "Universiti Al-Azhar", bidang = **Perubatan** |
+| 2 | Tekan butang kembali `←` | Kembali ke senarai |
+| 3 | Tekan kad **ke-4** (Universiti Alexandria · Farmasi) | `AppBar` = "Universiti Alexandria" — **bukan** Al-Azhar |
+| 4 | Kembali, tekan kad **ke-7** (Universite Al Quaraouiyine) | `AppBar` = nama itu, lokasi = "Fes, Maghribi" 🇲🇦 |
+| 5 | *(pilihan)* Kembali, tekan kad **ke-2** (Al-Azhar · Syariah) | Nama universiti **sama** dengan kad 1, tetapi **bidang berbeza** — ini betul, bukan pepijat |
+
+❌ **Tak jadi?**
+- Tiada apa berlaku bila kad ditekan → `onTap:` belum ditambah pada `ProgrammeCard` (langkah 1.2).
+- Kad ke-4 & ke-7 pun tunjuk **Al-Azhar** → anda hantar `sampleProgrammes[0]`/`.first`, sepatutnya `p` (item gelung itu).
+- `Undefined name 'ProgrammeDetailScreen'` → import `programme_detail_screen.dart` belum ditambah di atas fail.
 
 ---
 
@@ -257,7 +291,7 @@ Kembali ke `lib/screens/programme_list_screen.dart`. Buat **satu** salinan uji s
 
 Jalankan app — kad pertama sepatutnya masih membuka skrin butiran yang sama, walaupun melalui laluan berbeza.
 
-**Hot Reload checkpoint:** kad pertama & kad lain kedua-duanya buka `ProgrammeDetailScreen`, tiada beza kelihatan pada UI — bezanya cuma **cara** navigasi berlaku "di belakang tabir".
+▶ **Jalankan** (Hot Reload) → kad pertama & kad lain kedua-duanya buka `ProgrammeDetailScreen`, tiada beza kelihatan pada UI — bezanya cuma **cara** navigasi berlaku "di belakang tabir".
 
 **Eksperimen — kenapa named routes kurang selamat jenis:**
 
@@ -268,7 +302,21 @@ Jalankan app — kad pertama sepatutnya masih membuka skrin butiran yang sama, w
 
 Kembalikan `arguments: p` selepas mencuba.
 
-✅ **Semakan:** Kad pertama (guna `pushNamed`) dan kad-kad lain (guna `push` terus) kedua-duanya membuka `ProgrammeDetailScreen` dengan data yang betul.
+### 🧪 Uji Latihan 2
+
+> **Sampai ke sana:** `flutter run` → tab **Program**.
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 1 | Tekan kad **ke-1** — ini sahaja yang guna `pushNamed('/detail')` | Skrin butiran terbuka seperti biasa (Al-Azhar · Perubatan) |
+| 2 | Kembali `←`, tekan kad **ke-4** (Alexandria) — guna `push` terus | Skrin butiran juga terbuka, kali ini Alexandria |
+| 3 | Banding kedua-duanya | Hasil **sama**; yang berbeza hanya **cara** navigasi di belakang tabir |
+
+Itulah intinya: named route dan `push` terus memberi hasil sama, tetapi named route **kurang selamat jenis** (lihat jadual eksperimen di atas).
+
+❌ **Tak jadi?**
+- Kad pertama tak buat apa-apa / skrin putih → `onGenerateRoute` belum didaftar dalam `MaterialApp`, atau nama laluan tersalah eja (mesti tepat `/detail`).
+- Ranap `type 'Null' is not a subtype of type 'Programme'` → anda lupa hantar `arguments: p` pada `pushNamed`.
 
 ---
 
@@ -438,7 +486,33 @@ Dalam `build()`, ganti butang "Mohon" (atau tambah baharu jika belum ada):
 
 Import `application_form_screen.dart` dan `models/application.dart` di atas fail.
 
-**✅ Semakan:** Tekan "Mohon" → borang skeleton terbuka → tekan "Hantar (Ujian)" → borang tertutup **dan** skrin butiran memaparkan `SnackBar` "Permohonan ETT-UJIAN-... berjaya dihantar!" **serta** butang bertukar kepada "Anda Telah Memohon" (dilumpuhkan, `onPressed: null`). Jika anda tekan butang kembali (`←`) pada borang **tanpa** menekan "Hantar", pastikan tiada `SnackBar`/perubahan berlaku — ini membuktikan `hasil` betul-betul `null` apabila borang ditutup tanpa hantar (dan `_mohon()` betul memeriksa `if (hasil != null)` sebelum `setState()`).
+### 🧪 Uji Latihan 3
+
+> **Sampai ke sana:** `flutter run` → tab **Program** → tekan mana-mana kad → anda berada di **skrin butiran**.
+
+**Bahagian A — hantar data balik (laluan berjaya):**
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 1 | Tekan butang **"Mohon"** | Borang skeleton terbuka |
+| 2 | Tekan **"Hantar (Ujian)"** | Borang **tertutup** sendiri, kembali ke skrin butiran |
+| 3 | Pandang bawah skrin butiran | `SnackBar`: "Permohonan ETT-UJIAN-… berjaya dihantar!" |
+| 4 | Pandang butang "Mohon" | Sudah bertukar → **"Anda Telah Memohon"**, kelabu & tidak boleh ditekan |
+
+**Bahagian B — batal (laluan `null`) — jangan langkau, ini yang membuktikan `if (hasil != null)`:**
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 5 | Kembali ke senarai, buka kad **lain**, tekan "Mohon" | Borang terbuka |
+| 6 | Tekan butang kembali `←` **tanpa** menekan "Hantar" | Borang tertutup |
+| 7 | Perhati skrin butiran | **TIADA** `SnackBar`, butang **kekal** "Mohon" |
+
+Langkah 7 membuktikan `hasil` benar-benar `null` bila borang ditutup tanpa hantar.
+
+❌ **Tak jadi?**
+- `SnackBar` muncul walaupun anda tekan `←` → anda terlupa `if (hasil != null)` dalam `_mohon()`.
+- Butang tak bertukar selepas hantar → `setState(() => _sudahMohon = true)` tidak dipanggil, atau skrin masih `StatelessWidget`.
+- Amaran `use_build_context_synchronously` → `if (!mounted) return;` belum ditambah selepas `await`.
 
 ---
 
@@ -534,7 +608,7 @@ Kemudian bina rangka `Form` dalam `build()` — ganti **seluruh** `body:` sedia 
 
 > ⚠️ **Kenapa BUKAN `ListView` di dalam `Form`?** `ListView` bersifat **malas** (*lazy*) — medan yang ditatal keluar skrin akan **dilupuskan**, dan `FormField` yang dilupuskan **terkeluar daftar** `Form`. Akibatnya `_formKey.currentState!.validate()` hanya menyemak medan yang **sedang kelihatan**: pada telefon skrin kecil, menatal ke bawah untuk tekan "Hantar" boleh membuat borang **kosong "lulus"** validation, lalu ranap pada baris `!` seperti `_academicCategory!`. `SingleChildScrollView` + `Column` membina **semua** medan sekali gus, jadi validation menyemak kesemuanya.
 
-**Hot Reload checkpoint:** skrin sepatutnya masih kelihatan hampir sama (tajuk "Maklumat Pemohon"), tetapi `FilledButton` "Hantar (Ujian)" kini **hilang** — itu normal, kita belum tambah semula. `Form` sendiri **tidak** kelihatan (ia widget tak-visual yang menguruskan pengesahan — sama seperti `Column` dari segi susun atur).
+▶ **Jalankan** (Hot Reload) → skrin sepatutnya masih kelihatan hampir sama (tajuk "Maklumat Pemohon"), tetapi `FilledButton` "Hantar (Ujian)" kini **hilang** — itu normal, kita belum tambah semula. `Form` sendiri **tidak** kelihatan (ia widget tak-visual yang menguruskan pengesahan — sama seperti `Column` dari segi susun atur).
 
 ### 4.2 — `TextEditingController` untuk setiap medan (Input Controller)
 
@@ -572,7 +646,7 @@ Ganti komen `👈 4.3` dengan kaedah `dispose()`. **Ini langkah paling mudah dil
 
 > **Kenapa penting?** `TextEditingController` memegang sumber sistem (*listener*, buffer teks). Lupa `.dispose()` = bocor memori (*memory leak*) — controller kekal dalam ingatan walaupun skrin sudah ditutup. Rujuk README Bahagian 8.4 untuk jadual kesilapan biasa berkaitan kitaran hayat.
 
-**Hot Reload checkpoint:** tiada perubahan visual pada skrin — `dispose()` hanya kelihatan kesannya bila skrin **ditutup**, bukan semasa ia aktif. `flutter analyze` patut masih bersih.
+▶ **Jalankan** (Hot Reload) → tiada perubahan visual pada skrin — `dispose()` hanya kelihatan kesannya bila skrin **ditutup**, bukan semasa ia aktif. `flutter analyze` patut masih bersih.
 
 ### 4.4 — Medan pertama: `TextFormField` "Nama Penuh" + `validator` inline
 
@@ -669,7 +743,7 @@ Ganti komen `👈 4.6` dengan tiga `TextFormField` sekali gus — corak sama, va
             // 👈 4.8 — TAMBAH Kategori Sijil SELEPAS BARIS INI
 ```
 
-**✅ Semakan pertengahan:** `flutter analyze` masih bersih, dan lima medan (Nama, IC, Emel, Telefon, Ringkasan) kelihatan tersusun menegak dalam borang. Cuba tekan "Hantar (Ujian)" — ia masih memanggil `_submitDummy()` lama, jadi belum ada pengesahan lagi; itu langkah 4.12.
+▶ **Jalankan** (Hot Reload) → `flutter analyze` masih bersih, dan lima medan (Nama, IC, Emel, Telefon, Ringkasan) kelihatan tersusun menegak dalam borang. Cuba tekan "Hantar (Ujian)" — ia masih memanggil `_submitDummy()` lama, jadi belum ada pengesahan lagi; itu langkah 4.12.
 
 ### 4.7 — `initState()`: nilai awal daripada `widget.programme`
 
@@ -729,7 +803,7 @@ Ganti komen `👈 4.8`:
             // 👈 4.10 — TAMBAH dropdown Negara & Bidang SELEPAS BARIS INI
 ```
 
-**Hot Reload checkpoint:** dropdown kosong ("Kategori Sijil") kelihatan; pilih SPM/STAM dan perhatikan nilai terpapar kekal terpilih — itu kerja `setState(() => _academicCategory = v)`.
+▶ **Jalankan** (Hot Reload) → dropdown kosong ("Kategori Sijil") kelihatan; pilih SPM/STAM dan perhatikan nilai terpapar kekal terpilih — itu kerja `setState(() => _academicCategory = v)`.
 
 ### 4.9 — Helper & pengendali cascading (negara → bidang → pilihan)
 
@@ -928,7 +1002,7 @@ Ganti komen `👈 4.13`:
     return Scaffold(
 ```
 
-**Hot Reload checkpoint:** ketiga-tiga dropdown pilihan universiti kelihatan; Pilihan 1 sudah pra-isi dengan tawaran asal (daripada `initState()`), Pilihan 2 & 3 memaparkan "Tiada".
+▶ **Jalankan** (Hot Reload) → ketiga-tiga dropdown pilihan universiti kelihatan; Pilihan 1 sudah pra-isi dengan tawaran asal (daripada `initState()`), Pilihan 2 & 3 memaparkan "Tiada".
 
 ### 4.13 — Senarai semak dokumen (`CheckboxListTile`)
 
@@ -1415,7 +1489,40 @@ class _ChoiceDropdown extends StatelessWidget {
 }
 ```
 
-**✅ Semakan akhir Latihan 4:** Tekan "Hantar Permohonan" dengan medan kosong → mesej ralat merah muncul di **bawah setiap** medan berkenaan, borang **tidak** tertutup. Isi No. KP dengan `"123"` → mesej "No. Kad Pengenalan mesti 12 digit". Tukar negara daripada Mesir kepada Maghribi → senarai bidang & pilihan universiti berubah serta-merta. Isi semua medan dengan betul (termasuk kategori sijil, negara, bidang, sekurang-kurangnya Pilihan 1) → borang berjaya dihantar, tertutup, dan `SnackBar` di skrin butiran memaparkan ID permohonan sebenar (bukan lagi `ETT-UJIAN-...`). `flutter analyze` bersih.
+### 🧪 Uji Latihan 4 — ujian penuh borang
+
+> **Sampai ke sana:** `flutter run` → tab **Program** → tekan kad **Universiti Al-Azhar** → tekan **"Mohon"**. Anda kini di borang penuh.
+
+**Bahagian A — pengesahan (validation) mesti MENGHALANG:**
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 1 | Terus tekan **"Hantar Permohonan"** tanpa isi apa-apa | Mesej ralat **merah** di bawah **setiap** medan wajib. Borang **TIDAK** tertutup |
+| 2 | Isi No. KP dengan `123` sahaja, tekan Hantar | "No. Kad Pengenalan mesti 12 digit (cth: 051231-14-5678)" |
+| 3 | Isi Emel dengan `abc` (tiada `@`), tekan Hantar | "Format emel tidak sah" |
+| 4 | Biar **Kategori Sijil** kosong, isi yang lain betul, tekan Hantar | Ralat pada dropdown kategori — borang masih tidak tertutup |
+
+**Bahagian B — dropdown saling bergantung:**
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 5 | Tukar **Negara** dari Mesir → Maghribi | Senarai **Bidang** berubah serta-merta kepada bidang Maghribi |
+| 6 | Perhati **Pilihan 1/2/3** | Ikut berubah — pilihan universiti Mesir yang lama **hilang** |
+
+**Bahagian C — laluan berjaya:**
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 7 | Isi **semua** medan betul: nama, KP `051231-14-5678`, emel sah, telefon `0123456789`, ringkasan, kategori SPM, negara+bidang, Pilihan 1 | Tiada lagi ralat merah |
+| 8 | Tanda 2–3 kotak dokumen, tekan **"Hantar Permohonan"** | Borang **tertutup** |
+| 9 | Pandang skrin butiran | `SnackBar` dengan ID **sebenar** (`ETT-2026-…`) — bukan lagi `ETT-UJIAN-…` |
+| 10 | Terminal | `flutter analyze` → **No issues found!** |
+
+❌ **Tak jadi?**
+- Borang **tertutup** walaupun kosong (langkah 1) → `Form` anda membalut `ListView`. Tukar kepada `SingleChildScrollView` + `Column` (lihat amaran di 4.1) — `ListView` melupuskan medan yang ditatal keluar skrin, jadi `validate()` melangkaunya.
+- Ranap `Null check operator used on a null value` → sama punca seperti di atas, atau pengawal `if (_academicCategory == null)` belum ditambah.
+- Bidang tak berubah bila tukar negara → `_onCountryChanged` tidak memanggil `_resetChoices()` **di dalam** `setState()`.
+- Ralat merah tak hilang walaupun sudah betul → tekan Hantar sekali lagi; `validator` hanya dinilai semula semasa `validate()` dipanggil.
 
 ---
 
@@ -1467,7 +1574,22 @@ class _ChoiceDropdown extends StatelessWidget {
 
 5. Jalankan `dart analyze lib/utils/validators.dart` (atau `flutter analyze` untuk keseluruhan projek).
 
-**✅ Semakan:** `flutter analyze` tiada isu. Medan Ringkasan Keputusan menolak input ruang kosong sahaja dengan mesej ralat yang betul, dan menerima teks bermakna seperti "SPM 2025 — 9A".
+### 🧪 Uji Latihan 5
+
+> **Sampai ke sana:** `flutter run` → tab **Program** → kad mana-mana → **"Mohon"** → tatal ke medan **Ringkasan Keputusan**.
+
+| # | Taip ini dalam Ringkasan Keputusan | Patut nampak (selepas tekan Hantar) |
+|---|---|---|
+| 1 | (biar kosong) | Mesej ralat — medan wajib |
+| 2 | Tiga space sahaja: `"   "` | Mesej ralat **juga** — inilah kes tepi yang AI selalu terlepas |
+| 3 | `SPM 2025 — 9A` | ✅ Tiada ralat pada medan ini |
+| 4 | Terminal | `flutter analyze` → **No issues found!** |
+
+Langkah 2 ialah ujian sebenar: validator naif (`value.isEmpty`) akan **lulus** ruang kosong. Versi betul guna `value.trim().isEmpty`.
+
+❌ **Tak jadi?**
+- `"   "` diterima → validator anda tidak `trim()` dahulu.
+- Ralat tak muncul langsung → medan itu belum disambungkan kepada `validator:` anda.
 
 ---
 
@@ -1532,7 +1654,48 @@ class _LifecycleDemoState extends State<LifecycleDemo> {
 }
 ```
 
-Paparkan `LifecycleDemo` buat sementara dalam `ProgrammeDetailScreen` (contohnya selepas header, sebelum `_InfoRow` senarai) — atau bina laluan ujian berasingan jika anda tidak mahu mengubah skrin butiran.
+Sekarang kita perlukan **cara membukanya**. Daripada menampal demo ini ke dalam skrin sebenar (dan terpaksa ingat untuk membuangnya semula), kita daftarkan **laluan ujian sendiri** — sekali gus mengulang semula `pushNamed` daripada Latihan 2.
+
+**Langkah 1 — daftar laluan `/lifecycle`** dalam `lib/main.dart`, di dalam `onGenerateRoute` yang anda bina di Latihan 2.1:
+
+```dart
+import 'widgets/lifecycle_demo.dart';   // 👈 TAMBAH di atas fail
+
+// ...
+
+        if (settings.name == '/detail') {
+          // ... (Latihan 2.1, jangan ubah)
+        }
+
+        // 👇 Latihan 6 — laluan ujian untuk demo kitaran hayat
+        if (settings.name == '/lifecycle') {
+          return MaterialPageRoute(
+            builder: (_) => Scaffold(
+              appBar: AppBar(title: const Text('Demo Kitaran Hayat')),
+              body: const Center(child: LifecycleDemo()),
+            ),
+          );
+        }
+        return null;
+```
+
+**Langkah 2 — beri pintu masuk** dalam `Drawer` yang anda bina Hari 2. Buka `lib/screens/home_screen.dart`, dan tambah **selepas** gelung `for (final option in _options) ListTile(...)`:
+
+```dart
+          // ── Hari 3, Latihan 6 — pintu masuk demo kitaran hayat ──
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.science_outlined, color: KptTheme.navy),
+            title: const Text('Demo Kitaran Hayat'),
+            subtitle: const Text('Lihat log initState / build / dispose'),
+            onTap: () {
+              Navigator.of(context).pop(); // tutup Drawer dahulu
+              Navigator.of(context).pushNamed('/lifecycle');
+            },
+          ),
+```
+
+> **Kenapa laluan berasingan, bukan tampal dalam `ProgrammeDetailScreen`?** Kerana `dispose()` hanya dipanggil apabila skrin **ditutup**. Dengan laluan sendiri, anda boleh masuk & keluar berulang kali dan lihat `initState → build… → dispose` penuh setiap kali — itulah separuh daripada pelajaran ini.
 
 Perhatikan **konsol/terminal** (`flutter run`) semasa: skrin dibuka pertama kali; tekan kawasan `GestureDetector` beberapa kali (`onTap`); tekan **lama** (*long-press*) kawasan sama; tekan butang `FilledButton`; tutup skrin (navigasi kembali).
 
@@ -1554,7 +1717,198 @@ void _increment() {
 
 Kembalikan `setState(() => _count++);` sebelum teruskan.
 
-**✅ Semakan:** Log konsol menunjukkan `initState()` **hanya sekali** apabila skrin dibuka, `build()` **berulang kali** (sekali bagi setiap `setState()`), dan `dispose()` **hanya sekali** apabila skrin ditutup — **tidak pernah** sebelum itu. `Text('Kiraan: $_count')` bertambah setiap kali `onTap`/`FilledButton` ditekan, dan kembali `0` selepas tekan lama.
+### 🧪 Uji Latihan 6
+
+> **Sampai ke sana:** `flutter run` (tekan **`R`** besar — Hot **Restart**, kerana `main.dart` berubah) → buka **Drawer** (☰ atau leret dari tepi kiri) → tatal ke bawah → tekan **"Demo Kitaran Hayat"**.
+>
+> ⚠️ **Pandang TERMINAL, bukan skrin sahaja.** Pelajaran ini tentang log, bukan UI.
+
+| # | Buat ini | Patut nampak di **terminal** |
+|---|---|---|
+| 1 | Skrin demo baru terbuka | `initState() — dipanggil SEKALI sahaja`, diikuti `build() — _count = 0` |
+| 2 | Tekan **"Tambah (Button)"** 3 kali | **3** baris `build()` baharu (`_count = 1`, `2`, `3`). Skrin: "Kiraan: 3" |
+| 3 | Tekan kotak biru (`GestureDetector`) 2 kali | 2 baris `build()` lagi — `onTap` juga guna `setState` |
+| 4 | Tekan **lama** kotak biru | `build() — _count = 0`. Skrin kembali "Kiraan: 0" |
+| 5 | Tekan `←` untuk keluar | `dispose() — dipanggil SEKALI sahaja, skrin ditutup` |
+| 6 | Masuk semula melalui Drawer | `initState()` muncul **sekali lagi** — kitaran bermula semula |
+
+Urutan penuh yang anda patut lihat:
+```
+initState()  →  build()  →  build()  →  build()  →  …  →  dispose()
+   sekali        setiap kali setState dipanggil            sekali
+```
+
+❌ **Tak jadi?**
+- Tiada entri "Demo Kitaran Hayat" dalam Drawer → anda buat Hot **Reload** (`r`), bukan Hot **Restart** (`R`). Laluan & `main.dart` perlu restart.
+- `dispose()` tak muncul → anda belum keluar dari skrin; ia hanya dipanggil bila skrin benar-benar ditutup.
+- Nombor naik di terminal tetapi **skrin tidak berubah** → anda masih dalam mod eksperimen "buang `setState()`". Kembalikan `setState(() => _count++);`.
+
+---
+
+## Latihan 7 — Siapkan `Drawer` Negara: Tapisan Sebenar dengan `setState()`
+
+**Matlamat:** Hari 2 anda bina `Drawer` negara, tetapi `_selectCountry` hanya **menutup** Drawer — senarai tidak berubah. Sekarang setelah `setState()` dikuasai (Latihan 6), kita siapkannya. Ini latihan **gabungan** dua konsep SESI 4–5: `setState()` **dan** menghantar data ke widget anak.
+
+▶ **Cuba dahulu:** jalankan aplikasi, buka `Drawer`, tekan **Mesir**. Drawer tertutup… senarai **langsung tidak berubah**. Itu yang kita betulkan.
+
+### 7.1 — `ProgrammeListScreen` terima negara pilihan
+
+Widget anak tidak boleh "tahu" sendiri negara mana dipilih — ia mesti **diberitahu** melalui parameter. Buka `lib/screens/programme_list_screen.dart`:
+
+```dart
+class ProgrammeListScreen extends StatelessWidget {
+  const ProgrammeListScreen({super.key, this.countryFilter}); // 👈 UBAH
+
+  /// null = semua negara; 'Egypt' / 'Morocco' = tapis negara itu sahaja.
+  final String? countryFilter;                                 // 👈 TAMBAH
+
+  @override
+  Widget build(BuildContext context) {
+    // 👇 TAMBAH — tapis senarai mengikut negara yang dipilih
+    final items = countryFilter == null
+        ? sampleProgrammes
+        : sampleProgrammes.where((p) => p.country == countryFilter).toList();
+
+    if (items.isEmpty) {
+      return const Center(child: Text('Tiada tawaran untuk negara ini.'));
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 8, bottom: 16),
+      itemCount: items.length,        // 👈 UBAH: items, bukan sampleProgrammes
+      itemBuilder: (context, index) {
+        final p = items[index];       // 👈 UBAH
+        return ProgrammeCard(
+          programme: p,
+          onTap: index == 0
+              ? () => Navigator.of(context).pushNamed('/detail', arguments: p)
+              : () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ProgrammeDetailScreen(programme: p),
+                    ),
+                  ),
+        );
+      },
+    );
+  }
+}
+```
+
+### 7.2 — `HomeScreen` simpan negara pilihan dalam state
+
+Dalam `_HomeScreenState` (`lib/screens/home_screen.dart`):
+
+```dart
+  int _index = 0;
+
+  /// Negara dipilih dalam Drawer. null = semua negara.
+  String? _countryFilter;                       // 👈 TAMBAH
+
+  static const _titles = ['Program', 'Permohonan Saya', 'Profil'];
+
+  void _selectCountry(String? country) {
+    setState(() => _countryFilter = country);   // 👈 UBAH — inilah kuncinya
+    Navigator.of(context).pop();
+  }
+```
+
+### 7.3 — Buang `static const _screens` (bahagian paling penting)
+
+> ⚠️ `static const _screens = [...]` **tidak boleh** membawa state yang berubah. `const` bermaksud "nilai tetap, dibina sekali pada waktu kompil" — jadi `ProgrammeListScreen` di dalamnya **tidak akan pernah** menerima `_countryFilter` baharu, walaupun `setState()` dipanggil. Inilah sebab sebenar Drawer nampak "tidak berfungsi".
+
+**Padam** baris `static const _screens = [...]`, dan bina senarai itu **di dalam `build()`**:
+
+```dart
+  @override
+  Widget build(BuildContext context) {
+    // 👇 TAMBAH — dibina dalam build() supaya _countryFilter terkini sampai
+    final screens = [
+      ProgrammeListScreen(countryFilter: _countryFilter),
+      const MyApplicationsScreen(),
+      const ProfileScreen(),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: Text('eTT Mobile · ${_titles[_index]}')),
+      drawer: _CountryDrawer(onSelect: _selectCountry),
+      body: screens[_index],          // 👈 UBAH: screens, bukan _screens
+```
+
+▶ **Hot Reload** → buka `Drawer`, tekan **Mesir**: senarai kini **hanya** universiti Mesir (Al-Azhar, Alexandria, Ain Shams, Tanta). Tekan **Maghribi**: hanya Al Quaraouiyine & Mohammed V. Tekan **Semua Negara**: kesemua 8 kembali.
+
+| Cuba tukar | Perhatikan pada skrin | Kesimpulan |
+|---|---|---|
+| Kekalkan `static const _screens` (jangan pindah ke `build()`) | Tekan negara — senarai **tidak** berubah langsung | `const` dibina sekali sahaja; state baharu tidak sampai kepada widget anak |
+| Buang `setState(...)`, tinggalkan `_countryFilter = country;` | Drawer tutup, senarai **tidak** berubah walaupun nilai sudah bertukar | Menukar nilai **tidak cukup** — `setState()` yang mencetuskan `build()` semula (sama seperti Latihan 6) |
+| Tekan **Maghribi**, tukar ke tab **Profil**, balik ke tab **Program** | Tapisan Maghribi **masih kekal** | State hidup dalam `_HomeScreenState` selagi skrin itu hidup — bandingkan `initState()` Latihan 6 |
+
+### 7.4 — Maklum balas visual
+
+Tambah getter label dalam `_HomeScreenState`:
+
+```dart
+  /// Label BM untuk negara yang sedang ditapis (null jika semua).
+  String? get _filterLabel => switch (_countryFilter) {
+        'Egypt' => 'Mesir',
+        'Morocco' => 'Maghribi',
+        _ => null,
+      };
+```
+
+Guna dalam `build()` untuk tajuk, dan hantar `selected` ke Drawer:
+
+```dart
+    // Tunjuk negara yang ditapis pada tajuk, contoh: "Program · Mesir".
+    final title = _index == 0 && _filterLabel != null
+        ? '${_titles[_index]} · $_filterLabel'
+        : _titles[_index];
+
+    return Scaffold(
+      appBar: AppBar(title: Text('eTT Mobile · $title')),   // 👈 UBAH
+      drawer: _CountryDrawer(
+        selected: _countryFilter,                           // 👈 TAMBAH
+        onSelect: _selectCountry,
+      ),
+```
+
+Dan `_CountryDrawer` terima `selected`:
+
+```dart
+class _CountryDrawer extends StatelessWidget {
+  const _CountryDrawer({required this.selected, required this.onSelect}); // 👈 UBAH
+
+  final String? selected;                                    // 👈 TAMBAH
+  final void Function(String?) onSelect;
+```
+
+```dart
+            ListTile(
+              leading: Text(option.flag, style: const TextStyle(fontSize: 22)),
+              title: Text(option.label),
+              selected: option.value == selected,   // 👈 TAMBAH — tanda pilihan
+              selectedColor: KptTheme.navy,         // 👈 TAMBAH
+              onTap: () => onSelect(option.value),
+            ),
+```
+
+### 🧪 Uji Latihan 7
+
+> **Sampai ke sana:** `flutter run` → tab **Program** → buka **Drawer** (☰).
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 1 | Tekan **🇪🇬 Mesir** | Drawer tutup. Senarai tinggal **universiti Mesir sahaja** (Al-Azhar, Alexandria, Ain Shams, Tanta) |
+| 2 | Pandang `AppBar` | Bertukar → `eTT Mobile · Program · Mesir` |
+| 3 | Buka semula Drawer | Baris **Mesir** kini berwarna **navy** (tanda pilihan semasa) |
+| 4 | Tekan **🇲🇦 Maghribi** | Senarai tinggal 2: Al Quaraouiyine & Mohammed V |
+| 5 | Tukar ke tab **Profil**, kemudian balik ke tab **Program** | Tapisan Maghribi **masih kekal** — state hidup dalam `_HomeScreenState` |
+| 6 | Buka Drawer → **🌍 Semua Negara** | Kesemua **8** tawaran kembali, tajuk kembali `eTT Mobile · Program` |
+| 7 | Terminal | `flutter analyze` → **No issues found!** |
+
+❌ **Tak jadi?**
+- Senarai **langsung tidak berubah** → anda masih ada `static const _screens`. Ia mesti dipindah ke dalam `build()` (langkah 7.3) — `const` tidak boleh bawa state berubah.
+- Drawer tutup tetapi tiada apa berlaku → `setState()` tertinggal dalam `_selectCountry`.
+- Tajuk tak berubah → `_filterLabel` belum digunakan pada `AppBar` (langkah 7.4).
 
 ---
 
@@ -1569,7 +1923,8 @@ Sebelum tamat lab, pastikan:
 - [ ] Setiap `TextEditingController` di-`dispose()` (Latihan 4.3).
 - [ ] Dropdown negara & bidang saling bergantung — menukar negara menyusun semula bidang & pilihan universiti (Latihan 4.9–4.10).
 - [ ] Sekurang-kurangnya satu validator baharu ditulis dengan bantuan AI **dan** disahkan melalui ujian kes tepi manual (Latihan 5).
-- [ ] Log konsol `LifecycleDemo` menunjukkan susunan `initState → build (berulang) → dispose` yang betul (Latihan 6).
+- [ ] Log konsol `LifecycleDemo` menunjukkan susunan `initState → build (berulang) → dispose` yang betul (Latihan 6), dan ia boleh dibuka melalui `Drawer` → "Demo Kitaran Hayat".
+- [ ] `Drawer` negara benar-benar **menapis** senarai tawaran, dan tajuk `AppBar` menunjukkan negara yang ditapis (Latihan 7).
 
 ---
 
