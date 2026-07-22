@@ -63,12 +63,73 @@ Komen `👈` menandakan **titik tepat** untuk menyisip kod baharu **selepas** ba
    lib/screens/programme_list_screen.dart
    ```
 
-4. Salin `hari-3/snippets/validators.dart` ke `lib/utils/validators.dart` dalam projek anda — kita gunakan fungsi-fungsi ini pada Latihan 4:
+4. **Cipta `lib/utils/validators.dart`** — empat fungsi validator yang kita gunakan pada Latihan 4. Perhatikan ia **Dart tulen** (tiada `import 'package:flutter/...'`), jadi setiap fungsi boleh diuji sendiri, dan tandatangannya (`String? Function(String?)`) sepadan **terus** dengan parameter `validator:` pada `TextFormField` — cukup hantar nama fungsi, cth. `validator: validateIcNumber`.
 
    ```bash
    mkdir -p lib/utils
-   cp ../../hari-3/snippets/validators.dart lib/utils/validators.dart
    ```
+
+   ```dart
+   // lib/utils/validators.dart
+   // Dart tulen — tiada import Flutter, jadi mudah diuji sendiri.
+
+   /// Validator generik untuk medan wajib diisi.
+   /// Cth: validateRequired(value, 'Nama Penuh') -> "Nama Penuh diperlukan"
+   String? validateRequired(String? value, String fieldLabel) {
+     if (value == null || value.trim().isEmpty) {
+       return '$fieldLabel diperlukan';
+     }
+     return null;
+   }
+
+   /// No. Kad Pengenalan Malaysia.
+   /// Peraturan latihan (bukan semakan digit semak rasmi JPN):
+   /// wajib diisi · hanya digit & sengkang · TEPAT 12 digit selepas buang '-'.
+   /// Menerima '051231145678' dan '051231-14-5678'.
+   String? validateIcNumber(String? value) {
+     if (value == null || value.trim().isEmpty) {
+       return 'No. Kad Pengenalan diperlukan';
+     }
+     final trimmed = value.trim();
+     if (!RegExp(r'^[0-9-]+$').hasMatch(trimmed)) {
+       return 'No. Kad Pengenalan hanya boleh mengandungi digit dan sengkang (-)';
+     }
+     final digits = trimmed.replaceAll('-', '');
+     if (digits.length != 12) {
+       return 'No. Kad Pengenalan mesti 12 digit (cth: 051231-14-5678)';
+     }
+     return null;
+   }
+
+   /// Format emel ringkas (bukan RFC 5322 penuh — cukup untuk borang latihan).
+   String? validateEmail(String? value) {
+     if (value == null || value.trim().isEmpty) {
+       return 'Emel diperlukan';
+     }
+     final trimmed = value.trim();
+     final regex = RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$');
+     if (!regex.hasMatch(trimmed)) {
+       return 'Format emel tidak sah';
+     }
+     return null;
+   }
+
+   /// No. telefon (Malaysia/antarabangsa): buang ruang & sengkang, kemudian
+   /// terima 9–15 digit dengan awalan '+' pilihan.
+   /// Cth sah: '0123456789', '012-345 6789', '+60123456789'.
+   String? validatePhoneNumber(String? value) {
+     if (value == null || value.trim().isEmpty) {
+       return 'No. Telefon diperlukan';
+     }
+     final digits = value.trim().replaceAll(RegExp(r'[\s-]'), '');
+     if (!RegExp(r'^\+?\d{9,15}$').hasMatch(digits)) {
+       return 'No. Telefon tidak sah (cth: 0123456789)';
+     }
+     return null;
+   }
+   ```
+
+   > Malas menaip? Salinan penuh fail ini ada di [`validators.dart`](./validators.dart) — tetapi cuba **taip sendiri** dahulu; corak `if (kosong) return mesej; ... return null;` inilah yang anda ulang untuk setiap validator baharu di Latihan 5.
 
 5. Jalankan `flutter analyze` — pastikan tiada ralat sebelum bermula.
 
