@@ -580,7 +580,7 @@ class MyApplicationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Permohonan Saya — dibina Hari 3'));
+    return const Center(child: Text('Permohonan Saya — dibina Hari 5'));
   }
 }
 ```
@@ -596,7 +596,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Profil — dibina Hari 3'));
+    return const Center(child: Text('Profil — cabaran pilihan (Hari 5)'));
   }
 }
 ```

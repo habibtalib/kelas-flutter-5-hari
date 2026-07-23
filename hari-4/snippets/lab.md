@@ -690,7 +690,12 @@ Ganti **keseluruhan** `build()` sedia ada:
 
   Widget _buildBody() {
     switch (_state) {
+      // Sengaja DIASINGKAN daripada `loading`: kalau anda nampak teks ini,
+      // maknanya _load() TIDAK PERNAH dipanggil (biasanya initState()
+      // tertinggal). Tanpa pengasingan ini kedua-duanya nampak sama —
+      // spinner — dan anda tidak tahu yang mana satu.
       case LoadState.idle:
+        return const Center(child: Text('idle — _load() belum dipanggil'));
       case LoadState.loading:
         return const Center(child: CircularProgressIndicator());
       case LoadState.error:
@@ -704,6 +709,27 @@ Ganti **keseluruhan** `build()` sedia ada:
 ```
 
 Hot **restart** (`R` besar — kod `initState`/struktur `State` berubah, hot reload biasa kadang tidak cukup).
+
+> ## 🔴 Spinner berpusing tak henti? Baca ini dahulu
+>
+> **Peraturan mudah: spinner yang berpusing lebih ~10 saat SENTIASA bermakna ada bug dalam kod anda — bukan internet lambat.**
+>
+> Sebabnya: `fetchProgrammes()` ada `.timeout(8 saat)` **dan** `_fallback()`. Jadi walaupun internet mati sepenuhnya, ia **tetap** selesai dalam ~8 saat dan memaparkan data tempatan. Kalau spinner masih berpusing selepas itu, keadaan `_state` **tidak pernah** bertukar.
+>
+> Semak ikut turutan ini:
+>
+> | Apa anda nampak | Maknanya | Betulkan |
+> |---|---|---|
+> | Teks **"idle — _load() belum dipanggil"** | `initState()` tiada, atau tidak memanggil `_load()` | Tambah `initState()` (5.2). Pastikan `super.initState();` **dahulu**, kemudian `_load();` |
+> | Spinner **selama-lamanya** | `_state` tersangkut pada `loading` — biasanya `setState()` tertinggal selepas `await` | Pastikan **kedua-dua** cabang (`loaded` **dan** `error`) dibungkus `setState(...)`. Ini terjadi kalau anda buat eksperimen 5.5 dan **terlupa kembalikan** `setState` |
+> | Spinner, kemudian skrin kekal kosong | Anda hanya tekan `r` (hot reload) | Tekan **`R`** besar (hot restart) — `initState()` hanya jalan semula pada restart |
+>
+> **Cara pantas mengesahkan sendiri** — tambah satu baris di hujung `_load()`:
+> ```dart
+> debugPrint('SELEPAS _load: _state=$_state, ${_programmes.length} rekod');
+> ```
+> - Baris **tidak muncul** langsung → `_load()` memang tidak pernah dipanggil (isu `initState`).
+> - Baris muncul dengan `_state=LoadState.loaded` **tetapi skrin masih spinner** → `setState()` yang tertinggal.
 
 ▶ **Jalankan** → anda patut nampak: spinner (`CircularProgressIndicator`) sekejap, kemudian teks `"8 program dimuat"` (atau lebih, jika API anda sudah aktif) — bukti `LoadState` bertukar `loading` → `loaded`.
 
@@ -732,6 +758,10 @@ Ganti kes `LoadState.error`:
 
 ### 5.5 — Eksperimen: buang `setState()` daripada `_load()`
 
+> ⚠️ **BACA SEBELUM MULA.** Eksperimen ini **sengaja merosakkan** skrin anda — spinner akan berpusing selama-lamanya. Itu memang tujuannya. **Anda WAJIB kembalikan `setState()` di hujung bahagian ini** (langkah "Kembalikan"), jika tidak semua latihan seterusnya (6 & 7) akan nampak "tersekat" dan anda akan sangka ia rosak.
+>
+> Kalau anda kesuntukan masa, **langkau** eksperimen ini dan terus ke 5.6 — konsepnya sama seperti kaunter Hari 1.
+
 Seperti kaunter Hari 1, ini eksperimen yang buat konsep "melekat" untuk async. Sementara, tukar bahagian kejayaan `_load()`:
 
 ```dart
@@ -750,7 +780,9 @@ Seperti kaunter Hari 1, ini eksperimen yang buat konsep "melekat" untuk async. S
 
 Hot reload, buka semula skrin. **Perhatikan: spinner berputar selama-lamanya**, walaupun data sebenarnya sudah sampai (tambah `print('_state = $_state, ${_programmes.length} rekod');` selepas baris `_state = LoadState.loaded;` untuk buktikan — nilai berubah dalam ingatan, tetapi skrin tidak melukis semula). **Kesimpulan:** sama seperti Hari 1 — ini **bukan** isu khusus rangkaian/`Future`; `setState()` tetap wajib **selepas** `await` untuk beritahu Flutter "lukis semula", tidak kira dari mana data itu datang.
 
-Kembalikan `setState({...})` sebenar:
+### ⬅️ WAJIB — kembalikan `setState()` sekarang
+
+Jangan teruskan ke 5.6 sebelum baris ini dikembalikan:
 
 ```dart
       setState(() {
@@ -758,6 +790,8 @@ Kembalikan `setState({...})` sebenar:
         _state = LoadState.loaded;
       });
 ```
+
+▶ **Tekan `R` besar** (hot restart) → spinner mesti hilang dan senarai/kiraan program muncul semula. **Kalau spinner masih berpusing, `setState` anda belum betul-betul kembali** — semak sekali lagi sebelum ke latihan seterusnya.
 
 ### 5.6 — Fail penuh selepas Latihan 5
 
@@ -806,7 +840,12 @@ class _LabHari4ScreenState extends State<LabHari4Screen> {
 
   Widget _buildBody() {
     switch (_state) {
+      // Sengaja DIASINGKAN daripada `loading`: kalau anda nampak teks ini,
+      // maknanya _load() TIDAK PERNAH dipanggil (biasanya initState()
+      // tertinggal). Tanpa pengasingan ini kedua-duanya nampak sama —
+      // spinner — dan anda tidak tahu yang mana satu.
       case LoadState.idle:
+        return const Center(child: Text('idle — _load() belum dipanggil'));
       case LoadState.loading:
         return const Center(child: CircularProgressIndicator());
       case LoadState.error:
@@ -1164,7 +1203,12 @@ class _LabHari4ScreenState extends State<LabHari4Screen> {
 
   Widget _buildBody() {
     switch (_state) {
+      // Sengaja DIASINGKAN daripada `loading`: kalau anda nampak teks ini,
+      // maknanya _load() TIDAK PERNAH dipanggil (biasanya initState()
+      // tertinggal). Tanpa pengasingan ini kedua-duanya nampak sama —
+      // spinner — dan anda tidak tahu yang mana satu.
       case LoadState.idle:
+        return const Center(child: Text('idle — _load() belum dipanggil'));
       case LoadState.loading:
         return const Center(child: CircularProgressIndicator());
       case LoadState.error:
