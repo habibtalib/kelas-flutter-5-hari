@@ -74,6 +74,31 @@ Setiap blok 🧪 **Uji** disusun begini:
    ```
 5. `flutter run` sekali lagi (kebenaran ini tidak menjejaskan `flutter run` debug — ia penting untuk **release build** kelak).
 
+#### Guna iOS Simulator / Mac? Baca ini
+
+iOS **tidak** perlukan kebenaran INTERNET — ia dibenarkan secara lalai. Tetapi iOS ada sekatan lain: **App Transport Security (ATS)** menghalang sambungan **`http://`** biasa (bukan `https://`). Kesannya:
+
+| Kaedah Latihan 2 | Android | iOS |
+|---|---|---|
+| **2A** GitHub raw (`https://`) | ✅ terus jalan | ✅ terus jalan |
+| **2B** `json-server` (`http://localhost:3001`) | ✅ terus jalan | ❌ **disekat ATS** sehingga anda tambah pengecualian |
+
+Kalau anda mahu guna **2B pada iOS**, buka `ios/Runner/Info.plist` dan tambah **sebelum** `</dict>` terakhir:
+
+```xml
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<!-- Benarkan HTTP ke rangkaian tempatan sahaja (json-server semasa latihan).
+		     Ini TIDAK melumpuhkan ATS untuk internet awam. -->
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+```
+
+Kemudian **hentikan** aplikasi dan `flutter run` semula — tukar `Info.plist` perlukan bina semula penuh, bukan Hot Restart.
+
+> Kalau anda hanya guna **2A (GitHub raw, `https://`)**, langkah iOS ini **tidak perlu** langsung.
+
 ▶ **Jalankan** → anda patut nampak: aplikasi terbuka seperti biasa (senarai 8 tawaran), tiada perubahan visual — betul, langkah ini hanya menyiapkan pakej + kebenaran untuk latihan seterusnya.
 
 ### 🧪 Uji Latihan 1
@@ -121,6 +146,7 @@ npx json-server --watch projek/mock-api/programmes.json --port 3001
 
 - Uji dahulu di pelayar komputer: buka `http://localhost:3001/programmes` — patut papar senarai JSON (perhatikan nama laluan `programmes` — jamak, dijana automatik oleh `json-server` daripada nama fail).
 - **Emulator Android:** guna `http://10.0.2.2:3001/programmes`, **bukan** `localhost` — `10.0.2.2` ialah alias tetap Google untuk "mesin host" (komputer anda) dari dalam emulator. (Rujuk README SESI 7, Langkah 6.)
+- **iOS Simulator:** guna `http://localhost:3001/programmes` terus — simulator berkongsi rangkaian Mac anda, jadi `10.0.2.2` **tidak** berfungsi di sini (itu alias Android sahaja). Anda juga perlu pengecualian ATS dalam `Info.plist` — lihat kotak "Guna iOS Simulator / Mac?" di Latihan 1.
 - **Peranti fizikal:** guna alamat IP komputer anda dalam WiFi yang sama, cth. `http://192.168.1.10:3001/programmes`. Cari IP dengan `ipconfig getifaddr en0` (Mac) atau `ipconfig` (Windows). Telefon dan komputer **mesti** berada dalam WiFi yang sama untuk ini berfungsi.
 
 ### 🧪 Uji Latihan 2
@@ -847,13 +873,28 @@ Langkah 6–7 ialah bukti terus: nilai berubah dalam ingatan tetapi UI tidak —
 
 **Objektif:** Ganti teks placeholder `LoadState.loaded` dengan senarai sebenar, dibalut `RefreshIndicator` supaya pengguna boleh tarik-untuk-muat-semula.
 
-Ganti kes `LoadState.loaded`:
+**Langkah 1 — benarkan `_load()` berjalan TANPA spinner penuh.** Ini bahagian yang paling mudah terlepas pandang. `_load()` anda bermula dengan `setState(() => _state = LoadState.loading);`. Kalau `RefreshIndicator` memanggilnya terus, `build()` akan menukar **seluruh** body kepada spinner penuh — `RefreshIndicator` dan senarai **lenyap di tengah gerak isyarat**, dan ia nampak seperti "reload" skrin penuh, bukan pull-to-refresh langsung.
+
+Tambah parameter pada `_load()` supaya refresh boleh melangkau spinner penuh:
+
+```dart
+  /// [tunjukSpinnerPenuh] = false semasa pull-to-refresh — biar senarai
+  /// kekal di skrin; RefreshIndicator sudah ada spinner sendiri.
+  Future<void> _load({bool tunjukSpinnerPenuh = true}) async {   // 👈 UBAH
+    if (tunjukSpinnerPenuh) {                                    // 👈 UBAH
+      setState(() => _state = LoadState.loading);
+    }
+    // ... baki _load() kekal sama
+```
+
+**Langkah 2 — ganti kes `LoadState.loaded`:**
 
 ```dart
       case LoadState.loaded:
         // ── 6 — RefreshIndicator + ListView ───────────
         return RefreshIndicator(
-          onRefresh: _load,
+          // Jangan tunjuk spinner penuh — biar senarai kekal semasa refresh.
+          onRefresh: () => _load(tunjukSpinnerPenuh: false),
           child: ListView.builder(
             padding: const EdgeInsets.only(bottom: 16),
             itemCount: _programmes.length,
@@ -883,10 +924,10 @@ Hot reload.
 | Cuba tukar | Perhatikan apa jadi | Kesimpulan |
 |---|---|---|
 | Ganti `ListView.builder` dengan `Column` biasa (kekalkan `RefreshIndicator`) | Tarik-ke-bawah **tidak** mencetuskan apa-apa — spinner tidak muncul langsung | `RefreshIndicator` perlu anak yang **boleh skrol** untuk mengesan gerak isyarat |
-| `onRefresh: _load` → `onRefresh: () async {}` (fungsi kosong) | Spinner muncul lalu hilang, tetapi data **tidak** dimuat semula | `onRefresh` mesti pulangkan `Future` kerja **sebenar**, bukan sekadar animasi |
+| `onRefresh: () => _load(tunjukSpinnerPenuh: false)` → `onRefresh: () async {}` (fungsi kosong) | Spinner muncul lalu hilang, tetapi data **tidak** dimuat semula | `onRefresh` mesti pulangkan `Future` kerja **sebenar**, bukan sekadar animasi |
 | Tambah `print('refresh!')` di awal `_load()`, tarik 3 kali | **3** baris `refresh!` di terminal | Setiap tarikan = satu panggilan `_load()` penuh (termasuk fetch semula) |
 
-Kembalikan `ListView.builder`, `onRefresh: _load`, dan buang `print` selepas eksperimen.
+Kembalikan `ListView.builder`, `onRefresh: () => _load(tunjukSpinnerPenuh: false)`, dan buang `print` selepas eksperimen.
 
 ### 🧪 Uji Latihan 6
 
@@ -898,6 +939,7 @@ Kembalikan `ListView.builder`, `onRefresh: _load`, dan buang `print` selepas eks
 |---|---|---|
 | 1 | Kira kad, tatal sampai habis | **8** kad. Kad **ke-1**: 🇪🇬 Universiti Al-Azhar · Perubatan (Medicine) · Kaherah (Cairo). Kad **ke-8** (terakhir): 🇲🇦 Universiti Mohammed V · Bahasa Arab (Arabic Language) · Rabat |
 | 2 | Tarik senarai ke bawah dari **atas sekali**, kemudian lepas | Spinner bulat Material muncul di bawah `AppBar`, berpusing, lalu hilang bila `_load()` selesai |
+| 2b | **Perhati senarai semasa spinner berpusing** | Kad **kekal kelihatan** di belakang spinner. Kalau skrin bertukar kosong/spinner penuh, Langkah 1 tertinggal |
 | 3 | Tambah `// ignore: avoid_print` + `print('refresh!')` di **awal** `_load()`, hot reload, tarik-ke-bawah **3** kali | **TERMINAL:** tepat **3** baris `refresh!` — setiap tarikan = satu `_load()` penuh |
 | 4 | Buang `print` + komen `ignore` itu | — |
 | 5 | Tekan kad **ke-4** (Universiti Alexandria · Farmasi) | `ProgrammeDetailScreen` terbuka memaparkan **Universiti Alexandria** — bukan Al-Azhar |
@@ -907,7 +949,8 @@ Kembalikan `ListView.builder`, `onRefresh: _load`, dan buang `print` selepas eks
 
 ❌ **Tak jadi?**
 - Tarik-ke-bawah tidak mencetuskan apa-apa → `RefreshIndicator` membalut widget yang **tidak boleh skrol** (cth. `Column`). Anaknya mesti `ListView.builder`.
-- Spinner muncul lalu hilang tetapi data tidak dimuat semula → `onRefresh:` menunjuk fungsi kosong; ia mesti `onRefresh: _load`.
+- Spinner muncul lalu hilang tetapi data tidak dimuat semula → `onRefresh:` menunjuk fungsi kosong; ia mesti memanggil `_load(...)` sebenar.
+- Seluruh skrin bertukar spinner penuh & senarai **lenyap** semasa menarik → anda guna `onRefresh: _load` terus. Ia mesti `onRefresh: () => _load(tunjukSpinnerPenuh: false)` (Langkah 1).
 - Menekan kad tidak membuka apa-apa → `onTap:` pada `ProgrammeCard` tertinggal, atau `import 'programme_detail_screen.dart';` belum ada di atas fail.
 - Kad ke-4 & ke-7 pun papar **Al-Azhar** → anda hantar `_programmes.first`/`_programmes[0]`, sepatutnya `p` (item gelung `itemBuilder`).
 - Senarai kekal `"8 program dimuat"` sebagai teks → cabang `LoadState.loaded` belum diganti dengan `RefreshIndicator` + `ListView.builder`.
@@ -1045,8 +1088,15 @@ class _LabHari4ScreenState extends State<LabHari4Screen> {
   LoadState _state = LoadState.idle;
   List<Programme> _programmes = [];
 
-  Future<void> _load() async {
-    setState(() => _state = LoadState.loading);
+  /// [tunjukSpinnerPenuh] = false semasa pull-to-refresh.
+  ///
+  /// PENTING: kalau kita set `LoadState.loading` semasa tarik-untuk-muat-semula,
+  /// `build()` akan ganti seluruh body dengan spinner penuh — `RefreshIndicator`
+  /// dan senarai LENYAP di tengah gerak isyarat, jadi ia nampak seperti skrin
+  /// "reload" penuh, bukan pull-to-refresh. Semasa refresh, biarkan senarai
+  /// kekal; `RefreshIndicator` sudah pun memaparkan spinnernya sendiri.
+  Future<void> _load({bool tunjukSpinnerPenuh = true}) async {
+    if (tunjukSpinnerPenuh) setState(() => _state = LoadState.loading);
     try {
       final data = await _service.fetchProgrammes();
       setState(() {
@@ -1132,7 +1182,8 @@ class _LabHari4ScreenState extends State<LabHari4Screen> {
         );
       case LoadState.loaded:
         return RefreshIndicator(
-          onRefresh: _load,
+          // Jangan tunjuk spinner penuh — biar senarai kekal semasa refresh.
+          onRefresh: () => _load(tunjukSpinnerPenuh: false),
           child: ListView.builder(
             padding: const EdgeInsets.only(bottom: 16),
             itemCount: _programmes.length,
@@ -1242,7 +1293,11 @@ Pilih **sekurang-kurangnya satu**:
 
 1. Tambah medan `DateTime? _lastUpdated;` pada `_LabHari4ScreenState`.
 2. Dalam `_load()`, tetapkan `_lastUpdated = DateTime.now();` selepas `_state = LoadState.loaded;`.
-3. Papar teks kecil di atas senarai (guna `intl`, cth. `DateFormat('h:mm a').format(_lastUpdated!)`), contoh `"Dikemaskini: 4:32 PM"`. (Petunjuk: bungkus `RefreshIndicator` dalam `Column` dengan teks itu di atas, `Expanded` sekeliling `ListView.builder`.)
+3. Papar teks kecil di atas senarai. Kalau anda mahu guna `intl` (`DateFormat`), tambah pakej itu dahulu — Hari 4 hanya memasang `http`:
+   ```bash
+   flutter pub add intl
+   ```
+   kemudian `import 'package:intl/intl.dart';` dan guna `DateFormat('h:mm a').format(_lastUpdated!)`. (Tanpa `intl` pun boleh: `'${_lastUpdated!.hour}:${_lastUpdated!.minute.toString().padLeft(2, '0')}'`.) Contoh hasil: `"Dikemaskini: 4:32 PM"`. (Petunjuk: bungkus `RefreshIndicator` dalam `Column` dengan teks itu di atas, `Expanded` sekeliling `ListView.builder`.)
 
 ### Cabaran B — Label sumber data
 
