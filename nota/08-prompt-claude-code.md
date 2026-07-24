@@ -104,6 +104,8 @@ Kekangan: kekalkan gaya sedia ada; teks UI dalam Bahasa Melayu; nama kod dalam B
 
 ---
 
+Untuk merancang **keseluruhan** aplikasi sebelum mengekod (bukan sekadar satu ciri), lihat [nota 09 — Prompt PRD](./09-prd-prompt.md) — berguna khususnya untuk projek mini Hari 5.
+
 Kembali ke [README utama](../README.md) atau mula [Hari 1](../hari-1/).
 
 ---
