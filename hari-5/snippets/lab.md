@@ -1335,6 +1335,89 @@ Jika pasukan anda menyiapkan MVP lebih awal, cuba salah satu cabaran berikut:
 6. **Refactor Lanjutan** — ekstrak **satu lagi** widget daripada skrin lain yang belum disentuh dalam Latihan 7, dan tulis satu *widget test* ringkas (`flutter test`) yang mengesahkan ia memaparkan data dengan betul.
 7. **Butang Padam** — tambah `IconButton` padam pada setiap kad dalam "Permohonan Saya" yang mengalihkan rekod daripada `_applications` (`setState` di `HomeScreen`, dihantar turun sebagai *callback* `onDelete`, sama corak seperti `onApplicationSubmitted`).
 
+---
+
+### Cabaran E — Tab "Profil" & statistik permohonan
+
+> **Kenapa cabaran ini istimewa:** sejak Hari 2 aplikasi anda ada tab **Profil** yang masih kosong — ini peluang menyiapkannya. Aplikasi rujukan (`projek/ett_mobile/lib/screens/profile_screen.dart`) memang ada versi penuh, **tetapi ia guna `provider`** (di luar sukatan). Di sini kita bina versi **`setState()`-sahaja** — logiknya sama, cuma datanya dihantar turun sebagai parameter.
+
+**Konsep utama:** `ProfileScreen` **tidak** menyimpan state. Ia `StatelessWidget` yang *menerima* `List<Application>` dan mengiranya — sama corak seperti `MyApplicationsScreen` (Latihan 5) dan `countryFilter` (Hari 3).
+
+**Langkah 1 — kira ikut status (Dart tulen, tiada pakej):**
+
+```dart
+  /// Kira bilangan permohonan bagi setiap status.
+  Map<ApplicationStatus, int> get _countByStatus {
+    final map = <ApplicationStatus, int>{};
+    for (final status in ApplicationStatus.values) {
+      map[status] = applications.where((a) => a.status == status).length;
+    }
+    return map;
+  }
+```
+
+**Langkah 2 — papar sebagai grid.** Terdapat **8** nilai `ApplicationStatus`; memaparkan kesemuanya bermakna 6–7 petak "0" yang mengganggu. Tapis kepada status yang ada rekod sahaja:
+
+```dart
+    final counts = _countByStatus;
+    final aktif = counts.entries.where((e) => e.value > 0).toList();
+```
+
+kemudian:
+
+```dart
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,                                   // 👈 WAJIB
+          physics: const NeverScrollableScrollPhysics(),      // 👈 WAJIB
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 1.6,
+          children: [
+            for (final e in aktif)
+              _StatTile(label: e.key.label, count: e.value, color: e.key.color),
+          ],
+        ),
+```
+
+> ⚠️ `shrinkWrap: true` + `NeverScrollableScrollPhysics` adalah **wajib** kerana `GridView` ini berada **di dalam** `ListView`. Tanpanya anda dapat ralat `Vertical viewport was given unbounded height` — dua widget boleh-skrol bersarang saling meminta tinggi tak terhad. (Rujuk nota Hari 2 Bahagian 6.)
+
+**Langkah 3 — sambungkan di `HomeScreen`.** `_applications` sudah pun ada di sana (Latihan 1), jadi hantar turun sahaja:
+
+```dart
+    final tabs = [
+      ProgrammeListScreen(onApplicationSubmitted: _addApplication),
+      MyApplicationsScreen(applications: _applications),
+      ProfileScreen(applications: _applications),   // 👈 TAMBAH
+    ];
+```
+
+Tambah destinasi ketiga pada `NavigationBar`:
+
+```dart
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            label: 'Profil',
+          ),
+```
+
+### 🧪 Uji Cabaran E
+
+> **Sampai ke sana:** `flutter run` → tekan **`R`** besar (struktur tab berubah).
+
+| # | Buat ini | Patut nampak |
+|---|---|---|
+| 1 | Buka tab **Profil** sebelum menghantar apa-apa | "Jumlah Permohonan **0**" + mesej "Belum ada permohonan…" — **tiada** petak statistik |
+| 2 | Tab **Tawaran** → kad ke-1 → **Mohon** → isi borang → **Hantar Permohonan** | Borang tertutup, `SnackBar` muncul |
+| 3 | Buka tab **Profil** semula | "Jumlah Permohonan **1**", satu petak **"Dihantar: 1"** |
+| 4 | Hantar satu lagi permohonan, kembali ke **Profil** | Jumlah jadi **2**, petak "Dihantar" jadi **2** |
+| 5 | Kira petak status | Hanya status yang **ada rekod** dipapar — bukan kesemua 8 |
+
+❌ **Tak jadi?**
+- Ralat `Vertical viewport was given unbounded height` → `shrinkWrap: true` / `NeverScrollableScrollPhysics` tertinggal pada `GridView` (Langkah 2).
+- Jumlah kekal **0** walaupun sudah hantar → `ProfileScreen(applications: _applications)` tidak dihantar, atau `_addApplication` tidak memanggil `setState`.
+- Semua 8 status dipapar dengan banyak "0" → penapis `.where((e) => e.value > 0)` tertinggal.
+
 Selamat mencuba, dan **tahniah kerana menamatkan kursus Flutter 5 Hari!**
 
 ---
