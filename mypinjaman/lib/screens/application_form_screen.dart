@@ -110,7 +110,9 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       submittedAt: DateTime.now(),
     );
     widget.onSubmit(application);
-    Navigator.of(context).pop();
+    // Borang dibuka 2 tolak dalam (senarai → butiran → borang); balik terus
+    // ke home shell supaya tab "Permohonan Saya" kelihatan selepas hantar.
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   @override
