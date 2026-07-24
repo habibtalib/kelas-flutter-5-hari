@@ -1,0 +1,685 @@
+<!-- ============================================================
+     HARI 2 — SESI 2 & 3 · Layout, Senarai Dinamik & Styling
+     Domain: eTT Mobile (e-Timur Tengah — Mesir & Maghribi)
+     ============================================================ -->
+
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Hari 2 — 21 Julai 2026 (Selasa)</span>
+  <h2>Layout, Senarai Dinamik &amp; Styling</h2>
+  <p class="sub">SESI 2: Seni bina layout &amp; struktur UI · SESI 3: Senarai dinamik &amp; kemasan</p>
+  <ul class="agenda">
+    <li>Row, Column, Expanded, Flexible</li>
+    <li>Stack, Positioned, Align, Center · Scaffold &amp; AppBar</li>
+    <li>BottomNavigationBar &amp; Drawer · ListView, GridView</li>
+    <li>Card &amp; ListTile · TextStyle, warna, font &amp; ThemeData</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Jadual Sesi Hari Ini</h3>
+  <table class="tight">
+    <tr><th>Masa</th><th>Sesi</th><th>Agenda</th></tr>
+    <tr><td>8.30 – 9.00 pagi</td><td>—</td><td>Pendaftaran &amp; Minum Pagi</td></tr>
+    <tr><td><strong>9.00 pagi – 1.00 petang</strong></td><td><strong>SESI 2</strong></td><td>Row, Column, Expanded, Flexible · Stack, Positioned, Align, Center · Scaffold, AppBar</td></tr>
+    <tr><td>1.00 – 2.30 petang</td><td>—</td><td>Rehat &amp; Makan Tengah Hari</td></tr>
+    <tr><td><strong>2.00 – 5.00 petang</strong></td><td><strong>SESI 3</strong></td><td>BottomNavigationBar &amp; Drawer · ListView, ListView.builder, GridView · Card &amp; ListTile · TextStyle, Warna, Font &amp; ThemeData</td></tr>
+    <tr><td>5.00 petang</td><td>—</td><td>Bersurai</td></tr>
+  </table>
+  <aside class="notes">Dua sesi rasmi hari ini. Pagi fokus susun atur; petang fokus senarai data dan penggayaan konsisten. Semua contoh guna data 8 program eTT dari semalam.</aside>
+</section>
+
+<section>
+  <h3>Imbas Kembali &amp; Skop Hari Ini</h3>
+  <div class="two-col">
+    <div>
+      <h4>Semalam (Hari 1)</h4>
+      <ul>
+        <li>Dart: operators, <code>if</code>/<code>switch</code>, loop, function</li>
+        <li><code>Text</code>, <code>Icon</code>, <code>Image</code></li>
+        <li><code>Container</code>/<code>Padding</code>/<code>SizedBox</code> — kad program statik</li>
+        <li><code>StatelessWidget</code> vs <code>StatefulWidget</code></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Belum hari ini</h4>
+      <ul>
+        <li><code>Navigator</code>/routes antara skrin — <strong>Hari 3</strong></li>
+        <li>Borang <code>Form</code>/<code>TextFormField</code> — <strong>Hari 3</strong></li>
+        <li>Sambungan API — <strong>Hari 4</strong></li>
+        <li><code>provider</code> (kongsi data antara skrin) — mula <strong>Hari 3</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">💡 Teruskan projek <code>ett_mobile</code> semalam — jangan mulakan projek baharu.</div>
+  <aside class="notes">Kekalkan momentum: hari ini kad statik semalam berkembang jadi senarai skrol 8 program dengan tema navy/gold konsisten.</aside>
+</section>
+
+<!-- ================= SESI 2 ================= -->
+
+<section>
+  <h3>Row &amp; Column — Susun Atur Asas</h3>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li><strong><code>Column</code></strong> — susun anak <strong>menegak</strong> (atas → bawah)</li>
+        <li><strong><code>Row</code></strong> — susun anak <strong>mendatar</strong> (kiri → kanan)</li>
+        <li>Susun atur kompleks = <strong>menyarang</strong> (<em>nesting</em>) Row/Column berulang kali</li>
+      </ul>
+    </div>
+    <div>
+<pre><code class="language-dart" data-trim>
+Row(
+  mainAxisAlignment:
+      MainAxisAlignment.spaceBetween,
+  children: [
+    Text('Universiti Al-Azhar'),
+    Text('🇪🇬'),
+  ],
+)
+</code></pre>
+    </div>
+  </div>
+  <aside class="notes">Setiap skrin Flutter dibina dengan menyusun widget kecil jadi widget besar. Row dan Column ialah dua alat susun atur paling asas — hampir setiap skrin guna kedua-duanya.</aside>
+</section>
+
+<section>
+  <h3><code>MainAxisAlignment</code> vs <code>CrossAxisAlignment</code></h3>
+  <table class="tight">
+    <tr><th>Widget</th><th>Paksi utama (<em>main axis</em>)</th><th>Paksi silang (<em>cross axis</em>)</th></tr>
+    <tr><td><code>Row</code></td><td>mendatar (kiri↔kanan)</td><td>menegak (atas↔bawah)</td></tr>
+    <tr><td><code>Column</code></td><td>menegak (atas↔bawah)</td><td>mendatar (kiri↔kanan)</td></tr>
+  </table>
+  <ul>
+    <li><code>mainAxisAlignment</code>: <code>start</code>, <code>end</code>, <code>center</code>, <code>spaceBetween</code>, <code>spaceAround</code>, <code>spaceEvenly</code></li>
+    <li><code>crossAxisAlignment</code>: <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code></li>
+  </ul>
+  <aside class="notes">Konsep dua paksi ialah kunci memahami Row/Column. Lukis di papan putih: Row paksi utama mendatar, Column paksi utama menegak — paksi silang sentiasa yang satu lagi.</aside>
+</section>
+
+<section>
+  <h3>Kod Sebenar: Header <code>ProgrammeCard</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Row(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(programme.flagEmoji, style: const TextStyle(fontSize: 30)),
+    const SizedBox(width: 12),
+    Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(programme.universityName,
+              style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(programme.fieldOfStudy),
+          Text('${programme.city}, ${programme.countryLabel}'),
+        ],
+      ),
+    ),
+    // ... kos anggaran tahunan RM di kanan
+  ],
+)
+</code></pre>
+  <p class="small muted">Daripada <code>widgets/programme_card.dart</code> — struktur: bendera | maklumat program | kos RM.</p>
+  <aside class="notes">Corak biasa: Row untuk bahagian besar mendatar, Column bersarang di dalam untuk susun menegak universiti, bidang dan lokasi. crossAxisAlignment.start menjajarkan semua ke atas.</aside>
+</section>
+
+<section>
+  <h3>Ralat Klasik: <code>RenderFlex overflowed</code></h3>
+<pre><code class="language-dart" data-trim>
+Row(
+  children: [
+    Text('Universite Al Quaraouiyine'),
+    Text(' — Fes, Maghribi'),
+  ],
+)
+</code></pre>
+  <div class="note warn">⚠️ Pada skrin sempit, jumlah lebar teks <strong>melebihi</strong> lebar skrin → <strong>jalur kuning-hitam bergaris</strong> di tepi + amaran merah di konsol. Ralat pemula Flutter paling biasa!</div>
+  <aside class="notes">Demokan ralat ini secara sengaja — nama universiti Maghribi yang panjang sesuai untuk mencetuskannya. Peserta akan jumpa jalur kuning-hitam ini banyak kali; penting mereka kenal dan tahu puncanya.</aside>
+</section>
+
+<section>
+  <h3>Penyelesaian: <code>Expanded</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Row(
+  children: [
+    Expanded(
+      child: Text(
+        'Universite Al Quaraouiyine',
+        overflow: TextOverflow.ellipsis,
+      ),
+    ),
+    const Text(' — Fes, Maghribi'),
+  ],
+)
+</code></pre>
+  <ul>
+    <li><code>Expanded</code>: "isi baki ruang yang ada, <strong>jangan lebih</strong>"</li>
+    <li><code>TextOverflow.ellipsis</code> memotong teks panjang dengan <code>…</code> — paparan terkawal, bukan ralat</li>
+  </ul>
+  <aside class="notes">Corak sama dalam ProgrammeCard sebenar: tanpa Expanded, Column maklumat program menolak lajur kos RM keluar dari skrin. Dengan Expanded, ia mengisi ruang yang tinggal sahaja.</aside>
+</section>
+
+<section>
+  <h3>Layout Leceh? Minta AI</h3>
+  <p>Susun atur macam header <code>ProgrammeCard</code> memang leceh nak dapat elok kali pertama. Kalau buntu, cuba:</p>
+<pre><code class="language-text" data-trim>
+Bina Row untuk ProgrammeCard: bendera negara, Column
+(universityName, fieldOfStudy), Expanded, dan kos RM di hujung
+kanan. Guna KptTheme.navy untuk tajuk.
+</code></pre>
+  <p class="small muted">Semak hasilnya sebelum terima — pastikan <code>const</code> di tempat yang patut, dan jalankan <code>flutter analyze</code> untuk tangkap apa-apa yang tertinggal.</p>
+  <aside class="notes">Tunjuk secara langsung jika sempat: taip prompt ini, baca kod yang dijana bersama kelas, dan bandingkan dengan widgets/programme_card.dart sebenar. Prompt spesifik — nama widget, medan model, rujukan tema — memberi hasil jauh lebih baik daripada "buatkan saya kad cantik".</aside>
+</section>
+
+<section>
+  <h3><code>Expanded</code> vs <code>Flexible</code></h3>
+  <table class="tight">
+    <tr><th></th><th><code>Expanded</code></th><th><code>Flexible</code></th></tr>
+    <tr><td>Definisi</td><td><code>Flexible(fit: FlexFit.tight)</code></td><td><code>fit: FlexFit.loose</code> (lalai)</td></tr>
+    <tr><td>Kelakuan</td><td><strong>Memaksa</strong> isi semua ruang baki</td><td><strong>Boleh</strong> isi ruang baki, tak wajib</td></tr>
+    <tr><td>Bila guna</td><td>Widget MESTI ambil ruang (Column maklumat kad)</td><td>Widget boleh lebih kecil (ikon/label pendek)</td></tr>
+  </table>
+  <div class="note">💡 <strong>Peraturan mudah:</strong> tak pasti? Mula dengan <code>Expanded</code>. Nampak "terlalu meregang"? Tukar <code>Flexible</code>.</div>
+  <aside class="notes">Jangan berlarutan dengan teori — peraturan mudah di bawah slaid ini mencukupi untuk pemula.</aside>
+</section>
+
+<section>
+  <h3><code>Stack</code> &amp; <code>Positioned</code> — Susun Atur Bertindan</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Stack(
+  children: [
+    // Anak pertama = lapisan paling BAWAH
+    Container(height: 160, color: KptTheme.navy),
+    // Anak seterusnya ditindan di ATAS
+    Positioned(
+      top: 12,
+      right: 12,
+      child: CategoryPill(category: programme.category),
+    ),
+  ],
+)
+</code></pre>
+  <ul>
+    <li><code>Positioned</code> <strong>hanya sah dalam <code>Stack</code></strong> — jarak dari <code>top</code>/<code>bottom</code>/<code>left</code>/<code>right</code></li>
+    <li>Anak bukan-<code>Positioned</code> memenuhi keseluruhan <code>Stack</code> secara lalai</li>
+  </ul>
+  <aside class="notes">Row/Column tidak membenarkan tindanan. Stack untuk kes widget di atas widget — cth. pill kategori kemasukan SPM/STAM di sudut banner.</aside>
+</section>
+
+<section>
+  <h3>Latihan: <code>ProgrammeBanner</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Stack(
+  children: [
+    Container(
+      height: 160,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: KptTheme.navy,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Center(
+        child: Text(programme.flagEmoji,
+            style: const TextStyle(fontSize: 56)),
+      ),
+    ),
+    Positioned(
+      left: 16,
+      bottom: 14,
+      child: Text(
+        '${programme.universityName}\n${programme.fieldOfStudy}',
+        style: const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    ),
+    Positioned(
+      top: 12,
+      right: 12,
+      child: CategoryPill(category: programme.category),
+    ),
+  ],
+)
+</code></pre>
+  <aside class="notes">Banner satu Programme: latar navy dengan bendera besar di tengah, universiti dan bidang dilabuhkan bawah kiri, pill SPM/STAM ditindan kanan atas. CategoryPill diguna semula daripada widgets/programme_card.dart — bukan tulis baharu.</aside>
+</section>
+
+<section>
+  <h3>Dah Selesa Dengan <code>Stack</code>? Lanjutkan</h3>
+  <p>Cuba minta AI jana kad "hero" yang lebih lengkap, berasaskan corak yang baru anda bina sendiri:</p>
+<pre><code class="language-text" data-trim>
+Konteks: Projek Flutter "eTT Mobile". Tema: KptTheme.navy
+(0xFF1A2B5C) + KptTheme.gold (0xFFD4A017). Model data: Programme
+(universityName, country, city, fieldOfStudy, category,
+estimatedAnnualCostMyr, quotaSeats).
+
+Tugas: Jana satu StatelessWidget bernama `ProgrammeHeroCard` —
+banner navy di atas (guna Stack), universiti &amp; bidang di bawah
+banner (teks putih), pill kategori kemasukan di sudut kanan atas.
+Di bawah banner, papar kos anggaran RM dan senarai dokumen
+(ettDocumentChecklist) sebagai baris cip kecil.
+
+Kekangan: widget Flutter standard sahaja (jangan import pakej
+luar). Kekalkan gaya konsisten dengan widgets/programme_card.dart.
+</code></pre>
+  <aside class="notes">Perhatikan susunan prompt: konteks, model data, tugas khusus, kekangan — empat bahagian ini menjadikan output jauh lebih tepat. Lebih banyak contoh: nota/08-prompt-claude-code.md. Beri peserta masa menulis prompt sendiri dan menjana.</aside>
+</section>
+
+<section>
+  <h3>Hasil AI Jarang Sempurna — Ini Yang Biasa Kena Betulkan</h3>
+  <ul>
+    <li><strong><code>const</code> yang hilang</strong> pada widget statik — <code>flutter analyze</code> tunjuk <code>prefer_const_constructors</code></li>
+    <li><strong><code>Row</code> untuk cip dokumen boleh overflow</strong> — <code>ettDocumentChecklist</code> ada <strong>6</strong> item, tak muat satu baris telefon (ingat pagi tadi!)</li>
+    <li><strong>Warna hardcoded baharu</strong> — jika AI jana <code>Color(0xFF...)</code> sendiri, gantikan dengan <code>KptTheme.navy</code>/<code>KptTheme.gold</code></li>
+  </ul>
+<pre><code class="language-dart" data-trim>
+// Baiki overflow: Wrap "lipat" ke baris baharu secara automatik
+Wrap(
+  spacing: 6,
+  children: ettDocumentChecklist
+      .map((d) =&gt; Chip(label: Text(d)))
+      .toList(),
+)
+</code></pre>
+  <p class="small muted">Lepas betulkan, jalankan <code>flutter analyze</code> sebelum sambung — tabiat yang patut jadi automatik setiap kali terima kod daripada AI.</p>
+  <aside class="notes">AI biasanya pulangkan sesuatu yang berfungsi tetapi jarang sempurna — ia jarang fikirkan skrin sempit, jadi pengetahuan overflow pagi tadi terus terpakai. Minta peserta cari isu dalam kod janaan mereka sendiri sebelum tunjuk senarai ini.</aside>
+</section>
+
+<section>
+  <h3><code>Align</code> &amp; <code>Center</code></h3>
+<pre><code class="language-dart" data-trim>
+Align(
+  alignment: Alignment.centerRight,
+  child: Icon(Icons.chevron_right, color: KptTheme.navy),
+)
+</code></pre>
+  <ul>
+    <li><code>Center</code> = kes khas <code>Align</code> (sentiasa <code>Alignment.center</code>)</li>
+    <li><code>Align</code>: letak anak di mana-mana titik ruang ibu — <code>topLeft</code>, <code>bottomRight</code>, atau koordinat <code>-1.0</code> hingga <code>1.0</code></li>
+    <li><code>Positioned</code> = jarak <strong>mutlak</strong> (perlu <code>Stack</code>); <code>Align</code> = kedudukan <strong>relatif</strong> (tak perlu <code>Stack</code>)</li>
+  </ul>
+  <aside class="notes">Perbezaan praktikal: "12px dari kanan atas" guna Positioned dalam Stack; "tengah-kanan" guna Align dalam mana-mana induk yang lebih besar daripada anaknya.</aside>
+</section>
+
+<section>
+  <h3><code>Scaffold</code> &amp; <code>AppBar</code> — Rangka Skrin</h3>
+  <div class="two-col">
+    <div>
+<pre><code class="language-dart" data-trim>
+Scaffold(
+  appBar: AppBar(
+    title: const Text('Program'),
+  ),
+  body: const Center(
+    child: Text('Kandungan skrin'),
+  ),
+)
+</code></pre>
+    </div>
+    <div>
+      <table class="tight">
+        <tr><th>Parameter</th><th>Fungsi</th></tr>
+        <tr><td><code>appBar</code></td><td>Bar tajuk di atas</td></tr>
+        <tr><td><code>body</code></td><td>Kandungan utama</td></tr>
+        <tr><td><code>drawer</code></td><td>Panel sisi (petang ini)</td></tr>
+        <tr><td><code>bottomNavigationBar</code></td><td>Bar tab bawah (petang ini)</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">Hampir setiap skrin Material bermula dengan Scaffold. Semalam kita sudah guna secara minimum — hari ini kita faham anatominya penuh.</aside>
+</section>
+
+<section>
+  <h3>Kenapa <code>AppBar()</code> Kita Automatik Navy?</h3>
+<pre><code class="language-dart" data-trim>
+// Dalam theme.dart (KptTheme) — bukan di setiap skrin:
+appBarTheme: const AppBarTheme(
+  backgroundColor: KptTheme.navy,
+  foregroundColor: Colors.white,
+  elevation: 0,
+  centerTitle: false,
+),
+</code></pre>
+  <ul>
+    <li><strong>Setiap</strong> <code>AppBar()</code> polos → automatik navy + teks putih, tanpa ulang kod warna</li>
+    <li>Konsistensi jenama dari <strong>satu tempat</strong> — inilah gunanya <code>ThemeData</code> (bedah penuh petang ini)</li>
+  </ul>
+  <aside class="notes">Contoh pertama kuasa ThemeData: kita tidak pernah menetapkan warna AppBar di mana-mana skrin, tetapi semuanya navy. Ini pratonton — struktur penuh KptTheme di SESI 3.</aside>
+</section>
+
+<!-- ================= SESI 3 ================= -->
+
+<section>
+  <p class="lead">SESI 3 (Petang) — Senarai Dinamik &amp; Kemasan</p>
+  <div class="cards">
+    <div class="card navy"><h4>Navigasi aplikasi</h4><p><code>BottomNavigationBar</code> 3 tab + <code>Drawer</code> negara (Mesir/Maghribi).</p></div>
+    <div class="card"><h4>Senarai &amp; grid</h4><p><code>ListView.builder</code> untuk 8 program · <code>GridView</code> 2 lajur.</p></div>
+    <div class="card"><h4>Komponen visual</h4><p><code>Card</code> &amp; <code>ListTile</code> — corak baris standard.</p></div>
+    <div class="card accent"><h4>Styling</h4><p><code>TextStyle</code> sebaris vs <code>ThemeData</code> global (<code>KptTheme</code>).</p></div>
+  </div>
+  <aside class="notes">Petang ini kad statik semalam berkembang menjadi aplikasi bernavigasi dengan senarai skrol sebenar. Semua data daripada sample_programmes.dart.</aside>
+</section>
+
+<section>
+  <h3><code>BottomNavigationBar</code> — 3 Tab eTT Mobile</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+class _HomeScreenState extends State&lt;HomeScreen&gt; {
+  int _index = 0;
+
+  static const _titles = ['Program', 'Permohonan Saya', 'Profil'];
+  static const _screens = [
+    ProgrammeListScreen(),
+    MyApplicationsScreen(),
+    ProfileScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(_titles[_index])),
+      body: _screens[_index],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _index,
+        onTap: (i) =&gt; setState(() =&gt; _index = i),
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.school_outlined), label: 'Program'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.assignment_outlined),
+              label: 'Permohonan Saya'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: 'Profil'),
+        ],
+      ),
+    );
+  }
+}
+</code></pre>
+  <aside class="notes">HomeScreen mesti StatefulWidget kerana indeks tab berubah. onTap panggil setState supaya body ditukar kepada skrin tab baharu. setState diterangkan penuh Hari 3 — buat masa ini anggap ia "beritahu Flutter: lukis semula".</aside>
+</section>
+
+<section>
+  <h3>Perkara Penting <code>BottomNavigationBar</code></h3>
+  <ul>
+    <li><code>HomeScreen</code> <strong>mesti</strong> <code>StatefulWidget</code> — indeks tab (<code>_index</code>) <strong>berubah</strong> bila pengguna menekan</li>
+    <li><code>onTap: (i) =&gt; setState(() =&gt; _index = i)</code> — rebuild <code>Scaffold</code> dengan tab baharu</li>
+    <li><code>_screens[_index]</code> menukar <strong>keseluruhan</strong> <code>body</code> mengikut tab semasa</li>
+  </ul>
+  <div class="note">🔭 <code>setState()</code> dibedah <strong>penuh</strong> di SESI 5 (Hari 3) — hari ini cukup faham corak penggunaannya.</div>
+  <aside class="notes">Tiga tab mencerminkan perjalanan pengguna eTT: teliti program, jejak permohonan sendiri, urus profil. Ini navigasi peringkat aplikasi — Navigator antara skrin datang esok.</aside>
+</section>
+
+<section>
+  <h3><code>Drawer</code> — Panel Negara (Mesir/Maghribi)</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+class _CountryDrawer extends StatelessWidget {
+  const _CountryDrawer({required this.onSelect});
+  final void Function(String?) onSelect;
+
+  static const _options = [
+    _CountryOption(null, 'Semua Negara', '🌍'),
+    _CountryOption('Egypt', 'Mesir', '🇪🇬'),
+    _CountryOption('Morocco', 'Maghribi', '🇲🇦'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: KptTheme.navy),
+            child: Text('eTT Mobile',
+                style: TextStyle(color: Colors.white, fontSize: 22)),
+          ),
+          for (final option in _options)
+            ListTile(
+              leading: Text(option.flag,
+                  style: const TextStyle(fontSize: 22)),
+              title: Text(option.label),
+              onTap: () =&gt; onSelect(option.value),
+            ),
+        ],
+      ),
+    );
+  }
+}
+</code></pre>
+  <aside class="notes">Daripada screens/home_screen.dart. Scaffold automatik tambah ikon hamburger bila drawer disediakan. Corak collection-for menjana satu ListTile bagi setiap negara. value null bermaksud tiada tapisan. Kod sebenar juga guna provider untuk tapisan — itu mula Hari 3; hari ini cukup print sahaja dalam onSelect.</aside>
+</section>
+
+<section>
+  <h3><code>ListView</code> vs <code>ListView.builder</code></h3>
+  <div class="two-col">
+    <div>
+      <h4><code>ListView</code></h4>
+<pre><code class="language-dart" data-trim>
+ListView(
+  children: const [
+    Text('Universiti Al-Azhar'),
+    Text('Universiti Alexandria'),
+    Text('Universite Al Quaraouiyine'),
+  ],
+)
+</code></pre>
+      <p class="small muted">Bina <strong>semua</strong> anak serentak — untuk senarai pendek &amp; tetap.</p>
+    </div>
+    <div>
+      <h4><code>ListView.builder</code></h4>
+<pre><code class="language-dart" data-trim>
+ListView.builder(
+  itemCount: sampleProgrammes.length,
+  itemBuilder: (context, index) {
+    final p = sampleProgrammes[index];
+    return ProgrammeCard(programme: p);
+  },
+)
+</code></pre>
+      <p class="small muted">Bina "malas" (<em>lazy</em>) — hanya item hampir kelihatan.</p>
+    </div>
+  </div>
+  <aside class="notes">Analogi 10,000 item: ListView biasa bina semua serentak — lambat dan makan memori; builder bina ~10-15 yang kelihatan sahaja. Untuk 8 program bezanya tak ketara, tetapi tabiat .builder untuk senarai data patut bermula sekarang — selepas API Hari 4, senarai boleh berkembang.</aside>
+</section>
+
+<section>
+  <h3>Kod Sebenar: <code>ProgrammeListScreen</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+ListView.builder(
+  padding: const EdgeInsets.only(bottom: 16),
+  itemCount: items.length,
+  itemBuilder: (context, index) {
+    final p = items[index];
+    return ProgrammeCard(
+      programme: p,
+      onTap: () { /* Hari 3: Navigator.push ke detail */ },
+    );
+  },
+)
+</code></pre>
+  <ul>
+    <li><code>itemCount</code> — bilangan item; Flutter tahu bila skrol tamat</li>
+    <li><code>itemBuilder</code> — <code>(context, index) =&gt; Widget</code>, dipanggil per item hampir kelihatan</li>
+  </ul>
+  <aside class="notes">Daripada screens/programme_list_screen.dart. Dalam kod sebenar, items datang daripada provider (ditapis carian/negara) dan onTap menavigasi — kedua-duanya Hari 3. Hari ini guna terus sampleProgrammes dan onTap kosong.</aside>
+</section>
+
+<section>
+  <h3><code>GridView</code> — 8 Program Sebagai Grid</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+GridView.builder(
+  padding: const EdgeInsets.all(12),
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,       // 2 lajur
+    mainAxisSpacing: 10,
+    crossAxisSpacing: 10,
+    childAspectRatio: 0.95,
+  ),
+  itemCount: sampleProgrammes.length,
+  itemBuilder: (context, index) {
+    final p = sampleProgrammes[index];
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(p.flagEmoji, style: const TextStyle(fontSize: 22)),
+            Text(p.universityName,
+                maxLines: 2, overflow: TextOverflow.ellipsis),
+            Text(p.fieldOfStudy, maxLines: 2,
+                overflow: TextOverflow.ellipsis),
+            const Spacer(),
+            Text('${p.quotaSeats} tempat'),
+          ],
+        ),
+      ),
+    );
+  },
+)
+</code></pre>
+  <aside class="notes">GridView.builder juga lazy seperti ListView.builder. crossAxisCount = bilangan lajur; childAspectRatio = nisbah lebar:tinggi petak. Cabaran nanti: tukar ke 3 lajur dan laraskan nisbah. Kuota anggaran latihan kecuali Maghribi 15.</aside>
+</section>
+
+<section>
+  <h3><code>Card</code> &amp; <code>ListTile</code></h3>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li><code>Card</code> — bekas Material: <strong>bayang</strong> (<em>elevation</em>) + <strong>sudut bulat</strong> lalai</li>
+        <li><code>ListTile</code> — baris siap pakai: <code>leading</code> · <code>title</code> · <code>subtitle</code> · <code>trailing</code> · <code>onTap</code></li>
+      </ul>
+      <p class="small muted">Gaya <code>Card</code> projek datang dari <code>KptTheme</code> (<code>cardTheme</code>) — bukan diulang di setiap fail.</p>
+    </div>
+    <div>
+<pre><code class="language-dart" data-trim>
+ListTile(
+  leading: const Icon(Icons.school_outlined),
+  title: const Text('Universiti Al-Azhar'),
+  subtitle: const Text('Kaherah (Cairo), Mesir'),
+  trailing: const Icon(Icons.chevron_right),
+  onTap: () {},
+)
+</code></pre>
+    </div>
+  </div>
+  <aside class="notes">ListTile sudah kita guna dalam Drawer negara tadi. Bandingkan dengan bina Row+Column manual setiap kali — ListTile jimat banyak kod untuk corak baris standard.</aside>
+</section>
+
+<section>
+  <h3>Gabungan: <code>Card</code> + <code>ListTile</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Card(
+  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+  child: ListTile(
+    leading: const Icon(Icons.school_outlined, color: KptTheme.navy),
+    title: Text(programme.universityName),
+    subtitle: Text(
+        '${programme.fieldOfStudy} · ${programme.intakeMonth}'),
+    trailing: Text('${programme.quotaSeats} tempat'),
+  ),
+)
+</code></pre>
+  <ul>
+    <li>Alternatif <strong>ringkas</strong> berbanding <code>ProgrammeCard</code> tersuai penuh — guna bila tak perlukan susun atur istimewa</li>
+  </ul>
+  <div class="note">💬 Perlu banyak variasi baris macam ni? Pantas untuk minta AI jana terus — <em>"Jana StatelessWidget <code>ProgrammeIntakeTile</code> — Card + ListTile, leading ikon sekolah warna KptTheme.navy, title universityName, subtitle 'fieldOfStudy · intakeMonth', trailing quotaSeats"</em>. Semak macam biasa: <code>const</code>, rujukan <code>KptTheme</code>, dan <code>flutter analyze</code> bersih.</div>
+  <aside class="notes">Dua tahap: ListTile untuk baris seragam pantas; widget tersuai penuh seperti ProgrammeCard bila reka bentuk lebih khusus diperlukan. Widget kecil berformula begini ialah kes ideal untuk AI jana — asalkan kita semak sebelum guna pakai.</aside>
+</section>
+
+<section>
+  <h3><code>TextStyle</code> — Gaya Untuk Satu <code>Text</code></h3>
+<pre><code class="language-dart" data-trim>
+Text(
+  'Universiti Al-Azhar',
+  style: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: KptTheme.navy,
+    letterSpacing: 0.2,
+  ),
+)
+</code></pre>
+  <ul>
+    <li>Sesuai untuk gaya <strong>sekali guna</strong> (sebaris/<em>inline</em>)</li>
+    <li>Masalah: gaya sama diulang di banyak fail → jenama tukar warna = cari-ganti puluhan tempat</li>
+  </ul>
+  <aside class="notes">Bina motivasi untuk slaid seterusnya: TextStyle inline bagus untuk kes tunggal, tetapi konsistensi seluruh aplikasi perlukan penyelesaian global — ThemeData.</aside>
+</section>
+
+<section>
+  <h3><code>ThemeData</code> — Kod Sebenar <code>KptTheme</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+class KptTheme {
+  KptTheme._();
+
+  static const Color navy = Color(0xFF1A2B5C);
+  static const Color gold = Color(0xFFD4A017);
+  static const Color bgLight = Color(0xFFF5F6FA);
+
+  static ThemeData get light {
+    final scheme = ColorScheme.fromSeed(
+      seedColor: navy,
+      primary: navy,
+      secondary: gold,
+      brightness: Brightness.light,
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: scheme,
+      scaffoldBackgroundColor: bgLight,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: navy,
+        foregroundColor: Colors.white,
+      ),
+      cardTheme: CardThemeData(
+        elevation: 1,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14)),
+      ),
+    );
+  }
+}
+</code></pre>
+  <aside class="notes">Fail sebenar lib/theme.dart (dipendekkan). ColorScheme.fromSeed menjana skema penuh dari satu warna benih; kita override primary/secondary supaya navy/gold. KptTheme._() = constructor private — kelas ini bekas pemalar, bukan untuk diinstankan.</aside>
+</section>
+
+<section>
+  <h3><code>ThemeData</code> — Perkara Penting</h3>
+  <ul>
+    <li>Didaftar <strong>sekali</strong>: <code>MaterialApp(title: 'eTT Mobile — Latihan', theme: KptTheme.light, ...)</code></li>
+    <li><code>appBarTheme</code>/<code>cardTheme</code>/<code>filledButtonTheme</code>/<code>inputDecorationTheme</code> — gaya <strong>lalai</strong> semua widget jenis itu</li>
+    <li>Akses tema semasa: <code>Theme.of(context).textTheme.titleMedium</code></li>
+    <li>Font lalai sistem memadai; fon tersuai boleh guna <code>fontFamily</code> / pakej <code>google_fonts</code> (tidak digunakan projek ini)</li>
+  </ul>
+  <p class="small muted">Navy <code>#1A2B5C</code> + gold <code>#D4A017</code> ialah pilihan reka bentuk bahan kursus — eTT/KPT tidak menerbitkan palet warna korporat rasmi.</p>
+  <div class="note">💬 Kalau <code>ColorScheme.fromSeed</code> rasa padat, minta AI huraikan — atau, kalau nak cuba idea tema gelap, minta ia jana draf <code>static ThemeData get dark</code> berdasarkan struktur <code>light</code> di atas. Baca hasilnya baris demi baris dan jalankan <code>flutter analyze</code> sebelum letak dalam projek.</div>
+  <aside class="notes">Tegaskan konsep satu tempat untuk semua gaya. Draf tema gelap ialah latihan lanjutan yang bagus untuk peserta pantas — struktur light sudah jadi templat, AI cuma isi variannya, dan kita semak seperti biasa.</aside>
+</section>
+
+<section>
+  <h3>Ringkasan Hari 2 &amp; Cabaran</h3>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li>✅ <code>Row</code>/<code>Column</code> + 2 paksi · nesting</li>
+        <li>✅ <code>Expanded</code>/<code>Flexible</code> — selesai overflow</li>
+        <li>✅ <code>Stack</code>/<code>Positioned</code> — <code>ProgrammeBanner</code> &amp; kad hero</li>
+        <li>✅ <code>Scaffold</code>/<code>AppBar</code> bertema navy</li>
+        <li>✅ <code>BottomNavigationBar</code> + <code>Drawer</code> negara</li>
+        <li>✅ <code>ListView.builder</code>/<code>GridView</code> — 8 program</li>
+        <li>✅ <code>Card</code>/<code>ListTile</code> · <code>TextStyle</code>/<code>ThemeData</code></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Cabaran (sebelum esok)</h4>
+      <ul>
+        <li>Tambah pill <code>countryLabel</code> di sudut kiri bawah <code>ProgrammeBanner</code></li>
+        <li>Tukar grid ke 3 lajur + laraskan <code>childAspectRatio</code></li>
+        <li>Tambah warna <code>info</code> dalam <code>KptTheme</code> + pill "Pengambilan: <code>intakeMonth</code>"</li>
+      </ul>
+      <div class="note tip">✅ Esok (SESI 4 &amp; 5): <code>Navigator</code> ke skrin butiran program, borang permohonan (<code>TextFormField</code>), dan <code>setState()</code> penuh.</div>
+    </div>
+  </div>
+  <aside class="notes">Semak setiap peserta boleh skrol senarai 8 program dengan tema navy/gold sebelum bersurai. Cabaran ialah kerja rumah pilihan — galakkan cuba sekurang-kurangnya satu.</aside>
+</section>

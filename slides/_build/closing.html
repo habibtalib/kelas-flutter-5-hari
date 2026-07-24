@@ -1,0 +1,101 @@
+<!-- ============ PENUTUP ============ -->
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Penutup</span>
+  <h2>Ringkasan &amp; Langkah Seterusnya</h2>
+  <p class="sub">5 hari · 9 sesi · satu aplikasi berfungsi — apa yang anda bawa pulang</p>
+  <ul class="agenda">
+    <li>Ringkasan perjalanan 5 hari</li>
+    <li>Bagaimana AI membantu sepanjang minggu</li>
+    <li>Langkah seterusnya selepas kursus</li>
+    <li>Sumber pembelajaran lanjutan</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Ringkasan 5 Hari</h3>
+  <table class="tight">
+    <tr><th>Hari</th><th>Sesi</th><th>Anda kini boleh…</th></tr>
+    <tr><td><strong>Hari 1</strong></td><td>SESI 1</td><td>Tulis Dart asas (operator, kawalan, loop, function); bina widget asas; beza Stateless vs Stateful</td></tr>
+    <tr><td><strong>Hari 2</strong></td><td>SESI 2–3</td><td>Susun layout (<code>Row</code>/<code>Column</code>/<code>Stack</code>); <code>Scaffold</code>/<code>AppBar</code>; senarai dinamik; kemasan <code>ThemeData</code></td></tr>
+    <tr><td><strong>Hari 3</strong></td><td>SESI 4–5</td><td>Navigasi berbilang skrin + hantar data; borang dengan <em>validation</em>; urus state dengan <code>setState()</code></td></tr>
+    <tr><td><strong>Hari 4</strong></td><td>SESI 6–7</td><td>Sambung REST API (<code>http</code>, <code>async</code>/<code>await</code>); JSON → model; kendalikan ralat &amp; <em>loading</em></td></tr>
+    <tr><td><strong>Hari 5</strong></td><td>SESI 8–9</td><td>Gabungkan semuanya dalam projek mini <strong>eTT Mobile</strong>; tulis kod bersih; <em>refactor</em>; demo aplikasi anda</td></tr>
+  </table>
+  <p class="lead">Dari kosong → aplikasi mudah alih <strong>berfungsi penuh</strong>. 👏</p>
+  <aside class="notes">Imbas perjalanan penuh: setiap hari membina di atas hari sebelumnya, dan Hari 5 membuktikan peserta boleh mensintesis kesemuanya sendiri dalam eTT Mobile.</aside>
+</section>
+
+<section>
+  <h3>AI Membantu, Anda Memandu</h3>
+  <p>Sepanjang minggu, AI muncul tepat di tempat ia paling berguna — menjana layout yang leceh, menulis validator, menukar JSON kepada model, dan mencari punca ralat. Tabiat yang mengiringinya:</p>
+  <ul>
+    <li><strong>Review</strong> setiap kod yang dijana — baca dahulu, terima kemudian</li>
+    <li><strong>Jalankan <code>flutter analyze</code></strong> selepas setiap perubahan — tangkap ralat awal</li>
+    <li><strong>Faham sebelum terima</strong> — minta AI terangkan bahagian yang kabur</li>
+    <li><strong>Commit kerap</strong> — supaya boleh patah balik bila satu cadangan merosakkan sesuatu</li>
+  </ul>
+  <aside class="notes">Rumuskan tabiat minggu ini: AI ialah pemecut, bukan pengganti pemahaman. Empat tabiat — review, analyze, faham, commit — kekal relevan dalam kerja sebenar.</aside>
+</section>
+
+<section>
+  <h3>Prinsip Prompt yang Baik</h3>
+  <table class="tight">
+    <tr><th>Prinsip</th><th>❌ Lemah</th><th>✅ Baik</th></tr>
+    <tr><td><strong>Khusus</strong></td><td>"tambah carian"</td><td>"Tambah <code>TextField</code> carian di atas <code>ListView</code> dalam <code>programme_list_screen.dart</code> yang menapis mengikut <code>universityName</code> guna <code>setState()</code>"</td></tr>
+    <tr><td><strong>Beri konteks</strong></td><td>"ada ralat"</td><td>"Ralat <code>setState() called after dispose()</code> bila keluar <code>ApplicationFormScreen</code>. Lihat method <code>_submit</code>"</td></tr>
+    <tr><td><strong>Rujuk fail</strong></td><td>"ubah model"</td><td>"Dalam <code>models/programme.dart</code>, tambah medan X dan kemas kini <code>fromJson</code>/<code>toJson</code>"</td></tr>
+    <tr><td><strong>Satu langkah</strong></td><td>"bina borang + validation + simpan + API"</td><td>Pecahkan kepada beberapa prompt kecil</td></tr>
+    <tr><td><strong>Nyatakan hasil</strong></td><td>"buat ia elok"</td><td>"Papar mesej ralat merah di bawah <code>TextFormField</code> bila No. KP bukan 12 digit"</td></tr>
+  </table>
+  <aside class="notes">Lima prinsip daripada nota/08-prompt-claude-code.md. Prompt yang baik ialah spesifikasi mini — khusus, berkonteks, satu langkah, hasil jelas.</aside>
+</section>
+
+<section>
+  <h3>Templat Prompt Boleh Guna Semula</h3>
+  <pre><code class="language-text" data-trim>Konteks: Projek Flutter "eTT Mobile" — companion sistem
+e-Timur Tengah (KPT), permohonan pelajar ke universiti
+Mesir &amp; Maghribi.
+State: setState() (StatefulWidget).
+Struktur: lib/{models,data,services,widgets,screens}.
+
+Tugas: &lt;apa yang anda mahu&gt;
+Fail terlibat: &lt;lib/...&gt;
+Hasil dijangka: &lt;kelakuan akhir yang anda mahu lihat&gt;
+Kekangan: kekalkan gaya sedia ada; teks UI dalam
+Bahasa Melayu; nama kod dalam Bahasa Inggeris.</code></pre>
+  <p class="small muted">Simpan templat ini — tukar bahagian <code>Konteks</code>/<code>State</code>/<code>Struktur</code> mengikut projek anda yang seterusnya.</p>
+  <aside class="notes">Templat ini berfungsi untuk mana-mana projek Flutter — bahagian konteks tetap, bahagian tugas berubah. Contoh penuh mengikut tujuan ada dalam nota/08.</aside>
+</section>
+
+<section>
+  <h3>Langkah Seterusnya</h3>
+  <div class="cards c3">
+    <div class="card"><h4>State berskala</h4><p><code>provider</code> (lihat <code>projek/ett_mobile/lib/providers/</code>) atau <strong>Riverpod</strong> — bila state perlu dikongsi antara banyak skrin</p></div>
+    <div class="card"><h4>Navigasi deklaratif</h4><p><code>go_router</code> — route berasaskan URL, <em>deep linking</em></p></div>
+    <div class="card"><h4>Backend &amp; auth</h4><p><strong>Firebase</strong> (Firestore, Authentication, FCM) atau Supabase</p></div>
+    <div class="card"><h4>Ujian</h4><p><code>flutter test</code> — widget &amp; unit test supaya perubahan tidak merosakkan ciri sedia ada</p></div>
+    <div class="card"><h4>CI/CD</h4><p><strong>Codemagic</strong> / GitHub Actions — bina &amp; uji automatik setiap kali kod ditolak</p></div>
+    <div class="card accent"><h4>Terbit aplikasi</h4><p><code>flutter build appbundle</code>, <em>signing</em> &amp; terbit ke <strong>Google Play Store</strong> — panduan: <code>nota/07-deployment.md</code></p></div>
+  </div>
+  <aside class="notes">Aplikasi kursus sengaja ringkas. Urutan disyorkan: state dahulu (provider/Riverpod), kemudian navigasi, backend, ujian, dan akhirnya terbit ke Play Store.</aside>
+</section>
+
+<section>
+  <h3>Sumber Pembelajaran Lanjutan</h3>
+  <ul>
+    <li>📘 <strong>docs.flutter.dev</strong> — dokumentasi rasmi Flutter (termasuk cookbook)</li>
+    <li>📘 <strong>dart.dev</strong> — dokumentasi Dart &amp; panduan gaya <em>Effective Dart</em></li>
+    <li>📦 <strong>pub.dev</strong> — direktori pakej rasmi Flutter/Dart</li>
+    <li>🧪 <strong>DartPad</strong> (dartpad.dev) — cuba kod Dart/Flutter terus dalam pelayar</li>
+    <li>▶️ <strong>Flutter YouTube</strong> — siri <em>Widget of the Week</em></li>
+  </ul>
+  <p class="small muted">Teruskan eTT Mobile anda sendiri, atau mulakan projek baharu — baca dokumentasi bila tersekat, guna AI dengan bijak, dan <strong>teruskan membina</strong>.</p>
+  <aside class="notes">Pesanan akhir: kemahiran Flutter kekal melalui pembinaan berterusan. Lima sumber ini mencukupi untuk berbulan-bulan pembelajaran kendiri.</aside>
+</section>
+
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Tamat Kursus</span>
+  <h2>Terima Kasih 🎓</h2>
+  <p class="sub">Kelas Flutter 5 Hari — eTT Mobile</p>
+  <p class="small">Bahagian Pengurusan Maklumat · Kementerian Pendidikan Tinggi (KPT)</p>
+</section>

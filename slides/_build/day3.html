@@ -1,0 +1,639 @@
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Hari 3</span>
+  <h2>Navigasi, Borang &amp; <code>setState()</code></h2>
+  <p class="sub">22 Julai 2026 (Rabu) · SESI 4 &amp; SESI 5 — dari senarai tawaran eTT ke skrin butiran &amp; borang permohonan yang berfungsi</p>
+  <ul class="agenda">
+    <li><code>Navigator.push</code>/<code>pop</code> · Named routes &amp; navigation stack</li>
+    <li>Passing data antara skrin · <code>TextField</code> &amp; <code>TextFormField</code></li>
+    <li>Input Controller · Button &amp; <code>GestureDetector</code> · form validation</li>
+    <li><code>setState()</code> &amp; kitaran hayat <code>StatefulWidget</code></li>
+  </ul>
+</section>
+
+<section>
+  <h3>Aturcara Hari Ini</h3>
+  <table class="tight">
+    <tr><th>Masa</th><th>Sesi</th></tr>
+    <tr><td>8.30 – 9.00 pagi</td><td>Pendaftaran &amp; minum pagi</td></tr>
+    <tr><td><strong>9.00 pagi – 1.00 ptg</strong></td><td><strong>SESI 4 — Navigasi Skrin &amp; Borang Input</strong></td></tr>
+    <tr><td>1.00 – 2.30 ptg</td><td>Rehat &amp; makan tengah hari</td></tr>
+    <tr><td><strong>2.30 – 5.00 ptg</strong></td><td><strong>SESI 5 — Kawalan Borang &amp; State Management Asas</strong></td></tr>
+    <tr><td>5.00 ptg</td><td>Bersurai</td></tr>
+  </table>
+  <aside class="notes">Ikut aturcara rasmi Lampiran A. Pagi: navigasi dan pengenalan borang. Petang: controller, butang, logik validation, dan setState.</aside>
+</section>
+
+<section>
+  <h3>Apa Akan Dibina Hari Ini</h3>
+  <div class="cards c3">
+    <div class="card navy"><h4>Navigasi</h4><p>Tekan kad tawaran → buka skrin butiran dengan <code>Navigator.push</code>.</p></div>
+    <div class="card accent"><h4>Skrin Butiran</h4><p><code>ProgrammeDetailScreen</code> — kategori, kos anggaran, kuota, nota pengiktirafan &amp; butang "Mohon".</p></div>
+    <div class="card"><h4>Borang Permohonan</h4><p><code>ApplicationFormScreen</code> — <code>Form</code> lengkap dengan pengesahan (validation) &amp; <code>setState()</code>.</p></div>
+  </div>
+  <div class="note">💡 Kita <strong>bina di atas</strong> projek <code>ett_mobile</code> dari Hari 1–2 — jangan mulakan projek baharu.</div>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Imbas kembali: Hari 2 kita siapkan senarai tawaran pengajian Mesir/Maghribi dengan carian dan cip tapisan negara/kategori — tetapi menekan kad tidak membawa ke mana-mana. Hari ini kita sambungkannya.</aside>
+</section>
+
+<section>
+  <h3>Navigasi = Tindanan (Stack) Skrin</h3>
+  <pre><code class="language-text" data-trim>
+┌─────────────────────────────┐
+│  ApplicationFormScreen      │  ← teratas (aktif sekarang)
+├─────────────────────────────┤
+│  ProgrammeDetailScreen      │
+├─────────────────────────────┤
+│  ProgrammeListScreen (root) │  ← skrin asal, tab "Program"
+└─────────────────────────────┘
+  </code></pre>
+  <ul>
+    <li>Skrin baharu <strong>ditolak (push)</strong> ke atas tindanan</li>
+    <li>Butang kembali / <code>pop()</code> keluarkan skrin teratas — skrin bawahnya kelihatan semula</li>
+  </ul>
+  <aside class="notes">Analogi setumpuk kad: hanya yang teratas kelihatan. Semua navigasi Flutter dibina atas konsep stack ini, diuruskan oleh widget Navigator.</aside>
+</section>
+
+<section>
+  <h3>Dua Kaedah Asas <code>Navigator</code></h3>
+  <table>
+    <tr><th>Kaedah</th><th>Fungsi</th></tr>
+    <tr><td><code>Navigator.of(context).push(route)</code></td><td>Tolak skrin baharu ke atas tindanan</td></tr>
+    <tr><td><code>Navigator.of(context).pop([hasil])</code></td><td>Keluarkan skrin teratas — boleh sertakan nilai <code>hasil</code> untuk skrin sebelumnya</td></tr>
+  </table>
+  <div class="note">💡 <code>pop</code> boleh membawa nilai pulang — kunci kepada corak "hantar data keluar" petang nanti.</div>
+  <aside class="notes">Perkenalkan kedua-dua secara konsep dahulu. Nilai pulangan pop akan digunakan bila borang perlu memberitahu skrin sebelumnya bahawa permohonan berjaya dihantar.</aside>
+</section>
+
+<section>
+  <h3><code>Navigator.push</code> + <code>MaterialPageRoute</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+Navigator.of(context).push(
+  MaterialPageRoute(
+    builder: (_) =&gt; const SomeScreen(),
+  ),
+);
+
+// dan untuk kembali:
+Navigator.of(context).pop();
+  </code></pre>
+  <ul>
+    <li><code>MaterialPageRoute</code> — animasi peralihan gaya Material secara automatik</li>
+    <li><code>builder</code> membina skrin destinasi bila diperlukan</li>
+  </ul>
+  <aside class="notes">Corak paling asas dan paling kerap digunakan. AppBar skrin baharu automatik dapat butang kembali tanpa kod tambahan.</aside>
+</section>
+
+<section>
+  <h3>Dalam App Sebenar: Kad → Skrin Butiran</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// lib/screens/programme_list_screen.dart
+return ProgrammeCard(
+  programme: p,
+  onTap: () =&gt; Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) =&gt; ProgrammeDetailScreen(programme: p),
+    ),
+  ),
+);
+  </code></pre>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Kod sebenar dari projek. Perhatikan objek Programme p dihantar terus ke constructor skrin butiran — itulah passing data cara paling ringkas, kita perhalusi sebentar lagi.</aside>
+</section>
+
+<section>
+  <h3>Named Routes — Navigasi Guna Nama</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+MaterialApp(
+  title: 'eTT Mobile',
+  initialRoute: '/',
+  routes: {
+    '/': (context) =&gt; const HomeScreen(),
+    '/tentang': (context) =&gt; const AboutScreen(),
+  },
+);
+
+// navigasi guna nama:
+Navigator.of(context).pushNamed('/tentang');
+  </code></pre>
+  <aside class="notes">Setiap kunci ialah nama laluan, nilainya fungsi WidgetBuilder. Berguna bila aplikasi membesar — banyak skrin, navigasi dari merata tempat, atau deep-linking kelak.</aside>
+</section>
+
+<section>
+  <h3><code>onGenerateRoute</code> — Bila Laluan Perlukan Data</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+onGenerateRoute: (settings) {
+  if (settings.name == '/detail') {
+    final programme = settings.arguments as Programme;
+    return MaterialPageRoute(
+      builder: (_) =&gt; ProgrammeDetailScreen(programme: programme),
+    );
+  }
+  return null; // laluan tidak dikenali
+},
+
+// hantar arguments bersama nama laluan:
+Navigator.of(context).pushNamed('/detail', arguments: p);
+  </code></pre>
+  <aside class="notes">Peta routes biasa tak boleh terima parameter. onGenerateRoute dipanggil dengan RouteSettings yang membawa nama laluan dan arguments sekali. Dalam skrin, arguments juga boleh dibaca melalui ModalRoute.of(context).</aside>
+</section>
+
+<section>
+  <h3>Named Routes vs <code>push</code> Terus</h3>
+  <div class="two-col">
+    <div>
+      <h4><code>push</code> terus (pilihan eTT Mobile)</h4>
+      <ul>
+        <li>Aliran linear: senarai → butiran → borang</li>
+        <li><em>Type-safe</em> — tiada <code>as Programme</code> yang boleh gagal masa jalan</li>
+        <li>Paling ringkas untuk app kecil</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Named routes bila…</h4>
+      <ul>
+        <li>Banyak tempat perlu navigasi ke skrin sama</li>
+        <li>Perlu URL / deep-link (cth. versi web)</li>
+        <li>Navigasi dikawal berpusat (cth. log analitik)</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small muted"><code>main.dart</code> sebenar guna <code>home: const HomeScreen()</code> tanpa <code>routes:</code> — kenali kedua-dua corak, pilih ikut keperluan.</p>
+  <aside class="notes">Jujur dengan peserta: projek kita guna push terus kerana hierarki navigasinya mudah dan linear. Named routes ialah alat yang mereka perlu kenal untuk aplikasi lebih besar.</aside>
+</section>
+
+<section>
+  <h3>Passing Data MASUK — Parameter Constructor</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// lib/screens/programme_detail_screen.dart
+class ProgrammeDetailScreen extends StatelessWidget {
+  const ProgrammeDetailScreen({super.key, required this.programme});
+
+  final Programme programme;
+  // terus guna: programme.universityName,
+  // programme.country, programme.estimatedAnnualCostMyr…
+}
+  </code></pre>
+  <ul>
+    <li>Tiada pangkalan data, tiada <code>Future</code>, tiada <code>id</code> untuk dicari semula — lalukan objek Dart biasa</li>
+  </ul>
+  <aside class="notes">Cara paling ringkas hantar data ke skrin baharu: required parameter pada constructor. Corak ini digunakan di seluruh eTT Mobile.</aside>
+</section>
+
+<section>
+  <h3>Passing Data KELUAR — <code>pop(value)</code> + <code>await push</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// Skrin PERTAMA — tunggu hasil daripada skrin borang
+final Application? hasil =
+    await Navigator.of(context).push&lt;Application&gt;(
+  MaterialPageRoute(
+    builder: (_) =&gt; ApplicationFormScreen(programme: programme),
+  ),
+);
+if (hasil != null) {
+  setState(() =&gt; _sudahMohon = true);
+}
+
+// Skrin KEDUA (borang) — pulangkan objek semasa pop
+Navigator.of(context).pop(application);
+  </code></pre>
+  <div class="note">💡 Jika borang ditutup tanpa hantar (butang kembali), <code>hasil == null</code> — sebab itu jenisnya <code>Application?</code> dan kita wajib semak <code>if (hasil != null)</code>.</div>
+  <aside class="notes">push memulangkan Future yang selesai apabila skrin di-pop; generik push dengan Application memberitahu Dart jenis nilai yang dijangka pulang. Kesilapan biasa: terus guna hasil tanpa semak null, kemudian crash bila pengguna tekan back.</aside>
+</section>
+
+<section>
+  <h3><code>TextField</code> vs <code>TextFormField</code></h3>
+  <table class="tight">
+    <tr><th></th><th><code>TextField</code></th><th><code>TextFormField</code></th></tr>
+    <tr><td>Kegunaan</td><td>Input teks <strong>mandiri</strong></td><td>Di dalam widget <code>Form</code>, disahkan bersama medan lain</td></tr>
+    <tr><td>Baca nilai</td><td><code>onChanged</code> / <code>TextEditingController</code></td><td>Sama, <strong>plus</strong> parameter <code>validator</code></td></tr>
+    <tr><td>Pengesahan terbina</td><td>Tiada — uruskan sendiri</td><td>Ya — <code>validator: (value) =&gt; …</code></td></tr>
+  </table>
+  <pre><code class="language-dart" data-trim>
+TextField(
+  onChanged: provider.search,
+  decoration: const InputDecoration(
+    hintText: 'Cari universiti, bidang atau negara…',
+    prefixIcon: Icon(Icons.search),
+  ),
+);
+  </code></pre>
+  <aside class="notes">Kotak carian ProgrammeListScreen ialah TextField yang sesuai — tiada pengesahan, hanya tapis semasa menaip. Untuk borang yang perlu disahkan sebelum hantar, TextFormField — selepas rehat.</aside>
+</section>
+
+<section>
+  <h3>SESI 5 — Sasaran: Borang Permohonan eTT</h3>
+  <div class="cards">
+    <div class="card"><h4>Medan teks</h4><p>Nama penuh · No. Kad Pengenalan · Emel · Telefon · Ringkasan akademik — semua dengan <code>validator</code></p></div>
+    <div class="card accent"><h4>Peraturan eTT</h4><p><strong>1 negara + 1 bidang</strong> setiap permohonan; dalam bidang itu, sehingga <strong>3 pilihan universiti</strong></p></div>
+    <div class="card"><h4>Senarai semak dokumen</h4><p>6 dokumen eTT (Borang Permohonan, Sijil SPM/STAM, Slip JomPAY…) — <code>CheckboxListTile</code></p></div>
+    <div class="card navy"><h4>Enjin di belakang</h4><p><code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code> + <code>TextEditingController</code> + <code>setState()</code></p></div>
+  </div>
+  <aside class="notes">Bahagian paling penting hari ini — ApplicationFormScreen. Peraturan satu negara satu bidang dengan sehingga tiga pilihan universiti ialah peraturan sebenar permohonan eTT, dan borang kita menguatkuasakannya.</aside>
+</section>
+
+<section>
+  <h3>Kenapa Borang = <code>StatefulWidget</code>?</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// lib/screens/application_form_screen.dart
+class ApplicationFormScreen extends StatefulWidget {
+  const ApplicationFormScreen({super.key, required this.programme});
+
+  /// Tawaran dipilih dari skrin butiran — menetapkan
+  /// negara &amp; bidang awal serta pilihan universiti pertama.
+  final Programme programme;
+
+  @override
+  State&lt;ApplicationFormScreen&gt; createState() =&gt;
+      _ApplicationFormScreenState();
+}
+  </code></pre>
+  <ul>
+    <li>Borang perlu <strong>mengingati</strong> teks ditaip, pilihan dropdown &amp; senarai semak — nilai ini berubah sepanjang hayat skrin</li>
+  </ul>
+  <aside class="notes">Kaitkan dengan Hari 1: StatelessWidget tak boleh ubah data selepas dibina. Borang sentiasa berubah, jadi mesti StatefulWidget.</aside>
+</section>
+
+<section>
+  <h3>Kunci &amp; Controller</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+final _formKey = GlobalKey&lt;FormState&gt;();
+
+final _nameCtrl = TextEditingController();
+final _icCtrl = TextEditingController();
+final _emailCtrl = TextEditingController();
+final _phoneCtrl = TextEditingController();
+final _academicCtrl = TextEditingController();
+  </code></pre>
+  <ul>
+    <li><code>GlobalKey&lt;FormState&gt;</code> — pintu untuk panggil <code>validate()</code> pada seluruh <code>Form</code></li>
+    <li>Satu <code>TextEditingController</code> bagi setiap medan teks</li>
+    <li>Pilihan dropdown &amp; senarai semak disimpan sebagai pembolehubah <code>State</code> biasa: <code>_country</code>, <code>_fieldOfStudy</code>, <code>_choice1/2/3</code>, <code>_documents</code></li>
+  </ul>
+  <aside class="notes">Controller untuk teks; pembolehubah State biasa untuk pilihan. Perhatikan borang eTT tak perlukan No. Pasport — cukup No. Kad Pengenalan.</aside>
+</section>
+
+<section>
+  <h3>Kitaran Hayat Controller: <code>initState</code> &amp; <code>dispose</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+@override
+void initState() {
+  super.initState();
+  _country = widget.programme.country;
+  _fieldOfStudy = widget.programme.fieldOfStudy;
+  _choice1 = widget.programme.id;
+}
+
+@override
+void dispose() {
+  _nameCtrl.dispose();
+  _icCtrl.dispose();
+  _emailCtrl.dispose();
+  _phoneCtrl.dispose();
+  _academicCtrl.dispose();
+  super.dispose();
+}
+  </code></pre>
+  <aside class="notes">initState mengisi nilai awal daripada widget.programme. Fail sebenar turut mengisi nama dan No. KP daripada ProfileProvider jika pengguna sudah simpan profil.</aside>
+</section>
+
+<section>
+  <h3>Kenapa <code>dispose()</code> Penting?</h3>
+  <ul>
+    <li><code>TextEditingController</code> memegang sumber sistem — <em>listener</em>, buffer teks</li>
+    <li>Lupa <code>.dispose()</code> → <strong>bocor memori (memory leak)</strong> — controller kekal dalam ingatan walaupun skrin sudah ditutup</li>
+  </ul>
+  <div class="note gold">💡 Peraturan mudah: setiap <code>Controller</code> yang dicipta dalam <code>State</code>, mesti di-<code>dispose()</code>.</div>
+  <aside class="notes">Punca memory leak paling biasa dalam Flutter. Tanam kebiasaan: bila taip TextEditingController(), terus tulis pasangan dispose() sekali.</aside>
+</section>
+
+<section>
+  <h3><code>TextFormField</code> + <code>validator</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+TextFormField(
+  controller: _icCtrl,
+  keyboardType: TextInputType.number,
+  inputFormatters: [
+    FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
+  ],
+  decoration: const InputDecoration(
+    labelText: 'No. Kad Pengenalan',
+    hintText: '051231-14-5678',
+  ),
+  validator: validateIcNumber,
+);
+  </code></pre>
+  <ul>
+    <li><code>inputFormatters</code> — <strong>sekat</strong> aksara tak sah sejak awal (huruf tak boleh ditaip)</li>
+    <li><code>validator</code> — <strong>semak</strong> nilai akhir bila <code>validate()</code> dipanggil</li>
+  </ul>
+  <aside class="notes">Dua lapisan pertahanan yang selalu digunakan bersama. inputFormatters perlukan import package:flutter/services.dart. Bila _formKey.currentState.validate() dipanggil, setiap validator dalam Form dijalankan serentak.</aside>
+</section>
+
+<section>
+  <h3>Lima Validator… Kerja Berulang</h3>
+  <p>Borang ini perlukan validator untuk <code>fullName</code>, <code>icNumber</code>, <code>email</code>, <code>phoneNumber</code> &amp; <code>academicSummary</code> — menulis semuanya dari kosong agak leceh, terutamanya regex IC &amp; emel. Minta AI jana draf pertama:</p>
+  <pre><code class="language-text" data-trim>
+Tulis dua fungsi validator standalone Dart (TIADA import package:flutter),
+tandatangan `String? Function(String?)` untuk TextFormField:
+1. validateIcNumber — No. KP Malaysia, format 051231-14-5678,
+   mesti tepat 12 digit selepas sengkang dibuang.
+2. validateEmail — format asas nama@domain.hujung.
+Semua mesej ralat dalam Bahasa Melayu.
+  </code></pre>
+  <p class="small muted">Kemudian uji kes tepi &amp; jalankan <code>dart analyze</code> sebelum terima — draf pertama selalunya ada pepijat halus.</p>
+  <aside class="notes">Momen sebenar untuk capai AI: kerja berulang dengan corak yang jelas. Tapi jangan terima buta-buta — slaid seterusnya tunjuk kenapa.</aside>
+</section>
+
+<section>
+  <h3>Uji Draf AI Dengan Kes Tepi</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// Draf AI — kelihatan betul…
+String? validateIcNumber(String? value) {
+  if (value == null || value.isEmpty) return 'No. KP diperlukan';
+  if (value.length != 12) return 'No. KP mesti 12 digit'; // pepijat!
+  return null;
+}
+  </code></pre>
+  <table class="tight">
+    <tr><th>Input</th><th>Sepatutnya</th><th>Draf AI</th></tr>
+    <tr><td><code>"051231145678"</code> (12 digit)</td><td>✅ sah</td><td>✅ sah</td></tr>
+    <tr><td><code>"051231-14-5678"</code> (14 aksara)</td><td>✅ sah</td><td>❌ <strong>ditolak</strong> — sengkang dikira sekali!</td></tr>
+    <tr><td><code>"12345678901a"</code> (ada huruf)</td><td>❌ tak sah</td><td>✅ <strong>diterima</strong> — jenis aksara tak disemak</td></tr>
+  </table>
+  <aside class="notes">Dua pepijat sekali gus: menolak format bersengkang yang hint UI kita sendiri sarankan, dan menerima huruf. Uji senarai kes tepi secara manual — jangan sekadar baca kod dan rasa yakin.</aside>
+</section>
+
+<section>
+  <h3>Versi Yang Telah Disemak</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+String? validateIcNumber(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'No. Kad Pengenalan diperlukan';
+  }
+  final trimmed = value.trim();
+  if (!RegExp(r'^[0-9-]+$').hasMatch(trimmed)) {
+    return 'No. Kad Pengenalan hanya boleh '
+        'mengandungi digit dan sengkang (-)';
+  }
+  final digits = trimmed.replaceAll('-', '');
+  if (digits.length != 12) {
+    return 'No. Kad Pengenalan mesti 12 digit (cth: 051231-14-5678)';
+  }
+  return null;
+}
+  </code></pre>
+  <p class="small muted">Fail penuh 4 validator: <code>hari-3/snippets/validators.dart</code> — lulus <code>dart analyze</code> tanpa isu.</p>
+  <aside class="notes">Susunan penting: semak kosong, semak set aksara, buang sengkang, baru kira panjang. AI mempercepatkan draf pertama; memahami dan mengesahkan kod tetap tanggungjawab kita — lebih-lebih lagi logik yang menyentuh No. KP sebenar.</aside>
+</section>
+
+<section>
+  <h3>Peraturan eTT Dalam Borang: Dropdown Berperingkat</h3>
+  <ul>
+    <li>Dua <code>DropdownButtonFormField&lt;String&gt;</code> — <strong>negara</strong> &amp; <strong>bidang</strong> — saling bergantung (<em>cascading</em>)</li>
+    <li>Tukar negara → senarai bidang disusun semula</li>
+    <li>Tukar bidang → senarai pilihan universiti disusun semula</li>
+    <li>Pilihan lama yang tidak lagi sah mesti di-<em>reset</em></li>
+  </ul>
+  <div class="note">💡 Inilah cara borang menguatkuasakan peraturan sebenar eTT: <strong>1 negara + 1 bidang</strong>, sehingga <strong>3 pilihan universiti</strong> dalam bidang itu.</div>
+  <aside class="notes">Domain memandu reka bentuk UI: sebab peraturannya satu negara satu bidang, dropdown mesti berperingkat. Status kelayakan disemak kemudian oleh KPT dengan keputusan LAYAK atau TIDAK LAYAK.</aside>
+</section>
+
+<section>
+  <h3>Logik Cascading — Kod Sebenar</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+void _onCountryChanged(String? value) {
+  if (value == null) return;
+  setState(() {
+    _country = value;
+    final fields = _fields;     // bidang unik dlm negara baharu
+    _fieldOfStudy = fields.isNotEmpty ? fields.first : '';
+    _resetChoices();            // pilihan lama tidak lagi sah
+  });
+}
+
+void _resetChoices() {
+  final programmes = _choiceProgrammes;
+  _choice1 = programmes.isNotEmpty ? programmes.first.id : null;
+  _choice2 = null;
+  _choice3 = null;
+}
+  </code></pre>
+  <aside class="notes">Semua mutasi berlaku dalam satu setState supaya UI rebuild sekali dengan keadaan konsisten. _onFieldChanged serupa — tetapkan bidang, kemudian _resetChoices.</aside>
+</section>
+
+<section>
+  <h3>Kalau Buntu Menyusun Logik Ini…</h3>
+  <p>Logik "tukar dropdown A, dropdown B &amp; C perlu susun semula" mudah tersilap kalau ditulis tergesa-gesa. Rangka dengan AI dahulu:</p>
+  <pre><code class="language-text" data-trim>
+Saya ada tiga DropdownButtonFormField&lt;String&gt; berperingkat dalam satu
+Form Flutter: negara → bidang pengajian → pilihan universiti (1-3).
+Tukar negara mesti menyusun semula senarai bidang (pilih bidang
+pertama automatik); tukar bidang mesti menyusun semula pilihan
+universiti. Tulis _onCountryChanged, _onFieldChanged dan
+_resetChoices yang panggil setState() dengan betul, dan reset
+pilihan lama yang tidak lagi sah.
+  </code></pre>
+  <p class="small muted">Semak dalam app: tukar negara, pastikan pilihan universiti lama benar-benar hilang — bukan kekal terpapar sedangkan sudah tak tergolong dalam negara baharu.</p>
+  <aside class="notes">Cara semak output AI untuk logik UI: jalankan tingkah lakunya, bukan sekadar baca kod. Kes gagal klasik ialah nilai dropdown lama kekal walaupun senarainya sudah bertukar.</aside>
+</section>
+
+<section>
+  <h3>3 Pilihan Universiti + Senarai Semak Dokumen</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+_ChoiceDropdown(
+  label: 'Pilihan 1 (wajib)',
+  value: _choice1,
+  programmes: choiceProgrammes,
+  onChanged: (v) =&gt; setState(() =&gt; _choice1 = v),
+  validator: (v) =&gt; v == null ? 'Pilihan 1 diperlukan' : null,
+),
+
+for (final doc in ettDocumentChecklist)
+  CheckboxListTile(
+    dense: true,
+    title: Text(doc),
+    value: _documents[doc],
+    onChanged: (v) =&gt; setState(() =&gt; _documents[doc] = v ?? false),
+  ),
+  </code></pre>
+  <aside class="notes">Pilihan 1 wajib; Pilihan 2 dan 3 opsional dengan includeNone. ettDocumentChecklist ialah enam label dokumen sebenar eTT. Dalam sistem sebenar, muat naik dokumen berlaku selepas status LAYAK — di sini kita melatih corak CheckboxListTile.</aside>
+</section>
+
+<section>
+  <h3><code>_submit()</code> — Sahkan, Bina, Pulangkan</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+void _submit() {
+  if (!_formKey.currentState!.validate()) return;
+
+  final choices = &lt;String&gt;[];
+  for (final id in [_choice1, _choice2, _choice3]) {
+    if (id != null &amp;&amp; !choices.contains(id)) choices.add(id);
+  }
+
+  final application = Application(
+    id: 'ETT-${DateTime.now().year}-'
+        '${DateTime.now().millisecondsSinceEpoch}',
+    fullName: _nameCtrl.text.trim(),
+    icNumber: _icCtrl.text.trim(),
+    // …country, fieldOfStudy, universityChoiceIds: choices…
+    status: ApplicationStatus.submitted,
+    submittedAt: DateTime.now(),
+  );
+  Navigator.of(context).pop(application); // pulang ke skrin sebelumnya
+}
+  </code></pre>
+  <aside class="notes">validate() menjalankan semua validator serentak — jika ada yang gagal, mesej muncul bawah medan dan kita berhenti. Fail sebenar menyimpan melalui ApplicationProvider dan pop tanpa nilai; versi lab pulangkan objek terus dengan pop(application).</aside>
+</section>
+
+<section>
+  <h3>Butang Material — Tiga Pilihan</h3>
+  <table class="tight">
+    <tr><th>Widget</th><th>Gaya</th><th>Bila guna</th></tr>
+    <tr><td><code>FilledButton</code></td><td>Latar pekat</td><td>Tindakan <strong>utama</strong> skrin — "Hantar Permohonan"</td></tr>
+    <tr><td><code>ElevatedButton</code></td><td>Latar + bayang</td><td>Tindakan sekunder yang perlu menonjol</td></tr>
+    <tr><td><code>TextButton</code></td><td>Teks sahaja</td><td>Tindakan kurang penting — "Batal"</td></tr>
+  </table>
+  <pre><code class="language-dart" data-trim>
+FilledButton.icon(
+  onPressed: _submit,
+  icon: const Icon(Icons.send),
+  label: const Text('Hantar Permohonan'),
+);
+  </code></pre>
+  <aside class="notes">Material 3: FilledButton untuk aksi utama. Perhatikan onPressed: _submit tanpa kurungan — kita hantar rujukan fungsi, bukan panggil terus.</aside>
+</section>
+
+<section>
+  <h3><code>GestureDetector</code> — Gerak Isyarat Tersuai</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+GestureDetector(
+  onTap: () =&gt; Navigator.of(context).push(
+    MaterialPageRoute(
+        builder: (_) =&gt; ProgrammeDetailScreen(programme: p)),
+  ),
+  onLongPress: () =&gt; ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('${p.quotaSeats} tempat '
+        'di ${p.universityName}')),
+  ),
+  child: ProgrammeCard(programme: p),
+);
+  </code></pre>
+  <ul>
+    <li>Kesan <code>onTap</code>, <code>onLongPress</code>, <code>onDoubleTap</code>, seret… pada <strong>mana-mana</strong> widget</li>
+    <li>Tetapi <strong>tiada</strong> maklum balas visual sendiri — tiada kesan riak</li>
+  </ul>
+  <aside class="notes">GestureDetector serba boleh tapi senyap secara visual. Untuk permukaan Material ada pilihan lebih baik — slaid seterusnya.</aside>
+</section>
+
+<section>
+  <h3><code>InkWell</code> vs <code>GestureDetector</code></h3>
+  <div class="two-col">
+    <div>
+      <pre><code class="language-dart" data-trim data-line-numbers>
+// lib/widgets/programme_card.dart
+Card(
+  child: InkWell(
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(/* ... */),
+    ),
+  ),
+);
+      </code></pre>
+    </div>
+    <div>
+      <ul>
+        <li><span class="pill gold">InkWell</span> — di atas permukaan Material, dapat <strong>kesan riak (ripple)</strong> percuma</li>
+        <li><span class="pill">GestureDetector</span> — gerak isyarat kompleks (seret, cubit) atau kawasan tanpa kesan visual</li>
+      </ul>
+      <p class="small muted">Projek sebenar guna <code>InkWell</code> untuk kad tawaran.</p>
+    </div>
+  </div>
+  <aside class="notes">Peraturan mudah: jika boleh nampak riak Material, guna InkWell supaya pengguna dapat maklum balas sentuhan jelas. GestureDetector bila perlukan lebih daripada tap biasa.</aside>
+</section>
+
+<section>
+  <h3><code>setState()</code> — Apa Sebenarnya Berlaku?</h3>
+  <pre><code class="language-dart" data-trim>
+setState(() {
+  _fieldOfStudy = value;
+});
+  </code></pre>
+  <ul class="steps">
+    <li>Kod dalam <em>closure</em> dijalankan <strong>serta-merta</strong> — pembolehubah state berubah</li>
+    <li><code>setState()</code> beritahu Flutter: <em>"data widget ini berubah, jadualkan <code>build()</code> semula"</em></li>
+    <li>Flutter panggil semula <code>build()</code> — widget <strong>ini sahaja</strong>, bukan seluruh aplikasi</li>
+  </ul>
+  <aside class="notes">Tiga langkah sahaja. Rebuild terhad kepada widget berkenaan — sebab itu Flutter kekal pantas walaupun setState dipanggil kerap.</aside>
+</section>
+
+<section>
+  <h3>Kenapa Wajib <code>setState()</code>?</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// SALAH — data berubah, tetapi UI TIDAK rebuild
+onChanged: (v) =&gt; _country = v,
+
+// BETUL — data berubah DAN UI diberitahu untuk rebuild
+onChanged: (v) =&gt; _onCountryChanged(v), // dalaman panggil setState()
+  </code></pre>
+  <ul>
+    <li>Flutter <strong>tidak</strong> memantau pembolehubah Dart secara automatik</li>
+    <li>Tanpa <code>setState()</code>: nilai dalaman berubah, tetapi skrin kelihatan <strong>tidak berubah</strong></li>
+  </ul>
+  <aside class="notes">Simptom klasik: "saya dah tukar nilai tapi UI tak update". Hampir selalu jawapannya — mutasi berlaku di luar setState.</aside>
+</section>
+
+<section>
+  <h3>Kitaran Hayat <code>StatefulWidget</code></h3>
+  <pre><code class="language-text" data-trim>
+createState() → initState() → build()
+        → …setState() → build() (berulang)…
+        → dispose()
+  </code></pre>
+  <table class="tight">
+    <tr><th>Kaedah</th><th>Bila dipanggil</th><th>Kegunaan biasa</th></tr>
+    <tr><td><code>createState()</code></td><td>Sekali, bila widget dicipta</td><td>Mencipta objek <code>State</code></td></tr>
+    <tr><td><code>initState()</code></td><td>Sekali, sebelum <code>build()</code> pertama</td><td>Nilai awal, baca <code>widget.xxx</code>, mulakan controller</td></tr>
+    <tr><td><code>build()</code></td><td>Setiap kali <code>setState()</code></td><td>Bina/lukis semula UI berdasarkan state terkini</td></tr>
+    <tr><td><code>dispose()</code></td><td>Sekali, bila <code>State</code> dimusnahkan</td><td><code>.dispose()</code> controller, batal <code>Timer</code>/<code>Stream</code></td></tr>
+  </table>
+  <aside class="notes">Empat peringkat yang perlu dihafal. createState mencipta objek State; selepas itu initState sekali, build berulang-ulang setiap setState, dan dispose sekali di penghujung.</aside>
+</section>
+
+<section>
+  <h3>Kesilapan Biasa <code>setState()</code></h3>
+  <table class="tight">
+    <tr><th>Kesilapan</th><th>Akibat</th><th>Pembetulan</th></tr>
+    <tr><td><code>setState()</code> selepas <code>dispose()</code> (callback <code>Future</code> lewat)</td><td>Ralat masa jalan</td><td><code>if (!mounted) return;</code> sebelum <code>setState()</code></td></tr>
+    <tr><td><code>setState()</code> terus dalam <code>build()</code></td><td>Gelung rebuild tak terhingga</td><td>Panggil hanya dari <em>handler</em> (<code>onPressed</code>, <code>onChanged</code>)</td></tr>
+    <tr><td>Lupa <code>super.initState()</code> / <code>super.dispose()</code></td><td>Kelakuan luar jangka</td><td><code>super.initState()</code> baris pertama; <code>super.dispose()</code> baris terakhir</td></tr>
+    <tr><td>Cipta <code>Controller</code> dalam <code>build()</code></td><td>Bocor memori</td><td>Cipta sekali sebagai <em>field</em> kelas</td></tr>
+  </table>
+  <aside class="notes">Empat perangkap yang setiap peserta akan jumpa cepat atau lambat. Baris pertama paling kerap muncul semasa menguji borang — slaid seterusnya tunjuk cara siasat.</aside>
+</section>
+
+<section>
+  <h3>Bila Jumpa <code>setState() called after dispose()</code></h3>
+  <p>Biasanya berlaku bila <code>Future</code>/timer selesai <strong>selepas</strong> pengguna sudah tutup skrin. Tampal jejak ralat (<em>stack trace</em>) kepada AI dan minta ia jelaskan:</p>
+  <pre><code class="language-text" data-trim>
+Saya dapat ralat ini semasa menguji borang Flutter saya:
+"setState() called after dispose(): _ApplicationFormScreenState…"
+[tampal stack trace penuh di sini]
+Jelaskan puncanya, dan tunjukkan di baris MANA dalam kod saya
+semakan `if (!mounted) return;` patut ditambah.
+  </code></pre>
+  <p class="small muted">Jawapannya hampir selalu semakan <code>mounted</code> — biar AI bantu kenal pasti baris tepat dalam kod anda, kemudian sahkan dengan menguji semula aliran yang sama.</p>
+  <aside class="notes">Stack trace ialah input terbaik untuk AI — spesifik dan lengkap. Tabiat debugging ini akan digunakan sepenuhnya semasa projek mini Hari 5.</aside>
+</section>
+
+<section>
+  <h3>Rumusan Hari 3</h3>
+  <div class="cards c3">
+    <div class="card"><h4>Navigasi</h4><p><code>push</code>/<code>pop</code> + <code>MaterialPageRoute</code> · named routes (<code>pushNamed</code>, <code>onGenerateRoute</code>) · data masuk (constructor) &amp; keluar (<code>pop(value)</code> + <code>await push</code>)</p></div>
+    <div class="card accent"><h4>Borang eTT</h4><p><code>Form</code> + <code>GlobalKey</code> · <code>TextEditingController</code> · validator diuji kes tepi · dropdown 1 negara + 1 bidang + 3 pilihan universiti</p></div>
+    <div class="card navy"><h4>setState()</h4><p>Kitaran hayat <code>createState → initState → build → dispose</code> · semakan <code>mounted</code> · kesilapan biasa</p></div>
+  </div>
+  <p class="small muted">Esok: sambungkan senarai tawaran ke <strong>REST API</strong> — pakej <code>http</code>, <code>async</code>/<code>await</code> &amp; pengendalian ralat.</p>
+  <aside class="notes">Sebelum bersurai: flutter analyze mesti bersih, dan borang boleh hantar serta pulangkan objek Application. Esok data hardcoded digantikan dengan data dari rangkaian.</aside>
+</section>

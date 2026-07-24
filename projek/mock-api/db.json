@@ -1,0 +1,109 @@
+{
+  "programmes": [
+    {
+      "id": "ETT-001",
+      "universityName": "Universiti Al-Azhar",
+      "country": "Egypt",
+      "city": "Kaherah (Cairo)",
+      "fieldOfStudy": "Perubatan (Medicine)",
+      "studyLevel": "bachelor",
+      "category": "spm",
+      "estimatedAnnualCostMyr": 23000,
+      "intakeMonth": "September",
+      "recognitionNote": "Semak pengiktirafan di www2.mqa.gov.my/esisraf (eSisraf, MQA); perubatan tertakluk syarat Majlis Perubatan Malaysia (MMC). Kos anggaran ilustrasi.",
+      "quotaSeats": 40
+    },
+    {
+      "id": "ETT-002",
+      "universityName": "Universiti Al-Azhar",
+      "country": "Egypt",
+      "city": "Kaherah (Cairo)",
+      "fieldOfStudy": "Syariah dan Undang-undang",
+      "studyLevel": "bachelor",
+      "category": "stam",
+      "estimatedAnnualCostMyr": 5000,
+      "intakeMonth": "September",
+      "recognitionNote": "Laluan STAM (minimum Jayyid) & lulus Tahap Mutamayiz Bahasa Arab. Kos ilustrasi.",
+      "quotaSeats": 120
+    },
+    {
+      "id": "ETT-003",
+      "universityName": "Universiti Al-Azhar",
+      "country": "Egypt",
+      "city": "Kaherah (Cairo)",
+      "fieldOfStudy": "Ulum Islamiah",
+      "studyLevel": "bachelor",
+      "category": "spm",
+      "estimatedAnnualCostMyr": 4500,
+      "intakeMonth": "September",
+      "recognitionNote": "Laluan SPM dengan Bahasa Arab & subjek Pengajian Islam. Kos ilustrasi.",
+      "quotaSeats": 80
+    },
+    {
+      "id": "ETT-004",
+      "universityName": "Universiti Alexandria",
+      "country": "Egypt",
+      "city": "Iskandariah (Alexandria)",
+      "fieldOfStudy": "Farmasi (Pharmacy)",
+      "studyLevel": "bachelor",
+      "category": "spm",
+      "estimatedAnnualCostMyr": 36000,
+      "intakeMonth": "September",
+      "recognitionNote": "Semak pengiktirafan program di www2.mqa.gov.my/esisraf (eSisraf, MQA). Kos ilustrasi.",
+      "quotaSeats": 30
+    },
+    {
+      "id": "ETT-005",
+      "universityName": "Universiti Ain Shams",
+      "country": "Egypt",
+      "city": "Kaherah (Cairo)",
+      "fieldOfStudy": "Perubatan (Medicine)",
+      "studyLevel": "bachelor",
+      "category": "spm",
+      "estimatedAnnualCostMyr": 34000,
+      "intakeMonth": "September",
+      "recognitionNote": "Memerlukan SPM & sijil matrikulasi/asasi/STPM/A-Level diiktiraf MMC. Kos ilustrasi.",
+      "quotaSeats": 25
+    },
+    {
+      "id": "ETT-006",
+      "universityName": "Universiti Tanta",
+      "country": "Egypt",
+      "city": "Tanta",
+      "fieldOfStudy": "Pergigian (Dentistry)",
+      "studyLevel": "bachelor",
+      "category": "spm",
+      "estimatedAnnualCostMyr": 27000,
+      "intakeMonth": "September",
+      "recognitionNote": "Semak pengiktirafan program di www2.mqa.gov.my/esisraf (eSisraf, MQA). Kos ilustrasi.",
+      "quotaSeats": 20
+    },
+    {
+      "id": "ETT-007",
+      "universityName": "Universite Al Quaraouiyine",
+      "country": "Morocco",
+      "city": "Fes",
+      "fieldOfStudy": "Usuluddin",
+      "studyLevel": "bachelor",
+      "category": "both",
+      "estimatedAnnualCostMyr": 6000,
+      "intakeMonth": "October",
+      "recognitionNote": "Universiti tertua di dunia (859M). Penempatan Maghribi ditentukan kerajaan Maghribi; kos ilustrasi.",
+      "quotaSeats": 15
+    },
+    {
+      "id": "ETT-008",
+      "universityName": "Universiti Mohammed V",
+      "country": "Morocco",
+      "city": "Rabat",
+      "fieldOfStudy": "Bahasa Arab (Arabic Language)",
+      "studyLevel": "bachelor",
+      "category": "spm",
+      "estimatedAnnualCostMyr": 7000,
+      "intakeMonth": "October",
+      "recognitionNote": "Universiti sebenar; pemadanan bidang ilustrasi latihan — penempatan sebenar ditentukan kerajaan Maghribi. Kos ilustrasi.",
+      "quotaSeats": 10
+    }
+  ],
+  "applications": []
+}

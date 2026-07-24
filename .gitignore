@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Flutter/Dart build artifacts (each project has its own .gitignore too)
+**/build/
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/*.iml
+
+# IDE
+.idea/
+.vscode/
+
+# OMC / tooling state
+.omc/
+CLAUDE.md
+
+# LOCAL-ONLY eTT internal reference (real system internals — never push to public repo)
+.local/
+*-INTERNAL.md
+
+# Speaker notes — generated from the slide deck (slides/build-pptx pipeline / extract_notes.py)
+**/nota-penceramah.md

@@ -1,0 +1,489 @@
+<!-- ============================================================
+     HARI 1 — SESI 1 · Aliran Kawalan Dart & Widget Asas
+     Domain: eTT Mobile (e-Timur Tengah — Mesir & Maghribi)
+     ============================================================ -->
+
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Hari 1 — 20 Julai 2026 (Isnin)</span>
+  <h2>Aliran Kawalan Dart &amp; Widget Asas</h2>
+  <p class="sub">SESI 1: Operators, control flow, looping, function &amp; widget asas</p>
+  <ul class="agenda">
+    <li>Operators &amp; control flow (if/else, switch)</li>
+    <li>Looping (for, while) &amp; function</li>
+    <li>Eksperimen widget asas: Text, Icon, Image</li>
+    <li>Container, Padding, Margin, SizedBox</li>
+    <li>StatelessWidget vs StatefulWidget</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Jadual Hari Ini</h3>
+  <table class="tight">
+    <tr><th>Masa</th><th>Agenda</th></tr>
+    <tr><td>8.30 – 9.00 pagi</td><td>Pendaftaran Peserta &amp; Minum Pagi</td></tr>
+    <tr><td><strong>9.00 pagi – 1.00 petang</strong></td><td><strong>SESI 1:</strong> Operators · Control flow (if/else, switch) · Looping (for, while) &amp; Function · Eksperimen Widget Asas: Text, Icon, Image</td></tr>
+    <tr><td>1.00 – 2.30 petang</td><td>Rehat &amp; Makan Tengah Hari</td></tr>
+    <tr><td><strong>2.30 – 5.00 petang</strong></td><td><strong>Sambungan SESI 1:</strong> Container, Padding, Margin, SizedBox · StatelessWidget vs StatefulWidget</td></tr>
+    <tr><td>5.00 petang</td><td>Bersurai</td></tr>
+  </table>
+  <p class="small muted">Ikut aturcara rasmi Lampiran A (JADUAL.md). ListView, Card, tema penuh, navigasi, borang &amp; API — hari-hari seterusnya.</p>
+  <aside class="notes">Skop hari ini sempit tapi penting: asas Dart dan segelintir widget paling asas sahaja. Semua yang lain datang mengikut sesi rasmi.</aside>
+</section>
+
+<section>
+  <h3>Projek Kursus: eTT Mobile</h3>
+  <div class="cards">
+    <div class="card navy"><h4>Apa dia?</h4><p>Companion latihan sistem sebenar <strong>e-Timur Tengah (eTT)</strong> — BPPT, JPT, KPT. Pelajar Malaysia semak imbas program &amp; memohon ke universiti di <strong>Mesir</strong> 🇪🇬 &amp; <strong>Maghribi</strong> 🇲🇦.</p></div>
+    <div class="card accent"><h4>Domain sebenar</h4><p>Terbuka kepada lepasan <strong>SPM &amp; STAM</strong>; keputusan saringan guna istilah sebenar <strong>LAYAK / TIDAK LAYAK</strong>. Inilah domain semua contoh kod kita.</p></div>
+  </div>
+  <aside class="notes">Perkenalkan domain projek supaya semua contoh Dart hari ini terasa relevan — data yang sama akan mengalir dari latihan DartPad pagi ini hingga ke API Hari 4.</aside>
+</section>
+
+<section>
+  <h3>Persediaan — Sudah Sedia?</h3>
+  <div class="two-col">
+    <div>
+      <ul class="steps">
+        <li>Flutter SDK + Android Studio + VS Code dipasang</li>
+        <li><code>flutter doctor</code> tiada isu kritikal</li>
+        <li><code>flutter create ett_mobile</code> &amp; <code>flutter run</code> berjaya</li>
+      </ul>
+      <div class="note">💡 Untuk latihan Dart pagi ini, buka <strong>dartpad.dev</strong> — tampal &amp; klik Run, tiada emulator diperlukan.</div>
+    </div>
+    <div>
+<pre><code class="language-bash" data-trim>
+flutter doctor
+flutter devices
+
+flutter create ett_mobile
+cd ett_mobile
+flutter run
+</code></pre>
+    </div>
+  </div>
+  <aside class="notes">Persediaan sepatutnya siap sebelum kelas. Sesiapa yang bermasalah, bantu semasa rehat — jangan tahan seluruh kelas. DartPad ialah pelan B yang bagus.</aside>
+</section>
+
+<section>
+  <h3>Operators (Pengendali)</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+const int kuotaEtt001 = 40;  // Al-Azhar, Perubatan (anggaran)
+const int kuotaEtt003 = 80;  // Al-Azhar, Ulum Islamiah (anggaran)
+
+print(kuotaEtt001 + kuotaEtt003);   // + (tambah)
+print(kuotaEtt003 &gt; kuotaEtt001);   // &gt; (bandingan)
+
+const double kosFarmasiSetahun = 36000; // RM, anggaran — ETT-004
+const int tempohPengajianTahun = 5;
+final double anggaranKosKeseluruhan =
+    kosFarmasiSetahun * tempohPengajianTahun;   // *
+
+final bool dalamBajet = anggaranKosKeseluruhan &lt;= 200000; // &lt;=
+const bool sijilLengkap = true;
+print(dalamBajet &amp;&amp; sijilLengkap);  // &amp;&amp; (logik DAN)
+</code></pre>
+  <aside class="notes">Jalankan dalam DartPad secara langsung. Data daripada 8 program eTT kursus — kuota dan kos anggaran latihan, tetapi struktur domain sebenar. Farmasi Alexandria 5 tahun = anggaran RM180,000 keseluruhan.</aside>
+</section>
+
+<section>
+  <h3>Kategori Operator Dart</h3>
+  <table>
+    <tr><th>Kategori</th><th>Contoh</th><th>Maksud</th></tr>
+    <tr><td>Aritmetik</td><td><code>+ - * / ~/ %</code></td><td>tambah, tolak, darab, bahagi, bahagi integer, baki</td></tr>
+    <tr><td>Bandingan</td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td>pulangkan <code>bool</code></td></tr>
+    <tr><td>Logik</td><td><code>&amp;&amp; || !</code></td><td>DAN, ATAU, TIDAK</td></tr>
+    <tr><td>Tugasan gabungan</td><td><code>+= -= *= /= ??=</code></td><td>kemas kini pembolehubah terus</td></tr>
+  </table>
+  <div class="note">💬 Terjumpa operator yang tak biasa (cth. <code>~/</code> atau <code>??=</code>) dalam kod orang lain nanti? Tanya sahaja AI — <em>"Apa beza <code>/</code> dengan <code>~/</code> dalam Dart, bagi contoh guna kuota program"</em> — lebih pantas daripada scroll dokumentasi setiap kali.</div>
+  <aside class="notes">Jangan hafal — tunjuk yang setiap kategori sudah muncul dalam contoh tadi. Sebut sekali lalu: soalan sintaks kecil macam ni memang sesuai ditanya terus pada AI dalam kerja harian. Rujukan rasmi: dart.dev/language/operators.</aside>
+</section>
+
+<section>
+  <h3>Control Flow — <code>if</code> / <code>else</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+const String keperluanProgram = 'stam'; // ETT-002: Syariah
+const String sijilPemohon = 'spm';
+
+if (keperluanProgram == 'both') {
+  print('Program ini terima kedua-dua SPM &amp; STAM.');
+} else if (keperluanProgram == sijilPemohon) {
+  print('Layak memohon — sijil sepadan keperluan program.');
+} else {
+  print('Tidak layak — program ini hanya terima '
+      '${keperluanProgram.toUpperCase()}.');
+}
+</code></pre>
+  <ul>
+    <li>Syarat dinilai <strong>dari atas ke bawah</strong> — blok pertama yang <code>true</code> dijalankan, yang lain dilangkau</li>
+  </ul>
+  <aside class="notes">Domain sebenar: kelayakan sijil SPM lwn STAM ialah keputusan pertama setiap pemohon eTT. Minta peserta tukar nilai sijilPemohon kepada stam dan lihat output berubah.</aside>
+</section>
+
+<section>
+  <h3>Nota Realiti eTT — Satu Negara, Satu Bidang</h3>
+  <div class="cards">
+    <div class="card navy"><h4>Peraturan sebenar</h4><p>Setiap permohonan eTT hanya untuk <strong>SATU negara + SATU bidang</strong>; dalam bidang itu, sehingga <strong>3 pilihan universiti</strong>.</p></div>
+    <div class="card accent"><h4>Dalam kod kita</h4><p>Corak <code>'spm'</code> / <code>'stam'</code> / <code>'both'</code> tadi ialah pratonton <code>enum EntryCategory</code> — kita formalkan sebentar lagi.</p></div>
+  </div>
+  <p class="small muted">Borang permohonan penuh (dengan peraturan ini dikuatkuasakan) — Hari 3, SESI 4.</p>
+  <aside class="notes">Selitkan fakta domain awal supaya bila borang dibina Hari 3, peraturan 1 negara + 1 bidang + 3 pilihan universiti sudah biasa didengari.</aside>
+</section>
+
+<section>
+  <h3>Control Flow — <code>switch</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+String countryLabelForUniversity(String universityName) {
+  switch (universityName) {
+    case 'Universiti Al-Azhar':
+    case 'Universiti Alexandria':
+    case 'Universiti Ain Shams':
+    case 'Universiti Tanta':
+      // empat case "jatuh melalui" (fall-through) ke return sama
+      return 'Mesir';
+    case 'Universite Al Quaraouiyine':
+    case 'Universiti Mohammed V':
+      return 'Maghribi';
+    default:
+      return 'Negara tidak diketahui';
+  }
+}
+</code></pre>
+  <div class="note">💡 <code>switch</code> lebih kemas daripada rantaian <code>if/else if</code> panjang bila membandingkan <strong>satu nilai</strong> dengan banyak kemungkinan tetap.</div>
+  <aside class="notes">Domain sebenar: memetakan universiti eTT ke label negara BM. Tunjuk fall-through — empat universiti Mesir berkongsi satu return. Cuba 'Universiti Kaherah' untuk lihat default.</aside>
+</section>
+
+<section>
+  <h3>Lepas Tulis Function — Sahkan Sekali</h3>
+  <p>Biasakan diri semak semula function macam <code>countryLabelForUniversity</code> sebelum yakin 100% — tampal kod pada AI dan tanya:</p>
+<pre><code class="language-text" data-trim>
+Adakah ada universiti dalam senarai 8 program eTT yang saya
+terlepas dalam switch ini?
+</code></pre>
+  <p class="small muted">Kadang AI tangkap kesilapan kecil yang mata kita sendiri terlepas pandang. Keputusan akhir tetap anda — jalankan semula di DartPad selepas apa-apa pembetulan.</p>
+  <aside class="notes">Ini tabiat semakan ringan, bukan upacara: tulis sendiri dulu, kemudian guna AI sebagai pasangan semak. Tunjuk secara langsung jika masa mengizinkan — tampal function tadi dan baca jawapan AI bersama kelas.</aside>
+</section>
+
+<section>
+  <h3>Data Kursus: 8 Program eTT</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+const List&lt;Map&lt;String, Object&gt;&gt; sampleProgrammes = [
+  {'id': 'ETT-001', 'universityName': 'Universiti Al-Azhar',        'quotaSeats': 40},
+  {'id': 'ETT-002', 'universityName': 'Universiti Al-Azhar',        'quotaSeats': 120},
+  {'id': 'ETT-003', 'universityName': 'Universiti Al-Azhar',        'quotaSeats': 80},
+  {'id': 'ETT-004', 'universityName': 'Universiti Alexandria',      'quotaSeats': 30},
+  {'id': 'ETT-005', 'universityName': 'Universiti Ain Shams',       'quotaSeats': 25},
+  {'id': 'ETT-006', 'universityName': 'Universiti Tanta',           'quotaSeats': 20},
+  {'id': 'ETT-007', 'universityName': 'Universite Al Quaraouiyine', 'quotaSeats': 15},
+  {'id': 'ETT-008', 'universityName': 'Universiti Mohammed V',      'quotaSeats': 10},
+];
+</code></pre>
+  <p class="small muted">Kuota adalah anggaran latihan — kecuali laluan Maghribi (<strong>15 tempat</strong>, angka rasmi). Versi penuh: <code>data/sample_programmes.dart</code>.</p>
+  <aside class="notes">Ini struktur List of Map — versi ringkas Dart tulen. Kita bina class Programme sebenar mulai Hari 2. Nama universiti benar; kuota anggaran kecuali Maghribi 15.</aside>
+</section>
+
+<section>
+  <h3>Looping (<code>for</code>) &amp; Function</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+// Function — jumlahkan quotaSeats semua program dalam senarai.
+int jumlahkanKuota(List&lt;Map&lt;String, Object&gt;&gt; data) {
+  int jumlah = 0;
+  for (final programme in data) {   // for (... in ...)
+    jumlah += programme['quotaSeats'] as int;
+  }
+  return jumlah;
+}
+
+void main() {
+  final jumlah = jumlahkanKuota(sampleProgrammes);
+  print('Jumlah kuota keseluruhan (8 program): $jumlah tempat'); // 340
+}
+</code></pre>
+  <div class="note">💬 Nak lebih latihan sebelum move on? Minta AI: <em>"Beri saya 3 latihan Dart pendek pakai <code>for</code> untuk kira purata <code>quotaSeats</code> daripada senarai program, tahap pemula"</em> — cuma taip &amp; jalankan sendiri jawapannya, jangan sekadar baca.</div>
+  <aside class="notes">Function ada nama, parameter bertaip dan nilai pulangan. Loop for-in melelar setiap program tanpa urus indeks. Jumlah 340 tempat — angka latihan yang boleh peserta sahkan sendiri di DartPad. AI bagus untuk jana soalan latihan tambahan ikut tahap masing-masing.</aside>
+</section>
+
+<section>
+  <h3>Looping — <code>while</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+const senaraiBidangPopular = [
+  'Perubatan (Medicine)',
+  'Farmasi (Pharmacy)',
+  'Pergigian (Dentistry)',
+];
+
+int i = 0;
+while (i &lt; senaraiBidangPopular.length) {
+  print('Bidang popular #${i + 1}: ${senaraiBidangPopular[i]}');
+  i++; // PENTING: jangan lupa naikkan i
+}
+</code></pre>
+  <div class="note warn">⚠️ <strong>Kesilapan biasa pemula:</strong> lupa <code>i++</code> → syarat kekal <code>true</code> selamanya → <strong>infinite loop</strong>, program "tersangkut". Pastikan syarat berhenti pasti tercapai.</div>
+  <aside class="notes">Guna while bila bilangan lelaran tidak diketahui awal. Demokan infinite loop dalam DartPad sekali — pengalaman "tersangkut" lebih diingati daripada amaran lisan.</aside>
+</section>
+
+<section>
+  <h3><code>enum</code> + <code>switch</code> Expression</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+enum EntryCategory {
+  spm,
+  stam,
+  both;
+
+  String get label =&gt; switch (this) {
+        EntryCategory.spm =&gt; 'SPM',
+        EntryCategory.stam =&gt; 'STAM',
+        EntryCategory.both =&gt; 'SPM atau STAM',
+      };
+
+  bool accepts(EntryCategory applicant) =&gt;
+      this == EntryCategory.both || this == applicant;
+}
+</code></pre>
+  <p class="small muted">Corak <strong>sebenar</strong> daripada <code>models/programme.dart</code> projek kursus — Dart 3 <code>switch</code> <em>expression</em> (<code>=&gt;</code>) memulangkan satu nilai terus. Model juga ada <code>enum StudyLevel</code> (Asasi/Diploma/Ijazah Sarjana Muda).</p>
+  <aside class="notes">Ini pratonton model sebenar yang kita guna penuh Hari 2. Bandingkan: switch statement untuk logik bercabang berbilang baris, switch expression untuk pulangkan satu nilai. Method accepts() menjawab: adakah sijil pemohon layak untuk program ini?</aside>
+</section>
+
+<section>
+  <h3>Function — Format Kos Anggaran ke RM</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+/// Format kos tahunan (RM), cth. 23000.0 -&gt; "RM23,000".
+/// Kos adalah anggaran latihan, bukan sebut harga rasmi.
+String formatCostMyr(double amount) {
+  final wholeNumber = amount.toStringAsFixed(0);
+  final buffer = StringBuffer();
+  for (var i = 0; i &lt; wholeNumber.length; i++) {
+    final posFromRight = wholeNumber.length - i;
+    buffer.write(wholeNumber[i]);
+    if (posFromRight &gt; 1 &amp;&amp; posFromRight % 3 == 1) {
+      buffer.write(',');
+    }
+  }
+  return 'RM${buffer.toString()}';
+}
+</code></pre>
+  <div class="note">💡 Gabungan semua topik pagi: function + loop + operator (<code>%</code>, <code>&gt;</code>, <code>&amp;&amp;</code>). Hari 2 kita guna pakej <code>intl</code> (<code>NumberFormat.currency</code>) untuk kerja sama secara automatik.</div>
+  <aside class="notes">Latihan penutup pagi: format 23000.0 jadi RM23,000. Snippet penuh boleh dijalankan: hari-1/snippets/dart_asas.dart. Kos diselaras kasar dengan jadual USD rasmi 2021/22 — anggaran latihan.</aside>
+</section>
+
+<section>
+  <p class="lead">Dari Dart tulen → <strong>Flutter</strong>.<br>Dalam Flutter, <em>semuanya widget</em>.</p>
+<pre><code class="language-dart" data-trim data-line-numbers>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(title: const Text('eTT Mobile')),
+        body: const Center(child: Text('Selamat datang!')),
+      ),
+    );
+  }
+}
+</code></pre>
+  <aside class="notes">Gantikan kandungan lib/main.dart dengan kod ini. Simpan = Hot Reload automatik. Scaffold/AppBar dibedah penuh esok — hari ini kita hanya perlukan rangka minimum untuk bereksperimen.</aside>
+</section>
+
+<section>
+  <h3>Widget Asas 1/3 — <code>Text</code></h3>
+<pre><code class="language-dart" data-trim>
+const Text(
+  'Universiti Al-Azhar',
+  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+)
+</code></pre>
+  <ul>
+    <li><code>style: TextStyle(...)</code> — saiz fon, berat (<em>weight</em>), warna dan lain-lain</li>
+    <li>Bedah penuh <code>TextStyle</code> &amp; tema: <strong>SESI 3 (Hari 2)</strong></li>
+  </ul>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Tampal dalam body Scaffold dan Hot Reload. Cuba tukar fontSize dan lihat perubahan serta-merta — inilah keseronokan Hot Reload.</aside>
+</section>
+
+<section>
+  <h3>Widget Asas 2/3 — <code>Icon</code></h3>
+<pre><code class="language-dart" data-trim>
+const Icon(Icons.school, size: 32, color: Color(0xFF1A2B5C))
+const Icon(Icons.flag, size: 32)
+</code></pre>
+  <ul>
+    <li><strong>Beribu-ribu ikon Material</strong> terbina-dalam — tiada muat turun aset</li>
+    <li>Katalog penuh: <code>fonts.google.com/icons</code></li>
+    <li><code>Color(0xFF1A2B5C)</code> = navy — warna tema <code>KptTheme</code> kursus ini</li>
+  </ul>
+  <aside class="notes">Minta peserta cari 2-3 ikon lain di katalog dan cuba. Navy/gold ialah palet pilihan reka bentuk bahan kursus ini — kita formalkan dalam KptTheme esok.</aside>
+</section>
+
+<section>
+  <h3>Widget Asas 3/3 — <code>Image</code></h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+// Cara 1: Image.network — muat imej terus dari URL
+Image.network(
+  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+  height: 120,
+)
+
+// Cara 2: emoji bendera sebagai Text — ringan untuk negara
+const Text('🇪🇬', style: TextStyle(fontSize: 40)) // Mesir (Egypt)
+</code></pre>
+  <div class="note">💡 Model sebenar <code>Programme</code> ada getter <code>flagEmoji</code> — memetakan <code>country</code> (<code>'Egypt'</code>/<code>'Morocco'</code>) ke 🇪🇬/🇲🇦 tanpa fail imej. Kita guna corak ini semula Hari 2.</div>
+  <aside class="notes">Projek tiada aset logo terbenam, jadi dua cara ini tak perlukan fail tempatan. Image.network perlukan internet pada emulator.</aside>
+</section>
+
+<section>
+  <h3><code>Container</code> — Kotak Serba Boleh</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Container(
+  padding: const EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    color: const Color(0xFF1A2B5C), // navy — warna tema KptTheme
+    borderRadius: BorderRadius.circular(12),
+  ),
+  child: const Text('Kotak navy', style: TextStyle(color: Colors.white)),
+)
+</code></pre>
+  <ul>
+    <li>Warna latar, saiz, sempadan, sudut bulat, padding &amp; margin — <strong>semua dalam satu widget</strong></li>
+  </ul>
+  <aside class="notes">Sesi petang bermula di sini. Container ialah widget kotak paling serba boleh. BoxDecoration mengawal rupa; borderRadius memberi sudut bulat moden.</aside>
+</section>
+
+<section>
+  <h3><code>Padding</code> vs <code>Margin</code></h3>
+  <table class="tight">
+    <tr><th></th><th><code>Padding</code></th><th><code>Margin</code></th></tr>
+    <tr><td><strong>Maksud</strong></td><td>Jarak <strong>DALAM</strong> — sempadan widget ↔ kandungannya</td><td>Jarak <strong>LUAR</strong> — sempadan widget ↔ sekelilingnya</td></tr>
+    <tr><td><strong>Analogi</strong></td><td>Ruang dalam bingkai gambar, sekitar gambar</td><td>Ruang di luar bingkai, sebelum dinding</td></tr>
+    <tr><td><strong>Dalam <code>Container</code></strong></td><td><code>padding: EdgeInsets.all(16)</code></td><td><code>margin: EdgeInsets.all(16)</code></td></tr>
+    <tr><td><strong>Widget berasingan?</strong></td><td>Ya — <code>Padding(padding: ..., child: ...)</code></td><td>Tiada widget <code>Margin</code> — parameter sahaja</td></tr>
+  </table>
+  <div class="note">💡 <code>EdgeInsets.all(16)</code> · <code>EdgeInsets.symmetric(horizontal: 12, vertical: 8)</code> · <code>EdgeInsets.only(top: 8, left: 16)</code></div>
+  <aside class="notes">Konsep paling mengelirukan pemula. Guna analogi bingkai gambar: padding di dalam bingkai, margin di luar bingkai.</aside>
+</section>
+
+<section>
+  <h3><code>SizedBox</code> — Jarak &amp; Saiz Tepat</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Column(
+  children: const [
+    Text('Universiti Al-Azhar'),
+    SizedBox(height: 12), // jarak kosong 12px
+    Text('Kaherah (Cairo), Mesir'),
+  ],
+)
+</code></pre>
+  <ul>
+    <li>Kegunaan paling lazim: <strong>spacer</strong> ringkas antara widget dalam <code>Column</code>/<code>Row</code></li>
+    <li>Boleh juga paksa saiz tepat: <code>SizedBox(width: 200, height: 50, child: ...)</code></li>
+  </ul>
+  <aside class="notes">SizedBox ialah cara paling efisien untuk jarak kosong tetap. Column dibedah penuh esok — hari ini cukup faham ia menyusun anak menegak.</aside>
+</section>
+
+<section>
+  <h3>Latihan Bengkel: Kad Info Program (Statik)</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+Container(
+  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  padding: const EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(14),
+    border: Border.all(color: Colors.grey.shade300),
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Text('🇪🇬  Universiti Al-Azhar',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+          color: Color(0xFF1A2B5C))),
+      SizedBox(height: 4),
+      Text('Kaherah (Cairo), Mesir', style: TextStyle(color: Colors.grey)),
+      SizedBox(height: 12),
+      Text('Bidang: Perubatan (Medicine)'),
+      SizedBox(height: 4),
+      Text('Anggaran yuran: RM23,000/tahun'),
+      SizedBox(height: 4),
+      Text('Kuota (anggaran): 40 tempat · Pengambilan: September'),
+    ],
+  ),
+)
+</code></pre>
+  <aside class="notes">Latihan utama petang: gabungkan Container, Padding, SizedBox dan Text jadi satu kad program — data ETT-001 (Al-Azhar, Perubatan). Esok kad ini jadi widget ProgrammeCard yang boleh guna semula untuk 8 program.</aside>
+</section>
+
+<section>
+  <h3><code>StatelessWidget</code> vs <code>StatefulWidget</code></h3>
+  <table class="tight">
+    <tr><th></th><th><code>StatelessWidget</code></th><th><code>StatefulWidget</code></th></tr>
+    <tr><td><strong>Bila guna</strong></td><td>UI <strong>tidak berubah</strong> selepas dibina</td><td>UI <strong>perlu berubah</strong> — interaksi pengguna / data dalaman</td></tr>
+    <tr><td><strong>Contoh projek</strong></td><td><code>ProgrammeCard</code> (papar sahaja — Hari 2)</td><td>Kaunter, borang permohonan (Hari 3)</td></tr>
+    <tr><td><strong>Cara berfungsi</strong></td><td>Satu kaedah <code>build()</code> sahaja</td><td>Objek <code>State</code> berasingan + <code>setState()</code></td></tr>
+  </table>
+  <div class="note">💡 <strong>Analogi:</strong> <code>StatelessWidget</code> = gambar bercetak (tak berubah). <code>StatefulWidget</code> = papan tanda LED (boleh dikemas kini bila-bila masa).</div>
+  <aside class="notes">Beza paling asas dalam Flutter — peserta akan tulis kedua-duanya setiap hari sepanjang kursus. Analogi gambar bercetak vs papan LED biasanya melekat.</aside>
+</section>
+
+<section>
+  <h3>Teaser: <code>setState()</code> — Kaunter "Simpan Program"</h3>
+<pre><code class="language-dart" data-trim data-line-numbers>
+class _SavedProgrammeCounterState
+    extends State&lt;SavedProgrammeCounter&gt; {
+  int _savedCount = 0; // data yang boleh BERUBAH
+
+  void _addProgramme() {
+    setState(() {
+      _savedCount++; // "data berubah, lukis semula build()"
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Program disimpan: $_savedCount'),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: _addProgramme,
+          child: const Text('+ Simpan Program'),
+        ),
+      ],
+    );
+  }
+}
+</code></pre>
+  <div class="note gold">🔭 <strong>Pratonton sahaja</strong> — kitaran hayat penuh <code>StatefulWidget</code> (<code>initState()</code>, <code>dispose()</code>, dsb.) dibedah di <strong>SESI 5 (Hari 3)</strong>.</div>
+  <aside class="notes">Tekan butang berulang kali — angka naik tanpa run semula. Tegaskan: tanpa setState(), nilai berubah di belakang tabir tetapi UI TIDAK dikemas kini.</aside>
+</section>
+
+<section>
+  <h3>Ringkasan Hari 1 &amp; Langkah Seterusnya</h3>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li>✅ Operators, <code>if</code>/<code>else</code>, <code>switch</code></li>
+        <li>✅ <code>for</code>/<code>while</code> &amp; function (jumlah kuota: 340)</li>
+        <li>✅ <code>Text</code>, <code>Icon</code>, <code>Image</code></li>
+        <li>✅ <code>Container</code>, <code>Padding</code> vs <code>Margin</code>, <code>SizedBox</code> — kad program statik</li>
+        <li>✅ <code>StatelessWidget</code> vs <code>StatefulWidget</code> + teaser <code>setState()</code></li>
+      </ul>
+    </div>
+    <div>
+<pre><code class="language-bash" data-trim>
+git init
+git add .
+git commit -m "Hari 1: aliran kawalan Dart, widget asas"
+</code></pre>
+      <div class="note tip">✅ Esok (SESI 2 &amp; 3): seni bina layout — <code>Row</code>, <code>Column</code>, <code>Stack</code>, <code>Scaffold</code> — kemudian senarai dinamik 8 program &amp; <code>ThemeData</code>.</div>
+    </div>
+  </div>
+  <aside class="notes">Pastikan flutter run setiap peserta masih berfungsi tanpa ralat sebelum bersurai. Galakkan commit git dari Hari 1 — tabiat baik.</aside>
+</section>

@@ -1,0 +1,475 @@
+<!-- ============ HARI 5 ============ -->
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Hari 5 · SESI 8–9</span>
+  <h2>Projek Mini, Clean Code &amp; Refactoring</h2>
+  <p class="sub">Hackathon eTT Mobile: UI + Form + Navigasi + API — kemudian gilap &amp; demo</p>
+  <ul class="agenda">
+    <li>Projek mini terbimbing (hackathon)</li>
+    <li>Clean Coding Principles dalam Flutter</li>
+    <li>Refactoring: widget besar → komponen kecil</li>
+    <li>Demo aplikasi &amp; penyampaian sijil</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Jadual Hari Ini — Rentak Berbeza</h3>
+  <table class="tight">
+    <tr><th>Masa</th><th>Sesi</th><th>Fokus</th></tr>
+    <tr><td>8.30 – 9.00</td><td>Pendaftaran &amp; Minum Pagi</td><td>—</td></tr>
+    <tr><td><strong>9.00 – 12.15</strong></td><td><strong>SESI 8</strong></td><td>Projek Mini Terbimbing (Bahagian 1) — hackathon</td></tr>
+    <tr><td>1.00 – 2.45</td><td>Rehat &amp; Makan Tengah Hari</td><td>Lebih lewat berbanding hari lain</td></tr>
+    <tr><td><strong>2.45 – 5.00</strong></td><td><strong>SESI 9</strong></td><td>Siapkan projek + Clean Code + Refactoring + Demo + Sijil</td></tr>
+    <tr><td>5.00</td><td>Bersurai</td><td>Tamat kursus 🎓</td></tr>
+  </table>
+  <div class="note">💡 Perhatikan: sesi pagi lebih panjang (hingga 12.15), rehat bermula 1.00 dan sesi petang bermula 2.45.</div>
+  <aside class="notes">Tegaskan rentak hari Jumaat berbeza — pagi panjang untuk hackathon, petang lebih pendek untuk clean code, demo dan sijil.</aside>
+</section>
+
+<section>
+  <h3>Imbas Kembali: Apa Anda Sudah Boleh Buat</h3>
+  <table class="tight">
+    <tr><th>Hari</th><th>Kemahiran</th></tr>
+    <tr><td><strong>Hari 1</strong></td><td>Dart asas (operator, <code>if/else</code>, <code>for</code>/<code>while</code>, function); widget asas; <code>StatelessWidget</code> vs <code>StatefulWidget</code></td></tr>
+    <tr><td><strong>Hari 2</strong></td><td>Layout (<code>Row</code>/<code>Column</code>/<code>Expanded</code>/<code>Stack</code>); <code>Scaffold</code>/<code>AppBar</code>; <code>ListView.builder</code>; <code>Card</code>/<code>ListTile</code>; <code>ThemeData</code></td></tr>
+    <tr><td><strong>Hari 3</strong></td><td><code>Navigator.push</code>/<code>pop</code>; hantar data antara skrin; <code>Form</code>/<code>TextFormField</code>; <code>setState()</code></td></tr>
+    <tr><td><strong>Hari 4</strong></td><td>REST API (<code>http</code>); <code>async</code>/<code>Future</code>/<code>await</code>; fetch &amp; submit; <code>try-catch</code> &amp; loading</td></tr>
+  </table>
+  <aside class="notes">Sahkan bersama peserta bahawa keempat-empat blok ini sudah dikuasai — hari ini tiada topik baharu, hanya sintesis.</aside>
+</section>
+
+<section>
+  <p class="lead">Hari ini bukan topik baharu —<br>hari ini anda <strong>gabungkan semuanya</strong>.</p>
+  <p class="small muted">UI + Form + Navigasi + API → satu aplikasi berfungsi, dibina di bawah tekanan masa. Itulah "projek mini".</p>
+  <aside class="notes">Set jangkaan: hackathon ialah latihan sintesis, bukan peperiksaan. Bantuan AI digalakkan sepenuhnya — sama seperti kerja sebenar.</aside>
+</section>
+
+<section>
+  <h3>Brif Projek</h3>
+  <div class="note gold">Anda pembangun <em>junior</em> di syarikat teknologi pendidikan. Klien (BPPT, KPT) mahu <strong>prototaip berfungsi</strong> aplikasi permohonan eTT — siap dalam <strong>satu pagi</strong>.</div>
+  <ul>
+    <li>Tidak perlu cantik — perlu <strong>BERFUNGSI</strong></li>
+    <li>Pengguna boleh: lihat senarai tawaran → buka butiran → isi &amp; hantar borang → lihat "Permohonan Saya"</li>
+    <li>Masa terhad, keutamaan jelas — corak hackathon sebenar</li>
+  </ul>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Bacakan brif seperti klien sebenar. Domain: pelajar lepasan SPM/STAM memohon ke universiti di Mesir dan Maghribi melalui eTT.</aside>
+</section>
+
+<section>
+  <h3>Skop MVP — 4 Skrin Sahaja</h3>
+  <div class="cards">
+    <div class="card"><h4>1 · Senarai Tawaran</h4><p><code>ListView.builder</code> + <code>ProgrammeCard</code>, data dari <code>ProgrammeService</code>, loading indicator</p></div>
+    <div class="card"><h4>2 · Skrin Butiran</h4><p><code>Navigator.push</code> dari kad → maklumat penuh + butang "Mohon Sekarang"</p></div>
+    <div class="card"><h4>3 · Borang Permohonan</h4><p><code>Form</code> + <code>TextFormField</code> + <code>validator</code> setiap medan</p></div>
+    <div class="card"><h4>4 · Permohonan Saya</h4><p>Senarai permohonan dihantar + cip status berwarna</p></div>
+  </div>
+  <div class="note warn">⚠️ Jangan tergoda menambah ciri lain sebelum keempat-empat ini siap.</div>
+  <aside class="notes">MVP = Minimum Viable Product. Empat skrin ini sahaja diukur dalam rubrik — ciri tambahan hanya selepas semuanya berfungsi.</aside>
+</section>
+
+<section>
+  <h3>Disediakan vs Anda Bina</h3>
+  <table class="tight">
+    <tr><th>Sudah disediakan (salin/guna terus)</th><th>Anda bina hari ini</th></tr>
+    <tr><td><code>models/programme.dart</code>, <code>models/application.dart</code></td><td><code>programme_list_screen.dart</code> (<code>StatefulWidget</code> + <code>setState</code>)</td></tr>
+    <tr><td><code>data/sample_programmes.dart</code>, <code>data/document_checklist.dart</code></td><td><code>programme_detail_screen.dart</code></td></tr>
+    <tr><td><code>services/programme_service.dart</code> (fetch API + fallback)</td><td><code>application_form_screen.dart</code> (Form + validation)</td></tr>
+    <tr><td>—</td><td><code>my_applications_screen.dart</code> (senarai + <code>setState</code>)</td></tr>
+  </table>
+  <p class="small muted">Tumpuan hari ini: <strong>skrin &amp; navigasi</strong> — bukan menaip semula struktur data.</p>
+  <aside class="notes">Model, data contoh dan lapisan servis diberi supaya projek muat dalam ~3 jam. Simpan senarai permohonan sebagai medan dalam State skrin utama dan kemas kini melalui setState atau callback.</aside>
+</section>
+
+<section>
+  <h3>Struktur Data Ringkas</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>enum StudyLevel { foundation, diploma, bachelor }
+enum EntryCategory { spm, stam, both }
+enum ApplicationStatus {
+  draft, submitted, underReview, eligible,
+  notEligible, offered, accepted, rejected
+}
+
+class Programme {
+  String universityName;
+  String country;        // "Egypt" | "Morocco"
+  String fieldOfStudy;
+  EntryCategory category;
+  double estimatedAnnualCostMyr;   // anggaran
+}</code></pre>
+  <aside class="notes">Status mengikut istilah sebenar eTT — eligible/notEligible dipaparkan sebagai LAYAK/TIDAK LAYAK. Kos dalam data ialah anggaran.</aside>
+</section>
+
+<section>
+  <h3>Peraturan Borang — Ikut Sistem Sebenar</h3>
+  <ul>
+    <li><span class="pill navy">1 negara</span> + <span class="pill navy">1 bidang</span> bagi setiap permohonan — peraturan sebenar eTT</li>
+    <li>Dalam bidang itu: sehingga <strong>3 pilihan universiti</strong> mengikut keutamaan</li>
+    <li>Kategori sijil: <span class="pill gold">SPM</span> atau <span class="pill gold">STAM</span></li>
+    <li>Bidang terhad: Perubatan, Pergigian, Farmasi, Pengajian Islam (Syariah/Usuluddin/Bahasa Arab/Qiraat)</li>
+    <li>Keputusan kelayakan: <span class="pill green">LAYAK</span> / <span class="pill red">TIDAK LAYAK</span></li>
+  </ul>
+  <aside class="notes">Borang anda mesti menguatkuasakan peraturan 1 negara + 1 bidang — ini bukan rekaan kursus, ia cara sistem eTT sebenar berfungsi.</aside>
+</section>
+
+<section>
+  <h3>Time-boxing SESI 8 (9.00 – 12.15)</h3>
+  <table class="tight">
+    <tr><th>Masa</th><th>Tugasan</th></tr>
+    <tr><td>9.00 – 9.20</td><td>Taklimat brif, bentuk pasukan, salin <code>models</code>/<code>data</code>/<code>services</code></td></tr>
+    <tr><td>9.20 – 10.15</td><td>Bina <strong>senarai tawaran pengajian</strong></td></tr>
+    <tr><td>10.15 – 11.00</td><td>Bina <strong>skrin butiran + navigasi</strong></td></tr>
+    <tr><td>11.00 – 12.00</td><td>Bina <strong>borang permohonan + validation</strong></td></tr>
+    <tr><td>12.00 – 12.15</td><td>Semak status, senaraikan baki kerja</td></tr>
+  </table>
+  <div class="note">💡 Tidak siap 100% menjelang 12.15? Normal — SESI 9 bermula dengan menyambung projek ini.</div>
+  <aside class="notes">Pantau masa dengan tegas. Pasukan yang melekat pada satu bahagian melebihi slotnya patut minta bantuan — jurulatih atau AI.</aside>
+</section>
+
+<section>
+  <h3>Mula Pantas</h3>
+  <ul class="steps">
+    <li>Buat projek: <code>flutter create ett_mini</code> (atau guna projek sedia ada)</li>
+    <li>Salin folder <code>models/</code>, <code>data/</code>, <code>services/</code> dari projek rujukan <code>projek/ett_mobile/lib/</code></li>
+    <li><code>flutter pub add http intl</code> → <code>flutter pub get</code></li>
+    <li><code>flutter run</code> — pastikan projek berjalan <em>sebelum</em> mula menulis skrin</li>
+    <li><code>git init</code> &amp; commit pertama — supaya boleh patah balik bila perlu</li>
+  </ul>
+  <aside class="notes">Lima minit pertama menentukan pagi anda — pastikan asas berjalan dahulu. Commit awal memberi titik selamat untuk kembali.</aside>
+</section>
+
+<section>
+  <h3>Skrin 1 — Senarai Tawaran</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>class _ProgrammeListScreenState extends State&lt;ProgrammeListScreen&gt; {
+  final _service = ProgrammeService();
+  List&lt;Programme&gt; _programmes = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future&lt;void&gt; _load() async {
+    final result = await _service.fetchProgrammes();
+    if (!mounted) return;
+    setState(() { _programmes = result; _isLoading = false; });
+  }
+}</code></pre>
+  <p class="small muted">Dalam <code>build()</code>: jika <code>_isLoading</code> → <code>CircularProgressIndicator</code>, jika tidak → <code>ListView.builder</code>.</p>
+  <aside class="notes">Corak Hari 4: fetch dalam initState, setState bila data tiba, dan semak mounted sebelum setState dalam kod async.</aside>
+</section>
+
+<section>
+  <h3>Layout Kad Leceh? Minta AI</h3>
+  <p>Susunan <code>Row</code>/<code>Column</code> dalam kad memang mudah jadi bersepah. Kalau buntu, terangkan apa yang anda mahu:</p>
+  <pre><code class="language-text" data-trim>Bina Row untuk ProgrammeCard: bendera negara, Column
+(universityName, fieldOfStudy), Expanded, dan kos RM
+di hujung kanan. Guna KptTheme.navy untuk tajuk.</code></pre>
+  <p class="small muted">Semak hasilnya — pastikan <code>const</code> di tempat yang patut, dan jalankan <code>flutter analyze</code> sebelum terima.</p>
+  <aside class="notes">Prompt yang baik menyebut widget dan medan sebenar. Peserta mesti membaca dan memahami kod yang dijana — bukan tampal buta-buta.</aside>
+</section>
+
+<section>
+  <h3>Skrin 2 — Butiran &amp; Navigasi</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>ProgrammeCard(
+  programme: programme,
+  onTap: () =&gt; Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) =&gt; ProgrammeDetailScreen(
+        programme: programme,   // hantar data ke skrin butiran
+      ),
+    ),
+  ),
+),</code></pre>
+  <ul>
+    <li>Skrin butiran memaparkan semua maklumat + butang <strong>"Mohon Sekarang"</strong></li>
+    <li>"Mohon Sekarang" → <code>Navigator.push</code> ke borang permohonan</li>
+  </ul>
+  <aside class="notes">Corak passing data Hari 3 — objek Programme dihantar melalui constructor skrin destinasi.</aside>
+</section>
+
+<section>
+  <h3>Skrin 3 — Borang + Validation</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>TextFormField(
+  controller: _icController,
+  keyboardType: TextInputType.number,
+  decoration: const InputDecoration(
+    labelText: 'No. Kad Pengenalan',
+  ),
+  validator: (value) {
+    final digits = value?.replaceAll('-', '') ?? '';
+    if (digits.length != 12) {
+      return 'No. KP mesti 12 digit';
+    }
+    return null;
+  },
+),</code></pre>
+  <p class="small muted">Medan minimum: nama, No. KP, emel, telefon + <code>DropdownButtonFormField</code> kategori sijil (SPM/STAM), 1 negara + 1 bidang, hingga 3 pilihan universiti.</p>
+  <aside class="notes">Setiap medan perlu validator yang menolak input kosong atau tidak sah — ini sebahagian rubrik.</aside>
+</section>
+
+<section>
+  <h3>Validator Makan Masa? Serahkan Draf Pertama pada AI</h3>
+  <p>Menulis validator No. KP/emel/telefon dari kosong memang lambat. Terangkan format yang anda mahu:</p>
+  <pre><code class="language-text" data-trim>Tulis validator Dart untuk TextFormField No. KP Malaysia:
+buang tanda "-", mesti tepat 12 digit angka.
+Pulangkan mesej ralat Bahasa Melayu jika tidak sah.</code></pre>
+  <p class="small muted">Kemudian <strong>uji dengan beberapa input salah</strong> — pastikan ia benar-benar menolak dengan betul sebelum bergerak ke medan seterusnya.</p>
+  <aside class="notes">Ini masa terbaik guna AI: logik berulang dengan format jelas. Tetapi ujian dengan input salah tetap tanggungjawab peserta.</aside>
+</section>
+
+<section>
+  <h3>Skrin 4 — "Permohonan Saya"</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>// Dalam borang — bila semua validator lulus:
+void _submit() {
+  if (!_formKey.currentState!.validate()) return;
+  final application = Application(/* ... dari controllers */);
+  widget.onSubmitted(application);  // callback ke skrin utama
+  Navigator.pop(context);
+}
+
+// Dalam HomeScreen — kemas kini senarai:
+void _addApplication(Application a) {
+  setState(() =&gt; _applications.add(a));
+}</code></pre>
+  <p class="small muted">Papar setiap permohonan dengan <code>ListTile</code> + <code>StatusBadge</code> (cip status berwarna) + tarikh hantar.</p>
+  <aside class="notes">State dikongsi melalui callback — teknik menghantar data Hari 3, digabung dengan setState SESI 5. Tiada pakej tambahan diperlukan.</aside>
+</section>
+
+<section>
+  <h3>Rubrik: Bila Projek Dikira "SIAP"?</h3>
+  <ul>
+    <li>☐ <code>flutter run</code> tanpa ralat merah (<em>red screen</em>)</li>
+    <li>☐ Senarai tawaran dari <code>ProgrammeService</code> + keadaan <strong>loading</strong> kelihatan</li>
+    <li>☐ Tekan kad → skrin butiran dengan <strong>data yang betul</strong></li>
+    <li>☐ Borang: ≥ 4 medan dengan <code>validator</code>, kuatkuasa <strong>1 negara + 1 bidang</strong></li>
+    <li>☐ "Hantar" pada borang sah → rekod baharu dalam "Permohonan Saya"</li>
+    <li>☐ "Permohonan Saya": universiti/bidang + status berwarna + tarikh</li>
+    <li>☐ <code>flutter analyze</code> — sifar isu</li>
+    <li>☐ Anda <strong>faham setiap baris</strong> kod yang dijana AI dalam projek anda</li>
+  </ul>
+  <aside class="notes">Butir terakhir sama penting dengan yang lain — semasa demo, jurulatih boleh tanya "terangkan baris ini" pada mana-mana bahagian.</aside>
+</section>
+
+<section>
+  <h3>Bila Tersekat: Debug Bersama AI</h3>
+  <p>Ralat <em>akan</em> berlaku semasa hackathon. Beri AI konteks penuh — mesej ralat lengkap + kod yang relevan sahaja:</p>
+  <pre><code class="language-text" data-trim>Saya dapat ralat ini bila menekan butang "Hantar":
+[tampal MESEJ RALAT PENUH]
+Ini kod fail application_form_screen.dart yang berkaitan:
+[tampal KOD yang relevan sahaja — bukan seluruh fail]
+Apakah puncanya, dan bagaimana membaikinya?</code></pre>
+  <p class="small muted">Selepas setiap pembaikan: <code>flutter analyze</code>, minta AI terangkan bahagian yang kabur, dan <code>git commit</code> supaya boleh patah balik.</p>
+  <aside class="notes">Formula debugging: ralat penuh + kod relevan + soalan punca. Tampal seluruh fail hanya mengaburkan masalah.</aside>
+</section>
+
+<section>
+  <h3>Ralat Biasa Hackathon — Kenali &amp; Baiki</h3>
+  <table class="tight">
+    <tr><th>Ralat / Gejala</th><th>Pembaikan pantas</th></tr>
+    <tr><td><code>setState() called after dispose()</code></td><td><code>if (!mounted) return;</code> sebelum <code>setState</code> dalam kod async</td></tr>
+    <tr><td><code>Null check operator used on a null value</code></td><td>Sahkan tidak <code>null</code> dahulu; guna <code>validator</code> untuk halang hantar awal</td></tr>
+    <tr><td><code>RenderFlex overflowed by X pixels</code></td><td>Bungkus dengan <code>Expanded</code>/<code>Flexible</code>, atau guna <code>Wrap</code></td></tr>
+    <tr><td>API sentiasa gagal / timeout</td><td>Semak URL &amp; sambungan; <code>try/catch</code> + fallback data tempatan</td></tr>
+    <tr><td><code>MissingPluginException</code></td><td><strong>Hot restart</strong> penuh (<code>R</code>) selepas <code>flutter pub get</code> pakej baharu</td></tr>
+    <tr><td>Perubahan kod tak kelihatan</td><td>Hot reload (<code>r</code>) tak cukup untuk <code>main()</code>/<code>initState</code> — guna hot restart (<code>R</code>)</td></tr>
+    <tr><td><code>type 'Null' is not a subtype of 'String'</code> dalam <code>fromJson</code></td><td>Jadikan medan <code>String?</code> atau beri lalai: <code>json['x'] as String? ?? ''</code></td></tr>
+  </table>
+  <aside class="notes">Jadual ini akan menyelamatkan banyak masa pagi ini — kebanyakan pasukan akan bertemu sekurang-kurangnya tiga daripadanya.</aside>
+</section>
+
+<section>
+  <h3>Checkpoint 12.15 → Sambung 2.45</h3>
+  <ul>
+    <li>12.00 – 12.15: <strong>senaraikan</strong> apa yang belum siap — jangan simpan dalam kepala</li>
+    <li>Rehat 1.00 – 2.45 (lebih panjang hari ini)</li>
+    <li>SESI 9 bermula 2.45: <strong>30–45 minit pertama</strong> untuk siapkan MVP</li>
+    <li>Jurulatih pusing membantu pasukan yang tersekat — guna jadual troubleshooting</li>
+    <li>Sudah siap awal? Cuba: carian, tapisan SPM/STAM, senarai semak dokumen</li>
+  </ul>
+  <aside class="notes">Senarai baki kerja bertulis memudahkan sambung selepas rehat. Stretch goals hanya untuk pasukan yang MVP-nya sudah lengkap.</aside>
+</section>
+
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">SESI 9 · 2.45 – 5.00</span>
+  <h2>Clean Code &amp; Refactoring</h2>
+  <p class="sub">Kod yang berfungsi sahaja tidak cukup — ia perlu boleh dibaca &amp; diselenggara</p>
+  <ul class="agenda">
+    <li>Prinsip kod bersih dalam Flutter</li>
+    <li>Refactoring: sebelum → selepas</li>
+    <li>Demo aplikasi &amp; sijil</li>
+  </ul>
+</section>
+
+<section>
+  <p class="lead">Kod anda akan dibaca <strong>jauh lebih kerap</strong> daripada ia ditulis.</p>
+  <p class="small muted">Oleh rakan sepasukan, oleh penyelenggara akan datang — dan oleh diri anda sendiri 6 bulan dari sekarang.</p>
+  <aside class="notes">Motivasi clean code: bukan estetika, tetapi kos penyelenggaraan. Projek pagi tadi ialah bahan latihan yang sempurna.</aside>
+</section>
+
+<section>
+  <h3>Penamaan Bermakna &amp; Komen "Kenapa"</h3>
+  <div class="two-col">
+    <div>
+      <p><strong>Nama menerangkan tujuan:</strong></p>
+      <ul>
+        <li>✅ <code>EntryCategory.accepts(applicant)</code></li>
+        <li>❌ <code>check(x)</code></li>
+      </ul>
+      <p><strong>Komen jelaskan <em>kenapa</em>, bukan <em>apa</em>:</strong></p>
+    </div>
+    <div>
+      <pre><code class="language-dart" data-trim>// ❌ komen "apa" — kod sudah jelas
+// tambah 1 pada kaunter
+counter++;
+
+// ✅ komen "kenapa" — jelaskan sebab
+// Guna fallback tempatan supaya kelas
+// boleh diteruskan tanpa internet.
+return _fallback();</code></pre>
+    </div>
+  </div>
+  <aside class="notes">Komen "apa" cepat lapuk bila kod berubah; komen "kenapa" kekal berguna kerana ia merekod keputusan.</aside>
+</section>
+
+<section>
+  <h3>Widget Kecil &amp; Tanggungjawab Tunggal</h3>
+  <ul>
+    <li>Setiap widget buat <strong>satu</strong> perkara — <code>build()</code> yang panjang = petanda perlu dipecahkan</li>
+    <li><code>Row</code> dalam <code>Column</code> dalam <code>Row</code> dalam <code>Padding</code>… melebihi 3–4 lapisan → ekstrak sub-pokok ke widget berasingan</li>
+    <li>Contoh sebenar: <code>CategoryPill</code>, <code>_ChoiceDropdown</code> dalam <code>application_form_screen.dart</code></li>
+    <li><strong>SRP</strong>: satu kelas = satu sebab untuk berubah — <code>ProgrammeService</code> urus data, <code>ProgrammeListScreen</code> urus paparan</li>
+  </ul>
+  <aside class="notes">Buka projek rujukan dan tunjuk bagaimana widget kecil menjadikan setiap fail mudah dibaca sekali imbas.</aside>
+</section>
+
+<section>
+  <h3><code>const</code> — Beritahu Flutter "Ini Tak Berubah"</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>const SizedBox(height: 12),
+const Icon(Icons.school),
+const Text(
+  'eTT Mobile',
+  style: TextStyle(fontWeight: FontWeight.bold),
+),</code></pre>
+  <ul>
+    <li>Widget <code>const</code> dibina <strong>sekali</strong> — Flutter langkau rebuild yang tidak perlu</li>
+    <li>Lint <code>prefer_const_constructors</code> (dalam <code>flutter_lints</code>) mencadangkannya secara automatik — terima cadangannya</li>
+  </ul>
+  <aside class="notes">const ialah kemenangan prestasi percuma. flutter_lints sudah didayakan lalai dalam projek Flutter baharu melalui analysis_options.yaml.</aside>
+</section>
+
+<section>
+  <h3>Struktur Folder Konsisten</h3>
+  <div class="two-col">
+    <div>
+      <pre><code class="language-text" data-trim>lib/
+├── models/     # struktur data
+├── data/       # data statik/contoh
+├── services/   # panggilan API
+├── widgets/    # komponen guna semula
+└── screens/    # satu skrin penuh</code></pre>
+    </div>
+    <div>
+      <ul>
+        <li>Struktur sebenar <code>projek/ett_mobile/lib/</code></li>
+        <li>Setiap lapisan ada tanggungjawab sendiri</li>
+        <li>Mudah cari: "borang di mana?" → <code>screens/</code></li>
+        <li>Mudah guna semula: <code>widgets/</code> dipakai merentasi skrin</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">Struktur ini bukan wajib dalam Flutter, tetapi ia konvensyen yang meluas — pasukan baharu terus faham di mana segala-galanya berada.</aside>
+</section>
+
+<section>
+  <h3>Dua Arahan Sebelum Setiap Commit</h3>
+  <pre><code class="language-bash" data-trim># tabiat kod bersih — jalankan sebelum setiap commit
+dart format .
+flutter analyze</code></pre>
+  <ul>
+    <li><code>dart format .</code> — gaya seragam automatik, tiada perdebatan gaya peribadi</li>
+    <li><code>flutter analyze</code> — sifar amaran sebelum kod dikira siap</li>
+  </ul>
+  <aside class="notes">Dua arahan ini murah dan pantas — jadikan refleks. Ia juga cara terpantas menyemak kod yang dijana AI.</aside>
+</section>
+
+<section>
+  <h3>Refactoring — Ubah Struktur, Kekal Kelakuan</h3>
+  <ul class="steps">
+    <li>Kenal pasti bahagian <code>build()</code> yang <strong>berulang</strong> atau &gt; 15–20 baris untuk satu "konsep visual"</li>
+    <li>Cipta kelas <code>StatelessWidget</code> baharu; pindahkan kod, tukar rujukan induk kepada parameter constructor</li>
+    <li>Tambah <code>const</code> pada constructor baharu (dan di tempat ia dipanggil)</li>
+    <li>Ganti kod asal dengan pemanggilan widget baharu</li>
+    <li><code>flutter analyze</code> + uji semula visual — kelakuan <strong>mesti kekal sama</strong></li>
+  </ul>
+  <p class="small muted">Kerja pindah kod berulang begini pun sesuai diserahkan pada AI — <em>"Ekstrak bahagian cip kategori dalam build() ini ke StatelessWidget bernama CategoryPill, kekalkan gaya sama"</em> — kemudian sahkan paparan tidak berubah.</p>
+  <aside class="notes">Definisi refactoring: mengubah struktur tanpa mengubah kelakuan. Latihan petang ini: ambil satu widget besar yang dibina pagi tadi dan pecahkan.</aside>
+</section>
+
+<section>
+  <h3>Sebelum → Selepas</h3>
+  <div class="two-col">
+    <div>
+      <p><strong>❌ Sebelum</strong> — satu <code>build()</code> panjang:</p>
+      <pre><code class="language-dart" data-trim>Widget build(BuildContext context) {
+  return Card(
+    child: Column(children: [
+      Row(children: [
+        Text(flag), Expanded(
+          child: Column(children: [
+            Text(universityName),
+            Text(fieldOfStudy), // ...
+          ]),
+        ), // ... 40+ baris lagi
+      ]),
+    ]),
+  );
+}</code></pre>
+    </div>
+    <div>
+      <p><strong>✅ Selepas</strong> — komponen kecil:</p>
+      <pre><code class="language-dart" data-trim>Widget build(BuildContext context) {
+  return Card(
+    child: Column(children: [
+      ProgrammeHeader(programme: p),
+      const SizedBox(height: 12),
+      Row(children: [
+        CategoryPill(category: p.category),
+      ]),
+    ]),
+  );
+}</code></pre>
+    </div>
+  </div>
+  <p class="small muted">Contoh penuh boleh jalan: <code>hari-5/snippets/refactor_before_after.dart</code>. Corak sebenar: <code>ProgrammeCard</code> &amp; <code>StatusBadge</code> dalam <code>lib/widgets/</code>.</p>
+  <aside class="notes">ProgrammeCard dan StatusBadge dalam projek rujukan diekstrak sebagai kelas berasingan dan diguna semula merentasi beberapa skrin — itulah hasil akhir refactoring yang baik.</aside>
+</section>
+
+<section>
+  <h3>Kenapa Ekstrak <em>Widget</em>, Bukan Kaedah <code>_buildX()</code>?</h3>
+  <table class="tight">
+    <tr><th></th><th>Kaedah <code>_buildX()</code></th><th>Kelas widget berasingan</th></tr>
+    <tr><td>Rebuild</td><td>Dijalankan semula <strong>setiap kali</strong> <code>build()</code> induk dipanggil</td><td>Boleh <strong>dilangkau</strong> Flutter jika <code>const</code> &amp; tidak berubah</td></tr>
+    <tr><td><code>const</code></td><td>Tidak boleh</td><td>Boleh</td></tr>
+    <tr><td>Guna semula</td><td>Terperangkap dalam satu kelas</td><td>Boleh dipakai di mana-mana skrin</td></tr>
+  </table>
+  <div class="note gold">💡 Ini soalan temu duga Flutter yang popular — fahami sebabnya (skop rebuild, <code>const</code>, guna semula), bukan sekadar hafal.</div>
+  <aside class="notes">Jawapan ringkas: prestasi (skop rebuild lebih kecil, boleh const) dan kebolehgunaan semula. Penjelasan penuh di penghujung fail snippet refactoring.</aside>
+</section>
+
+<section>
+  <h3>Demo Aplikasi — Format 2–3 Minit</h3>
+  <ul class="steps">
+    <li><strong>Masalah</strong> (30 saat) — apa yang aplikasi anda selesaikan, siapa penggunanya</li>
+    <li><strong>Walkthrough</strong> (90 saat) — aliran utama secara langsung: senarai → butiran → borang → permohonan saya</li>
+    <li><strong>Apa seterusnya</strong> (30 saat) — apa yang anda akan tambah jika ada masa</li>
+  </ul>
+  <div class="cards">
+    <div class="card"><h4>Memberi maklum balas</h4><p>Fokus pada <strong>kejelasan</strong> + <strong>satu</strong> cadangan konkrit — bukan senarai kritikan</p></div>
+    <div class="card accent"><h4>Menerima maklum balas</h4><p>Dengar penuh dahulu, jangan defensif — catat, tanya soalan susulan</p></div>
+  </div>
+  <p class="small muted">Selepas semua demo — sesi maklum balas umum &amp; <strong>penyampaian sijil</strong>. 🎓</p>
+  <aside class="notes">Jaga masa demo dengan tegas supaya semua pasukan dapat giliran. Budaya maklum balas: satu penambahbaikan konkrit lebih bernilai daripada sepuluh kritikan umum.</aside>
+</section>

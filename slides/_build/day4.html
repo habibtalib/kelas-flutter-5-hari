@@ -1,0 +1,677 @@
+<section class="chapter" data-background-color="#1A2B5C">
+  <span class="kicker">Hari 4</span>
+  <h2>REST API, Async &amp; Error Handling</h2>
+  <p class="sub">23 Julai 2026 (Khamis) · SESI 6 &amp; SESI 7 — dari data hardcoded ke data dari pelayan, dengan loading, ralat &amp; muat semula</p>
+  <ul class="agenda">
+    <li>REST API: Backend vs Frontend · HTTP methods &amp; JSON</li>
+    <li>Pakej <code>http</code> · Async, <code>Future</code> &amp; <code>await</code> · fetch data</li>
+    <li>JSON → Dart model class · submit data (POST)</li>
+    <li>HTTP status code · try-catch, loading &amp; paparan ralat</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Aturcara Hari Ini</h3>
+  <table class="tight">
+    <tr><th>Masa</th><th>Sesi</th></tr>
+    <tr><td>8.30 – 9.00 pagi</td><td>Pendaftaran &amp; minum pagi</td></tr>
+    <tr><td><strong>9.00 pagi – 1.00 ptg</strong></td><td><strong>SESI 6 — Konsep REST API &amp; Sambungan Backend</strong></td></tr>
+    <tr><td>1.00 – 2.30 ptg</td><td>Rehat &amp; makan tengah hari</td></tr>
+    <tr><td><strong>2.30 – 5.00 ptg</strong></td><td><strong>SESI 7 — Model Data &amp; Pengendalian Ralat</strong></td></tr>
+    <tr><td>5.00 ptg</td><td>Bersurai</td></tr>
+  </table>
+  <aside class="notes">Pagi: konsep REST, pakej http, async/await, dan praktikal fetch. Petang: JSON ke model Dart, POST permohonan, status code, dan pengendalian ralat penuh.</aside>
+</section>
+
+<section>
+  <h3>Sebelum vs Selepas Hari Ini</h3>
+  <table class="tight">
+    <tr><th>Sebelum (Hari 1–3)</th><th>Selepas (Hari 4)</th></tr>
+    <tr><td><code>sampleProgrammes</code> yang <code>const</code>, sentiasa sama</td><td>Senarai <strong>fetch</strong> daripada API JSON</td></tr>
+    <tr><td>Terus papar — tiada "loading"</td><td><code>CircularProgressIndicator</code> semasa memuat</td></tr>
+    <tr><td>Tiada pengendalian ralat rangkaian</td><td>Skrin ralat + butang <strong>Cuba Lagi</strong></td></tr>
+    <tr><td>Borang simpan dalam memori sahaja</td><td>Borang boleh <strong>POST</strong> ke pelayan mock</td></tr>
+    <tr><td>Data berubah bila kod ditukar</td><td><strong>Pull-to-refresh</strong> bila-bila masa</td></tr>
+  </table>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Motivasi hari ini: dalam sistem eTT sebenar, BPPT perlu boleh kemas kini senarai tawaran Mesir/Maghribi tanpa mengeluarkan versi aplikasi baharu — itulah gunanya API.</aside>
+</section>
+
+<section>
+  <h3>SESI 6 — Backend vs Frontend</h3>
+  <table class="tight">
+    <tr><th></th><th><strong>Frontend</strong> (kita bina)</th><th><strong>Backend</strong> (pelayan)</th></tr>
+    <tr><td>Contoh</td><td>Aplikasi Flutter <code>ett_mobile</code> di telefon pelajar</td><td>Pelayan KPT yang simpan senarai tawaran &amp; permohonan</td></tr>
+    <tr><td>Peranan</td><td>Papar UI, terima input, <strong>minta</strong> &amp; <strong>hantar</strong> data</td><td>Simpan data pusat, proses logik, <strong>balas</strong> permintaan</td></tr>
+    <tr><td>Siapa kawal</td><td>Setiap peranti pengguna</td><td>Satu kumpulan pelayan dikawal KPT</td></tr>
+  </table>
+  <aside class="notes">Bila BPPT tambah tawaran baharu atau tukar kuota, mereka tak boleh paksa semua pengguna muat turun app baharu — data mesti datang dari pelayan pusat.</aside>
+</section>
+
+<section>
+  <h3>Corak REST API</h3>
+  <pre><code class="language-text" data-trim>
+Backend (pelayan)                Frontend (app Flutter)
+   │  sedia ENDPOINT (URL)           │
+   │  ◄──── request ──────────────── │  "Bagi senarai tawaran"
+   │  ──── response (JSON) ────────► │  papar dalam UI
+  </code></pre>
+  <ul>
+    <li>Frontend hantar <strong>permintaan HTTP</strong> ke satu <strong>endpoint</strong> (URL)</li>
+    <li>Backend balas dengan data — biasanya format <strong>JSON</strong></li>
+    <li>Frontend <strong>tak perlu tahu</strong> bagaimana data disimpan — cuma cara minta &amp; cara hurai jawapan</li>
+  </ul>
+  <aside class="notes">REST — Representational State Transfer. Kursus ini tidak membina backend; kita guna fail JSON mock yang dihos ringkas untuk simulasikan tingkah laku API sebenar.</aside>
+</section>
+
+<section>
+  <h3>Empat Kaedah HTTP Utama</h3>
+  <table class="tight">
+    <tr><th>Kaedah</th><th>Makna</th><th>Dalam eTT Mobile</th></tr>
+    <tr><td><strong>GET</strong></td><td>Ambil (baca) data</td><td><code>GET /programmes</code> — senarai tawaran Mesir/Maghribi</td></tr>
+    <tr><td><strong>POST</strong></td><td>Cipta rekod baharu</td><td><code>POST /applications</code> — hantar permohonan pelajar</td></tr>
+    <tr><td><strong>PUT</strong></td><td>Kemas kini rekod sedia ada</td><td><code>PUT /applications/{id}</code> — tukar status permohonan</td></tr>
+    <tr><td><strong>DELETE</strong></td><td>Padam rekod</td><td><code>DELETE /applications/{id}</code> — batal draf</td></tr>
+  </table>
+  <p class="small muted">Fokus kelas: <strong>GET</strong> (SESI 6) &amp; <strong>POST</strong> (SESI 7) — <code>PUT</code>/<code>DELETE</code> dikenali konsepnya.</p>
+  <aside class="notes">Empat kata kerja standard yang sama untuk semua REST API di dunia. Kita laksanakan GET dan POST penuh; PUT dan DELETE cukup dikenali untuk projek mini Hari 5.</aside>
+</section>
+
+<section>
+  <h3>JSON — Format Pertukaran Data</h3>
+  <pre><code class="language-json" data-trim>
+{
+  "id": "ETT-001",
+  "universityName": "Universiti Al-Azhar",
+  "country": "Egypt",
+  "city": "Kaherah (Cairo)",
+  "fieldOfStudy": "Perubatan (Medicine)",
+  "studyLevel": "bachelor",
+  "category": "spm",
+  "estimatedAnnualCostMyr": 23000.0,
+  "intakeMonth": "September",
+  "quotaSeats": 40
+}
+  </code></pre>
+  <aside class="notes">Satu rekod tawaran daripada mock API kita — teks berstruktur yang mudah dibaca manusia dan mesin. Kos dan kuota dalam data ini anggaran latihan.</aside>
+</section>
+
+<section>
+  <h3>Jenis Data JSON — Terhad!</h3>
+  <div class="two-col">
+    <div>
+      <p><strong>Ada dalam JSON:</strong></p>
+      <ul>
+        <li>Teks <code>"..."</code> · nombor · boolean</li>
+        <li>Senarai <code>[...]</code> · objek <code>{...}</code> · <code>null</code></li>
+      </ul>
+    </div>
+    <div>
+      <p><strong>TIADA dalam JSON:</strong></p>
+      <ul>
+        <li><code>enum</code> — dihantar sebagai <code>String</code> (<code>"bachelor"</code>, <code>"spm"</code>)</li>
+        <li><code>DateTime</code> — dihantar sebagai <code>String</code> ISO-8601</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">💡 Sebab itulah model Dart kita perlukan <code>fromString(...)</code> untuk enum — nanti di <code>fromJson</code>.</div>
+  <aside class="notes">Perkara penting yang menjelaskan kenapa fromJson bukan sekadar salin nilai — enum dan tarikh perlu ditukar daripada teks.</aside>
+</section>
+
+<section>
+  <h3>Pasang Pakej <code>http</code></h3>
+  <pre><code class="language-bash" data-trim>
+flutter pub add http
+  </code></pre>
+  <pre><code class="language-yaml" data-trim>
+dependencies:
+  # REST API / HTTP (SESI 6 &amp; 7)
+  http: ^1.2.2
+  </code></pre>
+  <ul>
+    <li>Pakej rasmi pasukan Dart untuk permintaan HTTP</li>
+    <li><code>flutter pub add</code> tambah baris ke <code>pubspec.yaml</code> secara automatik</li>
+  </ul>
+  <aside class="notes">Pastikan setiap peserta jalankan flutter pub add http dan sahkan baris muncul dalam pubspec.yaml sebelum bergerak.</aside>
+</section>
+
+<section>
+  <h3>Permintaan GET Paling Asas</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+import 'package:http/http.dart' as http;
+
+Future&lt;void&gt; contohGet() async {
+  final response =
+      await http.get(Uri.parse('https://example.com/data.json'));
+
+  if (response.statusCode == 200) {
+    print('Berjaya! Badan respons: ${response.body}');
+  } else {
+    print('Gagal dengan kod status: ${response.statusCode}');
+  }
+}
+  </code></pre>
+  <table class="tight">
+    <tr><td><code>response.statusCode</code></td><td><code>200</code> OK · <code>404</code> tidak dijumpai · <code>500</code> ralat pelayan</td></tr>
+    <tr><td><code>response.body</code></td><td>Badan respons sebagai <code>String</code> (biasanya teks JSON)</td></tr>
+    <tr><td><code>Uri.parse(...)</code></td><td>Tukar <code>String</code> URL kepada objek <code>Uri</code></td></tr>
+  </table>
+  <aside class="notes">Tiga perkara ini akan berulang sepanjang hari: statusCode, body, dan Uri.parse. Perhatikan juga async dan await — kita huraikan sebentar lagi.</aside>
+</section>
+
+<section>
+  <h3>Kebenaran Internet Android</h3>
+  <pre><code class="language-xml" data-trim>
+&lt;uses-permission android:name="android.permission.INTERNET"/&gt;
+  </code></pre>
+  <ul>
+    <li>Untuk <strong>debug</strong> (<code>flutter run</code>): sudah automatik dalam <code>android/app/src/debug/AndroidManifest.xml</code> — tiada apa perlu dibuat di kelas</li>
+    <li>Untuk <strong>release build</strong>: tambah baris di atas dalam tag <code>&lt;manifest&gt;</code> fail <strong><code>android/app/src/main/AndroidManifest.xml</code></strong></li>
+  </ul>
+  <div class="note gold">💡 Simpan nota ini — lupa langkah ini bermakna APK release gagal buat sebarang panggilan rangkaian walaupun sempurna semasa <code>flutter run</code>.</div>
+  <aside class="notes">Perangkap klasik: semuanya berjalan semasa pembangunan, kemudian APK release tak boleh akses internet. Bezanya fail manifest main lawan debug/profile.</aside>
+</section>
+
+<section>
+  <h3>Masalah: UI Tersekat (Blocked)</h3>
+  <pre><code class="language-dart" data-trim>
+// Ini TIDAK berfungsi macam ini di Flutter — ilustrasi konsep
+List&lt;Programme&gt; data = getProgrammesFromInternet(); // 2 saat!
+print('Selesai!');
+  </code></pre>
+  <ul>
+    <li>Flutter berjalan atas <strong>satu thread utama</strong> — thread yang melukis skrin ialah thread yang menjalankan kod anda</li>
+    <li>Jika panggilan rangkaian menyekat 2 saat → <strong>seluruh app beku</strong>: animasi berhenti, butang mati, skrin macam "hang"</li>
+  </ul>
+  <aside class="notes">Ini sebab async wujud. Kalau thread UI sibuk menunggu rangkaian, tiada apa lagi boleh berlaku pada skrin.</aside>
+</section>
+
+<section>
+  <h3>Penyelesaian: <code>Future</code>, <code>async</code>, <code>await</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+Future&lt;String&gt; ambilData() async {
+  await Future.delayed(Duration(seconds: 2)); // simulasi rangkaian
+  return 'Data siap';
+}
+
+void main() async {
+  print('Mula...');
+  String hasil = await ambilData(); // tunggu TANPA sekat UI
+  print(hasil);
+}
+  </code></pre>
+  <ul>
+    <li><code>Future&lt;T&gt;</code> — "resit" untuk nilai jenis <code>T</code> yang sampai kemudian</li>
+    <li><code>async</code> — fungsi ini mungkin <code>await</code>; sentiasa pulangkan <code>Future</code></li>
+    <li><code>await</code> — tunggu di sini, <strong>tetapi jangan sekat thread utama</strong></li>
+  </ul>
+  <aside class="notes">Imbas kembali nota Dart asas bahagian 8. Semasa await menunggu, Flutter bebas terus melukis frame dan mengendali sentuhan.</aside>
+</section>
+
+<section>
+  <h3>Demo Pantas di DartPad</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+void main() async {
+  print('1. Mula memuat...');
+  final data = await ambilTawaranEtt();
+  print('3. Data diterima: $data');
+}
+
+Future&lt;String&gt; ambilTawaranEtt() async {
+  print('2. Sedang hubungi pelayan...'); // serta-merta
+  await Future.delayed(const Duration(seconds: 2));
+  return '8 tawaran pengajian dijumpai';
+}
+  </code></pre>
+  <div class="note tip">✅ Output tersusun <strong>1, 2, 3</strong> — mengikut bila setiap operasi <em>benar-benar</em> selesai, bukan susunan baris kod semata-mata.</div>
+  <aside class="notes">Minta peserta jalankan sendiri di dartpad.dev dan teka susunan print sebelum tekan Run. Ini konsep teras async untuk sepanjang hari.</aside>
+</section>
+
+<section>
+  <h3>JSON → Dart: <code>jsonDecode</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+import 'dart:convert';
+
+const contohJson =
+    '[{"id":"ETT-001","universityName":"Universiti Al-Azhar"}]';
+
+void contoh() {
+  final List&lt;dynamic&gt; data = jsonDecode(contohJson) as List&lt;dynamic&gt;;
+  print(data[0]['universityName']); // Universiti Al-Azhar
+}
+  </code></pre>
+  <ul>
+    <li>Objek <code>{}</code> → <code>Map&lt;String, dynamic&gt;</code> · senarai <code>[]</code> → <code>List&lt;dynamic&gt;</code></li>
+    <li>Masalah: <code>dynamic</code> tidak selamat jenis (<em>type-safe</em>) — menyusahkan dalam UI</li>
+  </ul>
+  <aside class="notes">jsonDecode memberi struktur generik. Langkah seterusnya: tukar Map dynamic itu kepada objek Dart bertaip penuh melalui factory fromJson.</aside>
+</section>
+
+<section>
+  <h3><code>Programme.fromJson</code> — Model Sebenar</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// lib/models/programme.dart
+factory Programme.fromJson(Map&lt;String, dynamic&gt; json) {
+  return Programme(
+    id: json['id'] as String,
+    universityName: json['universityName'] as String,
+    country: json['country'] as String,
+    city: json['city'] as String,
+    fieldOfStudy: json['fieldOfStudy'] as String,
+    studyLevel: StudyLevel.fromString(json['studyLevel'] as String),
+    category: EntryCategory.fromString(json['category'] as String),
+    estimatedAnnualCostMyr:
+        (json['estimatedAnnualCostMyr'] as num).toDouble(),
+    intakeMonth: json['intakeMonth'] as String,
+    recognitionNote: json['recognitionNote'] as String,
+    quotaSeats: json['quotaSeats'] as int,
+  );
+}
+  </code></pre>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Kod sebenar dari projek. Tiga butiran penting di slaid seterusnya: enum daripada String, nombor melalui num, dan ketiadaan DateTime.</aside>
+</section>
+
+<section>
+  <h3>Butiran Penting <code>fromJson</code></h3>
+  <ul>
+    <li><strong>Enum daripada <code>String</code></strong> — <code>StudyLevel.fromString(...)</code> guna <code>firstWhere(..., orElse: ...)</code> supaya app <strong>tidak crash</strong> jika pelayan hantar nilai luar jangka</li>
+    <li><strong><code>(… as num).toDouble()</code></strong> — JSON boleh hantar <code>23000</code> sebagai <code>int</code>; <code>as num</code> terima kedua-duanya dahulu</li>
+    <li><strong>Tiada medan <code>DateTime</code></strong> — <code>intakeMonth</code> sengaja kekal <code>String</code> biasa (<code>"September"</code>)</li>
+  </ul>
+  <pre><code class="language-dart" data-trim>
+static EntryCategory fromString(String value) {
+  return EntryCategory.values.firstWhere(
+    (c) =&gt; c.name == value,
+    orElse: () =&gt; EntryCategory.spm,
+  );
+}
+  </code></pre>
+  <aside class="notes">Corak firstWhere dengan orElse lebih selamat daripada values.byName yang melontar ArgumentError untuk nilai tak dikenali. Tiga butiran ini juga senarai semakan bila menilai model janaan AI petang nanti.</aside>
+</section>
+
+<section>
+  <h3>Menukar Senarai JSON Penuh</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+final List&lt;dynamic&gt; data =
+    jsonDecode(response.body) as List&lt;dynamic&gt;;
+final List&lt;Programme&gt; senarai = data
+    .map((e) =&gt; Programme.fromJson(e as Map&lt;String, dynamic&gt;))
+    .toList();
+  </code></pre>
+  <ul>
+    <li><code>.map()</code> jalankan <code>fromJson</code> untuk <strong>setiap</strong> elemen senarai</li>
+    <li><code>.toList()</code> tukar <code>Iterable&lt;Programme&gt;</code> kepada <code>List&lt;Programme&gt;</code> sebenar</li>
+  </ul>
+  <aside class="notes">Gabungan map dan toList ialah resipi standard menukar array JSON kepada senarai objek Dart — akan dijumpai dalam hampir setiap app Flutter berangkaian.</aside>
+</section>
+
+<section>
+  <h3>Lapisan Servis — Kenapa Bukan Dalam Widget?</h3>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li>Kod <code>http.get</code> <strong>tidak</strong> diletak terus dalam widget</li>
+        <li>Diasingkan ke <code>lib/services/programme_service.dart</code></li>
+        <li>Widget cuma panggil satu method: <code>fetchProgrammes()</code></li>
+      </ul>
+    </div>
+    <div>
+      <div class="card accent"><h4>Kelebihan</h4><p>Widget tak perlu tahu <em>dari mana</em> data datang. URL boleh ditukar di satu tempat. Servis boleh diuji berasingan dengan <code>http.Client</code> mock.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Corak seni bina yang akan dipuji semasa sesi clean code Hari 5: pengasingan tanggungjawab. Constructor ProgrammeService menerima http.Client pilihan supaya ujian unit boleh suntik client palsu.</aside>
+</section>
+
+<section>
+  <h3><code>ProgrammeService</code> — Kod Sebenar</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+class ProgrammeService {
+  ProgrammeService({http.Client? client})
+      : _client = client ?? http.Client();
+
+  final http.Client _client;
+  static const String _endpoint =
+      'https://raw.githubusercontent.com/kpt-kursus/mock/main/programmes.json';
+
+  Future&lt;List&lt;Programme&gt;&gt; fetchProgrammes() async {
+    try {
+      final response = await _client
+          .get(Uri.parse(_endpoint))
+          .timeout(const Duration(seconds: 8));
+      if (response.statusCode == 200) {
+        final List&lt;dynamic&gt; data =
+            jsonDecode(response.body) as List&lt;dynamic&gt;;
+        return data
+            .map((e) =&gt; Programme.fromJson(e as Map&lt;String, dynamic&gt;))
+            .toList();
+      }
+      return _fallback(); // status bukan 200
+    } catch (_) {
+      return _fallback(); // ralat rangkaian / timeout / JSON rosak
+    }
+  }
+}
+  </code></pre>
+  <div class="slide-tag">eTT Mobile</div>
+  <aside class="notes">Fail sebenar lib/services/programme_service.dart. Perhatikan timeout 8 saat dan dua laluan ke fallback: status bukan 200, dan sebarang exception.</aside>
+</section>
+
+<section>
+  <h3>Kenapa Fallback ke Data Tempatan?</h3>
+  <pre><code class="language-dart" data-trim>
+/// Simulasi kelewatan supaya penunjuk memuat kelihatan.
+Future&lt;List&lt;Programme&gt;&gt; _fallback() async {
+  await Future.delayed(const Duration(milliseconds: 600));
+  return sampleProgrammes;
+}
+  </code></pre>
+  <ul>
+    <li><code>.timeout(8s)</code> — lontar <code>TimeoutException</code> jika pelayan tidak balas</li>
+    <li><code>try/catch</code> — <strong>sebarang</strong> kegagalan (tiada internet, DNS, JSON rosak, timeout) dikendalikan sama: jatuh balik</li>
+    <li>Keputusan reka bentuk untuk kelas: WiFi tak stabil atau URL mock belum siap → app <strong>tetap berfungsi</strong> dengan <code>sampleProgrammes</code></li>
+  </ul>
+  <aside class="notes">Dalam app produksi, anda mungkin mahu mesej ralat lebih jelas. Untuk pembelajaran, fallback memastikan tiada seorang pun terhenti kerana isu rangkaian semasa demo.</aside>
+</section>
+
+<section>
+  <h3>Menyusun try/timeout/fallback — Mudah Tersilap</h3>
+  <p>Menggabungkan ketiga-tiganya supaya <strong>semua</strong> jenis kegagalan jatuh balik ke <code>sampleProgrammes</code> mudah tersilap kalau ditulis tergesa-gesa. Kalau buntu, minta AI:</p>
+  <pre><code class="language-text" data-trim>
+Tulis method fetchProgrammes() dalam kelas ProgrammeService (Dart,
+pakej http). Ia perlu: GET ke _endpoint dengan timeout 8 saat, jika
+statusCode 200 hurai JSON kepada List&lt;Programme&gt; guna
+Programme.fromJson, jika status lain ATAU timeout ATAU sebarang
+exception (termasuk JSON rosak) — kembalikan sampleProgrammes
+sebagai fallback tanpa throw ralat ke pemanggil.
+  </code></pre>
+  <p class="small muted">Semak hasilnya: matikan WiFi dan pastikan ia benar-benar jatuh ke fallback (bukan crash) — sesetengah draf hanya tangkap <code>Exception</code> dan terlepas <code>TimeoutException</code> atau ralat parsing.</p>
+  <aside class="notes">Cara sahkan kod rangkaian janaan AI: uji laluan gagal, bukan hanya laluan berjaya. Matikan WiFi ialah ujian paling mudah dan paling mendedahkan.</aside>
+</section>
+
+<section>
+  <h3>SESI 7 — JSON → Dart Model, Terus Dari Contoh</h3>
+  <p>Menulis <code>fromJson</code>/<code>toJson</code> secara manual memakan masa &amp; mudah tersilap. Tampal <strong>satu rekod contoh</strong> kepada AI dan minta kelas penuh:</p>
+  <pre><code class="language-text" data-trim>
+Berikut satu rekod JSON daripada API tawaran pengajian eTT:
+{ "id": "ETT-001", "universityName": "Universiti Al-Azhar",
+  "studyLevel": "bachelor", "category": "spm",
+  "estimatedAnnualCostMyr": 23000.0, "quotaSeats": 40, … }
+
+Jana kelas Dart `Programme` (immutable, semua medan final) dengan:
+- constructor const bernama parameter, semua required
+- factory fromJson(Map&lt;String, dynamic&gt; json) + method toJson()
+- enum berasingan StudyLevel &amp; EntryCategory, setiap satu dengan
+  fromString(String) guna firstWhere(..., orElse: ...) supaya
+  tidak crash jika nilai tidak dikenali.
+  </code></pre>
+  <aside class="notes">Satu rekod contoh cukup untuk AI kenal struktur — tak perlu tampal keseluruhan fail. Hasilnya patut sangat rapat dengan lib/models/programme.dart sebenar.</aside>
+</section>
+
+<section>
+  <h3>Sahkan Model Janaan — Senarai Semak</h3>
+  <ul class="steps">
+    <li><strong>Nullability</strong> — dalam <code>Programme</code> semua medan <code>required</code>; tetapi dalam <code>Application</code>, <code>submittedAt</code> mesti <code>DateTime?</code> (draf belum tentu dihantar)</li>
+    <li><strong>Parsing enum</strong> — mesti <code>firstWhere(..., orElse: ...)</code>, <strong>bukan</strong> <code>values.byName(...)</code> yang crash untuk nilai tak dikenali</li>
+    <li><strong>Nombor</strong> — <code>(json[...] as num).toDouble()</code>, bukan <code>as double</code> terus</li>
+    <li><strong>Jangan tambah medan yang tak wujud</strong> — AI kadang "membantu lebih" dengan mereka-reka <code>DateTime.parse</code> untuk medan yang patut kekal <code>String</code></li>
+    <li>Jalankan <code>flutter analyze</code>, kemudian uji dengan data sebenar: <code>Programme.fromJson(jsonDecode(...))</code> — pastikan semua medan terisi betul</li>
+  </ul>
+  <aside class="notes">Kod janaan yang kelihatan betul tidak semestinya betul. Lima semakan ini menangkap hampir semua masalah biasa model janaan AI.</aside>
+</section>
+
+<section>
+  <h3>Submit Data: <code>Application.toJson()</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+// lib/models/application.dart
+Map&lt;String, dynamic&gt; toJson() =&gt; {
+      'id': id,
+      'fullName': fullName,
+      'icNumber': icNumber,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'academicCategory': academicCategory.name, // enum → "spm"
+      'country': country,
+      'fieldOfStudy': fieldOfStudy,
+      'universityChoiceIds': universityChoiceIds,
+      'uploadedDocuments': uploadedDocuments,
+      'status': status.name,
+      'submittedAt': submittedAt?.toIso8601String(),
+    };
+  </code></pre>
+  <ul>
+    <li>Arah <strong>bertentangan</strong> daripada <code>fromJson</code>: objek Dart → <code>Map</code> sedia untuk JSON</li>
+    <li><code>enum.name</code> · <code>submittedAt?.toIso8601String()</code> (<code>?</code> kerana boleh <code>null</code>)</li>
+  </ul>
+  <aside class="notes">Ingat peraturan eTT: satu permohonan = satu negara + satu bidang, dengan universityChoiceIds membawa 1 hingga 3 id Programme — borang Hari 3 sudah menguatkuasakannya.</aside>
+</section>
+
+<section>
+  <h3>Hantar dengan <code>http.post</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+Future&lt;bool&gt; submitApplication(Application application) async {
+  final response = await http.post(
+    Uri.parse('$_baseUrl/applications'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode(application.toJson()),
+  );
+  return response.statusCode == 200 || response.statusCode == 201;
+}
+  </code></pre>
+  <ul>
+    <li><code>headers</code> — beritahu pelayan badan berformat JSON</li>
+    <li><code>jsonEncode(...)</code> — tukar <code>Map</code> kepada <code>String</code> JSON</li>
+    <li>Semak <code>statusCode</code> — <strong>jangan andaikan berjaya</strong></li>
+  </ul>
+  <aside class="notes">Tiga bahagian POST: header content-type, body yang di-encode, dan semakan status. jsonEncode ialah pasangan songsang jsonDecode.</aside>
+</section>
+
+<section>
+  <h3>Kod Status HTTP — Apa Aplikasi Patut Buat</h3>
+  <table class="tight">
+    <tr><th>Kod</th><th>Makna</th><th>Tindakan aplikasi</th></tr>
+    <tr><td><strong>200</strong> OK</td><td>GET berjaya</td><td>Papar data (<code>LoadState.loaded</code>)</td></tr>
+    <tr><td><strong>201</strong> Created</td><td>Rekod baharu dicipta (POST)</td><td><code>SnackBar</code> kejayaan, tutup borang</td></tr>
+    <tr><td><strong>400</strong> Bad Request</td><td>Data dihantar tidak sah</td><td>Papar ralat borang — jangan biar pengguna sangka berjaya</td></tr>
+    <tr><td><strong>401</strong> Unauthorized</td><td>Token/kebenaran tidak sah</td><td>Halakan ke log masuk semula</td></tr>
+    <tr><td><strong>404</strong> Not Found</td><td>URL/ID tidak wujud</td><td>"Rekod tidak dijumpai" — semak <code>_endpoint</code>/ID</td></tr>
+    <tr><td><strong>500</strong> Server Error</td><td>Pelayan sendiri gagal</td><td>Mesej umum + butang <strong>Cuba Lagi</strong></td></tr>
+  </table>
+  <aside class="notes">Peraturan emas: sentiasa semak statusCode sebelum percaya body. Kod bukan 200/201 mungkin masih ada body — jangan terus jsonDecode dan anggap ia data sah.</aside>
+</section>
+
+<section>
+  <h3>Status HTTP ≠ <code>ApplicationStatus</code></h3>
+  <div class="two-col">
+    <div>
+      <h4>Status HTTP</h4>
+      <p><code>200</code>/<code>201</code>/<code>400</code>/<code>500</code>… — status <strong>permintaan rangkaian</strong>. POST berjaya (<code>201</code>) = permohonan <strong>berjaya dihantar</strong>. Itu sahaja.</p>
+    </div>
+    <div>
+      <h4><code>ApplicationStatus</code> (domain eTT)</h4>
+      <p>Draf → Dihantar → Dalam Semakan → <span class="pill green">LAYAK</span> / <span class="pill red">TIDAK LAYAK</span> → Tawaran… — <strong>kitaran hayat permohonan</strong>, disemak ~7 hari bekerja selepas permohonan ditutup.</p>
+    </div>
+  </div>
+  <div class="note">💡 <code>201 Created</code> tidak bermakna permohonan sudah "Layak" — kelayakan ditentukan kemudian oleh pihak KPT, bukan oleh kod status HTTP.</div>
+  <aside class="notes">Dua paksi status yang selalu dikelirukan pelajar. Enum ApplicationStatus dalam model kita mengekalkan istilah sebenar eTT: eligible dan notEligible, dipaparkan sebagai Layak dan Tidak Layak.</aside>
+</section>
+
+<section>
+  <h3>Menghurai Badan Ralat Mengikut Status</h3>
+  <p>Pelayan sering pulangkan mesej ralat sebagai JSON juga — cth. <code>{"error": "icNumber tidak sah"}</code>. Menghurainya mengikut kod status boleh jadi rumit; minta AI rangka fungsinya:</p>
+  <pre><code class="language-text" data-trim>
+Tulis fungsi Dart yang terima http.Response daripada percubaan
+submitApplication(). Jika statusCode 201, pulangkan null (tiada
+ralat). Jika 400, cuba jsonDecode response.body dan ambil medan
+"error" sebagai mesej; jika parsing gagal atau medan tiada, pulangkan
+"Data tidak sah". Jika 401/404/500, pulangkan mesej generik yang
+sesuai. Fungsi ini TIDAK boleh throw — sentiasa pulangkan
+String? mesej ralat atau null.
+  </code></pre>
+  <p class="small muted">Semak: adakah ia <code>jsonDecode</code> badan yang mungkin bukan JSON sah (cth. HTML halaman ralat 500)? Bungkus bahagian itu dalam <code>try/catch</code> tersendiri.</p>
+  <aside class="notes">Draf AI yang tidak berhati-hati boleh terlontar ralat parsing baharu semasa cuba mengendalikan ralat asal — ironinya kod pengendali ralat sendiri crash. Ujilah dengan body bukan-JSON.</aside>
+</section>
+
+<section>
+  <h3>Empat Keadaan Operasi Rangkaian: <code>LoadState</code></h3>
+  <pre><code class="language-dart" data-trim>
+enum LoadState { idle, loading, loaded, error }
+  </code></pre>
+  <table class="tight">
+    <tr><th>Keadaan</th><th>Bila</th><th>UI dipaparkan</th></tr>
+    <tr><td><code>idle</code></td><td>Sebelum fetch pertama</td><td>Sama seperti loading</td></tr>
+    <tr><td><code>loading</code></td><td><code>fetchProgrammes()</code> sedang berjalan</td><td><code>CircularProgressIndicator</code></td></tr>
+    <tr><td><code>loaded</code></td><td>Data diterima (API atau fallback)</td><td>Senarai <code>ProgrammeCard</code></td></tr>
+    <tr><td><code>error</code></td><td>Kegagalan tanpa fallback</td><td>Ikon + mesej + butang <strong>Cuba Lagi</strong></td></tr>
+  </table>
+  <div class="note">💡 Satu <code>enum</code> lebih jelas daripada beberapa boolean berasingan seperti <code>isLoading</code> &amp; <code>hasError</code>.</div>
+  <aside class="notes">Corak yang sama digunakan oleh ProgrammeProvider dalam projek sebenar. Satu sumber kebenaran untuk keadaan skrin — mustahil loading dan error benar serentak.</aside>
+</section>
+
+<section>
+  <h3><code>_load()</code> — Fetch dengan <code>setState()</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+class _DemoScreenState extends State&lt;DemoScreen&gt; {
+  LoadState _state = LoadState.idle;
+  List&lt;Programme&gt; _programmes = [];
+  final _service = ProgrammeService();
+
+  Future&lt;void&gt; _load() async {
+    setState(() =&gt; _state = LoadState.loading);
+    try {
+      final data = await _service.fetchProgrammes();
+      setState(() {
+        _programmes = data;
+        _state = LoadState.loaded;
+      });
+    } catch (_) {
+      setState(() =&gt; _state = LoadState.error);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+  </code></pre>
+  <aside class="notes">Aliran: set loading, await servis, set loaded atau error. try-catch di sini menukar sebarang kegagalan kepada keadaan terkawal — tanpanya, uncaught exception memaparkan skrin merah tanpa laluan cuba lagi.</aside>
+</section>
+
+<section>
+  <h3><code>build()</code> — <code>switch</code> Atas Keadaan</h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+switch (_state) {
+  case LoadState.idle:
+  case LoadState.loading:
+    return const Center(child: CircularProgressIndicator());
+  case LoadState.error:
+    return Center(
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Icon(Icons.wifi_off, size: 48, color: Colors.grey),
+        const Text('Gagal memuat data program.'),
+        FilledButton(onPressed: _load, child: const Text('Cuba Lagi')),
+      ]),
+    );
+  case LoadState.loaded:
+    return ListView.builder(
+      itemCount: _programmes.length,
+      itemBuilder: (context, i) =&gt;
+          ProgrammeCard(programme: _programmes[i]),
+    );
+}
+  </code></pre>
+  <div class="note tip">✅ <code>switch</code> tanpa <code>default</code> atas enum lengkap = <em>exhaustive switch</em> — Dart beri amaran masa kompil jika satu keadaan terlepas.</div>
+  <aside class="notes">CircularProgressIndicator wajib semasa loading — tanpanya skrin kosong buat pengguna keliru sama ada app hang atau sedang memuat. Butang Cuba Lagi cuma panggil semula _load.</aside>
+</section>
+
+<section>
+  <h3>Widget Ralat Boleh Guna Semula</h3>
+  <p>Blok ikon + mesej + butang Cuba Lagi agak berulang untuk ditulis tangan setiap kali ada skrin baharu yang fetch data. Minta AI bina rangkanya:</p>
+  <pre><code class="language-text" data-trim>
+Bina widget Flutter reusable ErrorStateView yang terima String
+message dan VoidCallback onRetry. Papar Column di tengah
+(Icon Icons.wifi_off, SizedBox, Text(message), SizedBox,
+FilledButton "Cuba Lagi" yang panggil onRetry).
+Guna const constructor di mana boleh.
+  </code></pre>
+  <p class="small muted">Semak <code>const</code> diletak di tempat betul (widget statik ya, <code>FilledButton</code> dengan <code>onPressed</code> dinamik tidak) &amp; jalankan <code>flutter analyze</code> sebelum guna.</p>
+  <aside class="notes">Momen AI yang sesuai: widget boilerplate dengan spesifikasi jelas. Semakan const ialah perkara yang analyzer sendiri akan bantu tunjukkan.</aside>
+</section>
+
+<section>
+  <h3>Pull-to-Refresh: <code>RefreshIndicator</code></h3>
+  <pre><code class="language-dart" data-trim data-line-numbers>
+RefreshIndicator(
+  onRefresh: _load,
+  child: ListView.builder(
+    padding: const EdgeInsets.only(bottom: 16),
+    itemCount: _programmes.length,
+    itemBuilder: (context, index) {
+      final p = _programmes[index];
+      return ProgrammeCard(
+        programme: p,
+        onTap: () =&gt; Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (_) =&gt; ProgrammeDetailScreen(programme: p)),
+        ),
+      );
+    },
+  ),
+)
+  </code></pre>
+  <ul>
+    <li><code>onRefresh</code> mesti <code>Future&lt;void&gt; Function()</code> — spinner menunggu <code>Future</code> selesai</li>
+    <li>Anak terus <strong>mesti</strong> scrollable (<code>ListView</code>, <code>GridView</code>) — bukan <code>Column</code> biasa</li>
+  </ul>
+  <aside class="notes">Tarik ke bawah dari atas senarai — RefreshIndicator uruskan animasi spinner sendiri. Sebab itu onRefresh mesti pulangkan Future, supaya ia tahu bila selesai.</aside>
+</section>
+
+<section>
+  <h3>Menghos Mock API Anda — 3 Cara</h3>
+  <div class="cards c3">
+    <div class="card accent"><h4>A: GitHub raw</h4><p>Muat naik <code>programmes.json</code> ke repo, klik <strong>Raw</strong>, salin URL. Percuma &amp; kekal — tetapi ubah data perlu commit semula.</p></div>
+    <div class="card"><h4>B: json-server</h4><p><code>npx json-server --watch programmes.json --port 3001</code> — pelayan tempatan segera, sesuai demo langsung.</p></div>
+    <div class="card"><h4>C: mocki.io / mockapi.io</h4><p>Tampal JSON, dapat URL unik yang boleh dicapai dari mana-mana peranti.</p></div>
+  </div>
+  <p class="small muted">Data sumber sudah sedia: <code>projek/mock-api/programmes.json</code> — 8 tawaran (Al-Azhar, Alexandria, Ain Shams, Tanta; Al Quaraouiyine, Mohammed V).</p>
+  <aside class="notes">Pilih ikut situasi: GitHub raw paling mudah untuk kelas, json-server untuk demo ubah data secara langsung, mocki.io bila perlu URL awam tanpa repo.</aside>
+</section>
+
+<section>
+  <h3>Dua Perangkap Selepas Tukar <code>_endpoint</code></h3>
+  <ul>
+    <li><span class="pill gold">Emulator Android</span> <code>localhost</code> <strong>tidak</strong> menunjuk ke komputer anda — guna <code>http://10.0.2.2:3001/programmes</code> (alias khas emulator). Peranti fizikal: IP rangkaian komputer, WiFi sama.</li>
+    <li><span class="pill">Hot restart</span> <code>_endpoint</code> ialah <code>static const</code> — tekan <strong><code>R</code> besar</strong> (hot restart), bukan <code>r</code> kecil (hot reload), supaya <code>main()</code> dijalankan semula.</li>
+  </ul>
+  <div class="note">💡 Selepas restart, tarik-untuk-muat-semula dan sahkan data datang dari pelayan sebenar, bukan fallback tempatan.</div>
+  <aside class="notes">Dua isu yang pasti timbul di kelas. 10.0.2.2 kerana emulator berjalan dalam mesin maya tersendiri; hot restart kerana pemalar const tidak dimuat semula oleh hot reload.</aside>
+</section>
+
+<section>
+  <h3>Alur Penuh — Semua Kepingan Bersambung</h3>
+  <pre><code class="language-text" data-trim>
+ProgrammeService.fetchProgrammes()
+  ├─ http.get(_endpoint).timeout(8s)
+  ├─ 200 OK → jsonDecode → List&lt;Programme&gt; (fromJson)
+  └─ gagal/timeout → _fallback() → sampleProgrammes
+         ▼
+setState(_state = loading) → await fetch → setState(loaded/error)
+         ▼
+build() — switch (_state)
+  ├─ loading/idle → CircularProgressIndicator
+  ├─ error        → skrin ralat + Cuba Lagi (_load semula)
+  └─ loaded       → RefreshIndicator → ListView.builder
+  </code></pre>
+  <aside class="notes">Dalam projek sebenar, aliran yang sama persis dibungkus dalam ProgrammeProvider — notifyListeners menggantikan setState, tetapi logik try-catch, LoadState dan switch kekal sama. Faham versi setState, faham kedua-duanya.</aside>
+</section>
+
+<section>
+  <h3>Rumusan Hari 4</h3>
+  <div class="cards c3">
+    <div class="card"><h4>SESI 6</h4><p>REST: backend vs frontend · HTTP methods &amp; JSON · pakej <code>http</code> · <code>async</code>/<code>Future</code>/<code>await</code> · fetch → <code>fromJson</code> · <code>ProgrammeService</code> + fallback</p></div>
+    <div class="card accent"><h4>SESI 7</h4><p>JSON → model (dijana &amp; disahkan) · POST <code>Application</code> · status code &amp; beza dengan LAYAK/TIDAK LAYAK · <code>LoadState</code> + try-catch + retry · <code>RefreshIndicator</code></p></div>
+    <div class="card navy"><h4>Esok — Hari 5</h4><p>Projek mini/hackathon: gabung <strong>UI + Form + Navigasi + API</strong>, maksimumkan alatan AI, clean code &amp; refactoring, demo &amp; sijil</p></div>
+  </div>
+  <aside class="notes">Semakan kefahaman sebelum bersurai: kenapa await tidak bekukan UI, kenapa servis fallback dan bukan throw, dan kenapa 201 Created tidak bermakna permohonan Layak. Esok semuanya digabungkan dalam projek mini.</aside>
+</section>

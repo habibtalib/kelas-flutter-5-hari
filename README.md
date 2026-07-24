@@ -46,6 +46,7 @@ Sebelum & sepanjang coding, folder [`nota/`](./nota/) mengandungi nota konsep ri
 - [**Pakej & pub.dev**](./nota/06-package-pub-dev.md) — `pubspec.yaml`, `flutter pub`, cara nilai pakej
 - [**Deployment**](./nota/07-deployment.md) — build APK/IPA/web, ikon, senarai semak keluaran
 - [**Contoh Prompt Claude Code**](./nota/08-prompt-claude-code.md) 🤖 — guna AI untuk pembangunan Flutter
+- [**Prompt PRD**](./nota/09-prd-prompt.md) 📋 — merancang aplikasi dengan AI sebelum mengekod (berguna untuk projek mini Hari 5)
 
 ## Keperluan Sistem
 
