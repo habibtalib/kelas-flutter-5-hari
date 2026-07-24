@@ -10,6 +10,8 @@ void main() {
 
   testWidgets('offer → detail → form → submit lands on Permohonan Saya', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: HomeScreen()));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     // Empty tab 2 initially.
     // Open first offer.
